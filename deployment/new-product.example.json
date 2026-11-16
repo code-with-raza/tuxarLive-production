@@ -1,0 +1,37 @@
+{
+  "id": "20261117-001-new-example-jacket",
+  "products": [
+    {
+      "slug": "example-leather-jacket",
+      "create": {
+        "slug": "example-leather-jacket",
+        "name": "Example Leather Jacket",
+        "tagline": "Black leather jacket",
+        "category": "leather-jackets",
+        "priceGBP": 150,
+        "currency": "GBP",
+        "audience": "men",
+        "colors": [{ "name": "Black", "hex": "#111111" }],
+        "sizes": ["M", "L"],
+        "material": "Replace with confirmed material",
+        "weight": "",
+        "rating": 0,
+        "reviewCount": 0,
+        "description": "Replace with accurate product copy.",
+        "specs": [{ "label": "Fit", "value": "Replace with confirmed fit" }],
+        "inStock": true,
+        "collections": ["biker-jackets"]
+      },
+      "images": [
+        {
+          "source": "deployment/media/example-jacket-front.webp",
+          "alt": "Example black leather jacket, front view"
+        }
+      ],
+      "variants": [
+        { "sku": "EXAMPLE-JACKET-BLACK-M", "size": "M", "color": "Black", "colorHex": "#111111", "stock": 0 },
+        { "sku": "EXAMPLE-JACKET-BLACK-L", "size": "L", "color": "Black", "colorHex": "#111111", "stock": 0 }
+      ]
+    }
+  ]
+}

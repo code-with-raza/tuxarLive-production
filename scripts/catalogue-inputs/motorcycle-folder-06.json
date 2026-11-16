@@ -1,0 +1,257 @@
+{
+  "batchId": "motorcycle-folder-06",
+  "itemGroupId": "tuxar-front-pocket-buckle-collar",
+  "slugDesign": "front-pocket",
+  "slugStyle": "motorcycle-style",
+  "keywordStyle": "motorcycle style",
+  "skuPrefix": "TX-FP",
+  "category": "leather-jackets",
+  "collection": "motorcycle-jackets",
+  "priceGBP": 189,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Buckle-tab stand collar, shoulder epaulettes, central zip, two flap chest pockets, zipped side pockets and stud-fastened cuffs.",
+  "safetyNote": "Motorcycle-inspired fashion outerwear. Protective equipment and CE/UKCA certification have not been verified; do not rely on this jacket as motorcycle protective clothing.",
+  "keywords": [
+    "mens leather motorcycle style jacket uk",
+    "mens front pocket leather jacket",
+    "buckle collar leather jacket men",
+    "mens genuine leather biker jacket"
+  ],
+  "colours": [
+    {
+      "key": "black",
+      "name": "Black",
+      "sku": "BLK",
+      "hex": "#171717",
+      "title": "Men's Black Front-Pocket Leather Motorcycle-Style Jacket",
+      "seoTitle": "Men's Black Front-Pocket Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's black genuine leather jacket with flap chest pockets, a buckle collar and zip front. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's black genuine leather jacket with two flap chest pockets and a buckle-tab stand collar. Shoulder epaulettes, a central zip and zipped side pockets give the design its motorcycle-inspired character, while stud-fastened cuffs finish the sleeves. Pair the black finish with denim and simple everyday layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 1,
+          "label": "front"
+        },
+        {
+          "id": 2,
+          "label": "back"
+        },
+        {
+          "id": 3,
+          "label": "side"
+        },
+        {
+          "id": 4,
+          "label": "model-front"
+        },
+        {
+          "id": 5,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "name": "Brown",
+      "sku": "BRN",
+      "hex": "#65412c",
+      "title": "Men's Brown Front-Pocket Leather Motorcycle-Style Jacket",
+      "seoTitle": "Men's Brown Front-Pocket Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's brown genuine leather jacket with flap chest pockets, a buckle collar and zip front. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's brown genuine leather jacket with two flap chest pockets and a buckle-tab stand collar. Shoulder epaulettes, a central zip and zipped side pockets give the design its motorcycle-inspired character, while stud-fastened cuffs finish the sleeves. Pair the brown finish with denim and simple everyday layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan",
+      "name": "Tan",
+      "sku": "TAN",
+      "hex": "#bb7e40",
+      "title": "Men's Tan Front-Pocket Leather Motorcycle-Style Jacket",
+      "seoTitle": "Men's Tan Front-Pocket Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's tan genuine leather jacket with flap chest pockets, a buckle collar and zip front. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's tan genuine leather jacket with two flap chest pockets and a buckle-tab stand collar. Shoulder epaulettes, a central zip and zipped side pockets give the design its motorcycle-inspired character, while stud-fastened cuffs finish the sleeves. Pair the tan finish with denim and simple everyday layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 11,
+          "label": "front"
+        },
+        {
+          "id": 12,
+          "label": "back"
+        },
+        {
+          "id": 13,
+          "label": "side"
+        },
+        {
+          "id": 14,
+          "label": "model-front"
+        },
+        {
+          "id": 15,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey",
+      "name": "Grey",
+      "sku": "GRY",
+      "hex": "#777777",
+      "title": "Men's Grey Front-Pocket Leather Motorcycle-Style Jacket",
+      "seoTitle": "Men's Grey Front-Pocket Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's grey genuine leather jacket with flap chest pockets, a buckle collar and zip front. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's grey genuine leather jacket with two flap chest pockets and a buckle-tab stand collar. Shoulder epaulettes, a central zip and zipped side pockets give the design its motorcycle-inspired character, while stud-fastened cuffs finish the sleeves. Pair the grey finish with denim and simple everyday layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "orange",
+      "name": "Orange",
+      "sku": "ORG",
+      "hex": "#c85d21",
+      "title": "Men's Orange Front-Pocket Leather Motorcycle-Style Jacket",
+      "seoTitle": "Men's Orange Front-Pocket Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's orange genuine leather jacket with flap chest pockets, a buckle collar and zip front. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's orange genuine leather jacket with two flap chest pockets and a buckle-tab stand collar. Shoulder epaulettes, a central zip and zipped side pockets give the design its motorcycle-inspired character, while stud-fastened cuffs finish the sleeves. Pair the orange finish with denim and simple everyday layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy",
+      "name": "Burgundy",
+      "sku": "BUR",
+      "hex": "#57252b",
+      "title": "Men's Burgundy Front-Pocket Leather Motorcycle-Style Jacket",
+      "seoTitle": "Men's Burgundy Front-Pocket Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's burgundy genuine leather jacket with flap chest pockets, a buckle collar and zip front. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's burgundy genuine leather jacket with two flap chest pockets and a buckle-tab stand collar. Shoulder epaulettes, a central zip and zipped side pockets give the design its motorcycle-inspired character, while stud-fastened cuffs finish the sleeves. Pair the burgundy finish with denim and simple everyday layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white",
+      "name": "White",
+      "sku": "WHT",
+      "hex": "#f2f0e9",
+      "title": "Men's White Front-Pocket Leather Motorcycle-Style Jacket",
+      "seoTitle": "Men's White Front-Pocket Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's white genuine leather jacket with flap chest pockets, a buckle collar and zip front. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's white genuine leather jacket with two flap chest pockets and a buckle-tab stand collar. Shoulder epaulettes, a central zip and zipped side pockets give the design its motorcycle-inspired character, while stud-fastened cuffs finish the sleeves. Pair the white finish with denim and simple everyday layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 33,
+          "label": "front"
+        },
+        {
+          "id": 34,
+          "label": "back"
+        },
+        {
+          "id": 35,
+          "label": "side"
+        },
+        {
+          "id": 31,
+          "label": "model-front"
+        },
+        {
+          "id": 32,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; any source videos excluded.",
+  "pricingNote": "Proposed £189 based on Leather Company UK listings: G-6400 from £169, G-6200 from £189; UK Leather Jackets Invictus £189 sold out. Asking prices, not sales trends; costs and margins unverified. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

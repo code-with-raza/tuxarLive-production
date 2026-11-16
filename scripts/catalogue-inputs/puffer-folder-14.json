@@ -1,0 +1,263 @@
+{
+  "batchId": "puffer-folder-14",
+  "itemGroupId": "tuxar-diamond-quilt-pile-collar-puffer",
+  "slugDesign": "diamond-quilt",
+  "slugStyle": "puffer",
+  "keywordStyle": "puffer",
+  "skuPrefix": "TX-DQ",
+  "category": "leather-jackets",
+  "collection": "puffer-jackets",
+  "priceGBP": 219,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Diamond quilting, pile-look collar, central zip, two flap chest pockets, zipped side pockets and ribbed cuffs and hem.",
+  "safetyNote": "Collar and filling composition have not been specified.",
+  "keywords": [
+    "mens diamond quilt leather jacket uk",
+    "mens leather puffer jacket",
+    "quilted leather jacket men"
+  ],
+  "colours": [
+    {
+      "key": "grey",
+      "name": "Grey",
+      "sku": "GRY",
+      "hex": "#777b7d",
+      "priceGBP": 219,
+      "title": "Men's Slate Diamond Quilt Leather Puffer Jacket",
+      "seoTitle": "Grey Diamond Quilt Puffer Jacket | Tuxar",
+      "seoDescription": "Men’s grey leather puffer jacket with diamond quilting, a pile-look collar and four-pocket styling.",
+      "description": "Grey diamond quilting gives this leather puffer a subtle, textured finish. The dark collar frames the zip front, while flap chest pockets and zipped hand pockets keep the layout practical. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black",
+      "name": "Black",
+      "sku": "BLK",
+      "hex": "#171717",
+      "priceGBP": 229,
+      "title": "Men's Black Diamond-Quilt Leather Puffer Jacket",
+      "seoTitle": "Black Diamond Puffer Jacket | Tuxar",
+      "seoDescription": "Men’s black leather puffer jacket with diamond panels, a pile-look collar and ribbed trim.",
+      "description": "The black version keeps the jacket sharply defined: diamond-stitched panels, a deep collar, zip fastening and ribbed hem create a compact everyday outer layer. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 6,
+          "label": "front"
+        },
+        {
+          "id": 7,
+          "label": "back"
+        },
+        {
+          "id": 8,
+          "label": "side"
+        },
+        {
+          "id": 9,
+          "label": "model-front"
+        },
+        {
+          "id": 10,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "name": "Brown",
+      "sku": "BRN",
+      "hex": "#70432d",
+      "priceGBP": 225,
+      "title": "Men's Brown Heritage Quilt Leather Puffer Jacket",
+      "seoTitle": "Brown Heritage Quilt Jacket | Tuxar",
+      "seoDescription": "Men’s brown leather puffer jacket with diamond quilting, chest flap pockets and a soft-look collar.",
+      "description": "Rich brown leather brings warmth to the quilted panel design. Chest flap pockets, zip hand pockets and a dark collar give it a heritage-influenced finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan",
+      "name": "Tan",
+      "sku": "TAN",
+      "hex": "#b87835",
+      "priceGBP": 219,
+      "title": "Men's Tan Diamond-Panel Leather Puffer Jacket",
+      "seoTitle": "Tan Diamond Panel Puffer | Tuxar",
+      "seoDescription": "Men’s tan leather puffer jacket with a contrasting pile-look collar and diamond quilted body.",
+      "description": "The tan colourway highlights the diamond-panel construction. A contrasting collar, centre zip and ribbed cuffs give it a relaxed but structured shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 17,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 18,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white",
+      "name": "White",
+      "sku": "WHT",
+      "hex": "#f3f3ef",
+      "priceGBP": 225,
+      "title": "Men's White Quilted Leather Puffer Jacket",
+      "seoTitle": "White Quilted Puffer Jacket | Tuxar",
+      "seoDescription": "Men’s white leather puffer jacket with diamond quilting, a light pile-look collar and four front pockets.",
+      "description": "This white leather puffer uses matching light tones across its collar and quilted shell. The clean colour makes the pocket detail and diamond stitching stand out. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "navy",
+      "name": "Navy",
+      "sku": "NVY",
+      "hex": "#253858",
+      "priceGBP": 229,
+      "title": "Men's Navy Diamond-Quilt Leather Puffer Jacket",
+      "seoTitle": "Navy Diamond Quilt Puffer | Tuxar",
+      "seoDescription": "Men’s navy leather puffer jacket with a black pile-look collar, quilted back panel and zip pockets.",
+      "description": "Navy leather adds depth to the diamond-quilt pattern. Black collar and ribbed trim frame the design, while the front pockets make it easy to layer over knitwear. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "orange",
+      "name": "Orange",
+      "sku": "ORG",
+      "hex": "#d76116",
+      "priceGBP": 225,
+      "title": "Men's Burnt Orange Quilted Leather Puffer Jacket",
+      "seoTitle": "Burnt Orange Quilted Puffer | Tuxar",
+      "seoDescription": "Men’s burnt orange leather puffer jacket with diamond quilting, a black pile-look collar and front pockets.",
+      "description": "Burnt orange brings a bolder direction to this diamond-quilt leather puffer. The black collar, pocket hardware and ribbed hem balance the brighter leather finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 35,
+          "label": "front"
+        },
+        {
+          "id": 34,
+          "label": "back"
+        },
+        {
+          "id": 33,
+          "label": "side"
+        },
+        {
+          "id": 31,
+          "label": "model-front"
+        },
+        {
+          "id": 32,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Colourway-specific proposed prices £219–£229, based on puffer jacket finish and presentation. UK leather puffer comparators previously researched were £239–£240. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

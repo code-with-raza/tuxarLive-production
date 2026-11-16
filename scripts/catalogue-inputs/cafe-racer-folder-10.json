@@ -1,0 +1,256 @@
+{
+  "batchId": "cafe-racer-folder-10",
+  "itemGroupId": "tuxar-four-pocket-racer",
+  "slugDesign": "four-pocket",
+  "slugStyle": "cafe-racer",
+  "keywordStyle": "cafe racer",
+  "skuPrefix": "TX-FR",
+  "category": "leather-jackets",
+  "collection": "cafe-racer-jackets",
+  "priceGBP": 199,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Stand collar, central zip, two flap chest pockets, two zipped waist pockets, quilted shoulder panels and zipped cuffs.",
+  "safetyNote": "Cafe racer-inspired fashion outerwear. Protective equipment and CE/UKCA certification have not been verified; do not rely on this jacket as motorcycle protective clothing.",
+  "keywords": [
+    "mens four pocket leather jacket uk",
+    "mens cafe racer leather jacket",
+    "genuine leather racer jacket men"
+  ],
+  "colours": [
+    {
+      "key": "black",
+      "name": "Black",
+      "sku": "BLK",
+      "hex": "#171717",
+      "title": "Men's Black Four-Pocket Leather Cafe Racer Jacket",
+      "seoTitle": "Men's Black Four-Pocket Cafe Racer Jacket | Tuxar",
+      "seoDescription": "Explore a men's black genuine leather cafe racer jacket with four front pockets and quilted shoulders. Available in M–XXL.",
+      "description": "A men's black genuine leather cafe racer jacket with two flap chest pockets and two zipped waist pockets. A stand collar, central zip, quilted shoulder panels and zipped cuffs create a clean racer-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 1,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 2,
+          "label": "model-front"
+        },
+        {
+          "id": 3,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "name": "Brown",
+      "sku": "BRN",
+      "hex": "#714329",
+      "title": "Men's Brown Four-Pocket Leather Cafe Racer Jacket",
+      "seoTitle": "Men's Brown Four-Pocket Cafe Racer Jacket | Tuxar",
+      "seoDescription": "Explore a men's brown genuine leather cafe racer jacket with four front pockets and quilted shoulders. Available in M–XXL.",
+      "description": "A men's brown genuine leather cafe racer jacket with two flap chest pockets and two zipped waist pockets. A stand collar, central zip, quilted shoulder panels and zipped cuffs create a clean racer-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan",
+      "name": "Tan",
+      "sku": "TAN",
+      "hex": "#bd8244",
+      "title": "Men's Tan Four-Pocket Leather Cafe Racer Jacket",
+      "seoTitle": "Men's Tan Four-Pocket Cafe Racer Jacket | Tuxar",
+      "seoDescription": "Explore a men's tan genuine leather cafe racer jacket with four front pockets and quilted shoulders. Available in M–XXL.",
+      "description": "A men's tan genuine leather cafe racer jacket with two flap chest pockets and two zipped waist pockets. A stand collar, central zip, quilted shoulder panels and zipped cuffs create a clean racer-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy",
+      "name": "Burgundy",
+      "sku": "BUR",
+      "hex": "#642a32",
+      "title": "Men's Burgundy Four-Pocket Leather Cafe Racer Jacket",
+      "seoTitle": "Men's Burgundy Four-Pocket Cafe Racer Jacket | Tuxar",
+      "seoDescription": "Explore a men's burgundy genuine leather cafe racer jacket with four front pockets and quilted shoulders. Available in M–XXL.",
+      "description": "A men's burgundy genuine leather cafe racer jacket with two flap chest pockets and two zipped waist pockets. A stand collar, central zip, quilted shoulder panels and zipped cuffs create a clean racer-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white",
+      "name": "White",
+      "sku": "WHT",
+      "hex": "#f3f3ef",
+      "title": "Men's White Four-Pocket Leather Cafe Racer Jacket",
+      "seoTitle": "Men's White Four-Pocket Cafe Racer Jacket | Tuxar",
+      "seoDescription": "Explore a men's white genuine leather cafe racer jacket with four front pockets and quilted shoulders. Available in M–XXL.",
+      "description": "A men's white genuine leather cafe racer jacket with two flap chest pockets and two zipped waist pockets. A stand collar, central zip, quilted shoulder panels and zipped cuffs create a clean racer-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 25,
+          "label": "front"
+        },
+        {
+          "id": 23,
+          "label": "back"
+        },
+        {
+          "id": 24,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey",
+      "name": "Grey",
+      "sku": "GRY",
+      "hex": "#777b7d",
+      "title": "Men's Grey Four-Pocket Leather Cafe Racer Jacket",
+      "seoTitle": "Men's Grey Four-Pocket Cafe Racer Jacket | Tuxar",
+      "seoDescription": "Explore a men's grey genuine leather cafe racer jacket with four front pockets and quilted shoulders. Available in M–XXL.",
+      "description": "A men's grey genuine leather cafe racer jacket with two flap chest pockets and two zipped waist pockets. A stand collar, central zip, quilted shoulder panels and zipped cuffs create a clean racer-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "orange",
+      "name": "Orange",
+      "sku": "ORG",
+      "hex": "#d85a16",
+      "title": "Men's Orange Four-Pocket Leather Cafe Racer Jacket",
+      "seoTitle": "Men's Orange Four-Pocket Cafe Racer Jacket | Tuxar",
+      "seoDescription": "Explore a men's orange genuine leather cafe racer jacket with four front pockets and quilted shoulders. Available in M–XXL.",
+      "description": "A men's orange genuine leather cafe racer jacket with two flap chest pockets and two zipped waist pockets. A stand collar, central zip, quilted shoulder panels and zipped cuffs create a clean racer-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 33,
+          "label": "front"
+        },
+        {
+          "id": 34,
+          "label": "back"
+        },
+        {
+          "id": 35,
+          "label": "side"
+        },
+        {
+          "id": 31,
+          "label": "model-front"
+        },
+        {
+          "id": 32,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed £199 using current UK fashion leather biker comparisons researched for earlier batches (£149–£199). No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

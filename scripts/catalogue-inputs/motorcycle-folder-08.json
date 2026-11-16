@@ -1,0 +1,224 @@
+{
+  "batchId": "motorcycle-folder-08",
+  "itemGroupId": "tuxar-three-colour-panel-jacket",
+  "slugDesign": "three-colour-panel",
+  "slugStyle": "motorcycle-style",
+  "keywordStyle": "motorcycle style",
+  "skuPrefix": "TX-TC",
+  "category": "leather-jackets",
+  "collection": "motorcycle-jackets",
+  "priceGBP": 199,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Three-colour panels, ribbed shoulders, stand collar, central zip, two zipped chest pockets, zipped side pockets and waist tabs.",
+  "safetyNote": "Motorcycle-inspired fashion outerwear. Protective equipment and CE/UKCA certification have not been verified; do not rely on this jacket as motorcycle protective clothing.",
+  "keywords": [
+    "mens colour block leather jacket uk",
+    "three colour leather jacket men",
+    "mens motorcycle style leather jacket"
+  ],
+  "colours": [
+    {
+      "key": "grey-orange-black",
+      "name": "Grey / Orange / Black",
+      "sku": "GRY-ORG-BLK",
+      "hex": "#777777",
+      "title": "Men's Grey & Orange & Black Panelled Leather Jacket",
+      "seoTitle": "Men's Grey Panelled Leather Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather jacket in grey, orange, black with ribbed shoulders and zipped pockets. Motorcycle-inspired styling in M–XXL.",
+      "description": "A men's genuine leather jacket combining grey, orange, black panels. Ribbed shoulders and contrasting upper sleeves create a distinctive racing-inspired look. A stand collar, central zip, two zipped chest pockets, zipped side pockets and waist tabs complete the design. Wear with plain denim to highlight the three-colour finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "blue-yellow-black",
+      "name": "Blue / Yellow / Black",
+      "sku": "BLU-YLW-BLK",
+      "hex": "#24469b",
+      "title": "Men's Blue & Yellow & Black Panelled Leather Jacket",
+      "seoTitle": "Men's Blue Panelled Leather Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather jacket in blue, yellow, black with ribbed shoulders and zipped pockets. Motorcycle-inspired styling in M–XXL.",
+      "description": "A men's genuine leather jacket combining blue, yellow, black panels. Ribbed shoulders and contrasting upper sleeves create a distinctive racing-inspired look. A stand collar, central zip, two zipped chest pockets, zipped side pockets and waist tabs complete the design. Wear with plain denim to highlight the three-colour finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 6,
+          "label": "front"
+        },
+        {
+          "id": 10,
+          "label": "back"
+        },
+        {
+          "id": 8,
+          "label": "side"
+        },
+        {
+          "id": 7,
+          "label": "model-front"
+        },
+        {
+          "id": 9,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy-grey-black",
+      "name": "Burgundy / Grey / Black",
+      "sku": "BUR-GRY-BLK",
+      "hex": "#652c34",
+      "title": "Men's Burgundy & Grey & Black Panelled Leather Jacket",
+      "seoTitle": "Men's Burgundy Panelled Leather Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather jacket in burgundy, grey, black with ribbed shoulders and zipped pockets. Motorcycle-inspired styling in M–XXL.",
+      "description": "A men's genuine leather jacket combining burgundy, grey, black panels. Ribbed shoulders and contrasting upper sleeves create a distinctive racing-inspired look. A stand collar, central zip, two zipped chest pockets, zipped side pockets and waist tabs complete the design. Wear with plain denim to highlight the three-colour finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "navy-grey-black",
+      "name": "Navy / Grey / Black",
+      "sku": "NVY-GRY-BLK",
+      "hex": "#29354b",
+      "title": "Men's Navy & Grey & Black Panelled Leather Jacket",
+      "seoTitle": "Men's Navy Panelled Leather Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather jacket in navy, grey, black with ribbed shoulders and zipped pockets. Motorcycle-inspired styling in M–XXL.",
+      "description": "A men's genuine leather jacket combining navy, grey, black panels. Ribbed shoulders and contrasting upper sleeves create a distinctive racing-inspired look. A stand collar, central zip, two zipped chest pockets, zipped side pockets and waist tabs complete the design. Wear with plain denim to highlight the three-colour finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 16,
+          "label": "front"
+        },
+        {
+          "id": 18,
+          "label": "back"
+        },
+        {
+          "id": 19,
+          "label": "side"
+        },
+        {
+          "id": 17,
+          "label": "model-front"
+        },
+        {
+          "id": 20,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white-red-black",
+      "name": "White / Red / Black",
+      "sku": "WHT-RED-BLK",
+      "hex": "#efefea",
+      "title": "Men's White & Red & Black Panelled Leather Jacket",
+      "seoTitle": "Men's White Panelled Leather Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather jacket in white, red, black with ribbed shoulders and zipped pockets. Motorcycle-inspired styling in M–XXL.",
+      "description": "A men's genuine leather jacket combining white, red, black panels. Ribbed shoulders and contrasting upper sleeves create a distinctive racing-inspired look. A stand collar, central zip, two zipped chest pockets, zipped side pockets and waist tabs complete the design. Wear with plain denim to highlight the three-colour finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 21,
+          "label": "front"
+        },
+        {
+          "id": 22,
+          "label": "back"
+        },
+        {
+          "id": 23,
+          "label": "side"
+        },
+        {
+          "id": 24,
+          "label": "model-front"
+        },
+        {
+          "id": 25,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan-grey-black",
+      "name": "Tan / Grey / Black",
+      "sku": "TAN-GRY-BLK",
+      "hex": "#b37943",
+      "title": "Men's Tan & Grey & Black Panelled Leather Jacket",
+      "seoTitle": "Men's Tan Panelled Leather Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather jacket in tan, grey, black with ribbed shoulders and zipped pockets. Motorcycle-inspired styling in M–XXL.",
+      "description": "A men's genuine leather jacket combining tan, grey, black panels. Ribbed shoulders and contrasting upper sleeves create a distinctive racing-inspired look. A stand collar, central zip, two zipped chest pockets, zipped side pockets and waist tabs complete the design. Wear with plain denim to highlight the three-colour finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed £199 using UK Leather Company comparisons researched in this session: 2483 £149, 2101 £159–£199 depending on size. Broader style comparisons, not exact matches or sales trends. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

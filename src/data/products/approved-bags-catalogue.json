@@ -1,0 +1,504 @@
+{
+  "approvedOn": "2026-11-01",
+  "products": [
+    {
+      "slug": "brown-minimal-zip-backpack",
+      "name": "Brown Minimal Zip Backpack",
+      "tagline": "Brown · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 109,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/brown-minimal-zip-backpack-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/brown-minimal-zip-backpack-01.png"
+      ],
+      "colors": [
+        {
+          "name": "Brown",
+          "hex": "#67432e"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A rounded brown backpack with a top carry loop and front zipped pocket. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-brown-minimal-zip-backpack",
+      "seoTitle": "Brown Minimal Zip Backpack | Tuxar",
+      "seoDescription": "A rounded brown backpack with a top carry loop and front zipped pocket."
+    },
+    {
+      "slug": "brown-buckle-pocket-travel-bag",
+      "name": "Brown Buckle-Pocket Travel Bag",
+      "tagline": "Brown · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 189,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/brown-buckle-pocket-travel-bag-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/brown-buckle-pocket-travel-bag-01.png",
+        "https://res.cloudinary.com/rllwk4bi/image/upload/brown-buckle-pocket-travel-bag-02.png",
+        "https://res.cloudinary.com/rllwk4bi/image/upload/brown-buckle-pocket-travel-bag-03.png"
+      ],
+      "colors": [
+        {
+          "name": "Brown",
+          "hex": "#67432e"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A rectangular brown travel bag with top handles, a shoulder strap, a front buckle-fastened pocket and two vertical zipped pockets. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-brown-buckle-pocket-travel-bag",
+      "seoTitle": "Brown Buckle-Pocket Travel Bag | Tuxar",
+      "seoDescription": "A rectangular brown travel bag with top handles, a shoulder strap, a front buckle-fastened pocket and two vertical zipped pockets."
+    },
+    {
+      "slug": "black-logo-patch-backpack",
+      "name": "Black Logo-Patch Backpack",
+      "tagline": "Black · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 119,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/black-logo-patch-backpack-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/black-logo-patch-backpack-01.png"
+      ],
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#171717"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A black rounded backpack with a front zipped pocket and a visible OVERTOP logo patch. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Black"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-black-logo-patch-backpack",
+      "seoTitle": "Black Logo-Patch Backpack | Tuxar",
+      "seoDescription": "A black rounded backpack with a front zipped pocket and a visible OVERTOP logo patch."
+    },
+    {
+      "slug": "brown-drawstring-buckle-rucksack",
+      "name": "Brown Drawstring Buckle Rucksack",
+      "tagline": "Brown · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 149,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/brown-drawstring-buckle-rucksack-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/brown-drawstring-buckle-rucksack-01.png"
+      ],
+      "colors": [
+        {
+          "name": "Brown",
+          "hex": "#67432e"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A brown rucksack with a buckled top flap, drawstring closure and a double-buckle front pocket. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-brown-drawstring-buckle-rucksack",
+      "seoTitle": "Brown Drawstring Buckle Rucksack | Tuxar",
+      "seoDescription": "A brown rucksack with a buckled top flap, drawstring closure and a double-buckle front pocket."
+    },
+    {
+      "slug": "brown-contrast-trim-backpack",
+      "name": "Brown Contrast-Trim Backpack",
+      "tagline": "Brown · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 129,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/brown-contrast-trim-backpack-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/brown-contrast-trim-backpack-01.png"
+      ],
+      "colors": [
+        {
+          "name": "Brown",
+          "hex": "#67432e"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A rounded brown backpack with contrast edging, a front zipped pocket and a small circular badge. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-brown-contrast-trim-backpack",
+      "seoTitle": "Brown Contrast-Trim Backpack | Tuxar",
+      "seoDescription": "A rounded brown backpack with contrast edging, a front zipped pocket and a small circular badge."
+    },
+    {
+      "slug": "dark-brown-barrel-duffel",
+      "name": "Dark Brown Barrel Duffel",
+      "tagline": "Brown · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 189,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/dark-brown-barrel-duffel-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/dark-brown-barrel-duffel-01.png",
+        "https://res.cloudinary.com/rllwk4bi/image/upload/dark-brown-barrel-duffel-02.png"
+      ],
+      "colors": [
+        {
+          "name": "Brown",
+          "hex": "#67432e"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A dark brown barrel-shaped duffel with a distressed finish, top handles, a shoulder strap and an exterior zipped pocket. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-dark-brown-barrel-duffel",
+      "seoTitle": "Dark Brown Barrel Duffel | Tuxar",
+      "seoDescription": "A dark brown barrel-shaped duffel with a distressed finish, top handles, a shoulder strap and an exterior zipped pocket."
+    },
+    {
+      "slug": "tan-structured-flap-backpack",
+      "name": "Tan Structured Flap Backpack",
+      "tagline": "Tan · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 139,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/v1793556569/tan-structured-flap-backpack-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/v1793556569/tan-structured-flap-backpack-01.png"
+      ],
+      "colors": [
+        {
+          "name": "Tan",
+          "hex": "#b4773c"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A structured tan backpack with a top handle, broad flap, front slip pocket and metal-ring tab. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Tan"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-tan-structured-flap-backpack",
+      "seoTitle": "Tan Structured Flap Backpack | Tuxar",
+      "seoDescription": "A structured tan backpack with a top handle, broad flap, front slip pocket and metal-ring tab."
+    },
+    {
+      "slug": "black-brown-two-tone-rucksack",
+      "name": "Black & Brown Two-Tone Rucksack",
+      "tagline": "Black / Brown · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 159,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/black-brown-two-tone-rucksack-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/black-brown-two-tone-rucksack-01.png"
+      ],
+      "colors": [
+        {
+          "name": "Black / Brown",
+          "hex": "#34261e"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A black and brown two-tone rucksack with a flap, twin buckle straps and side pockets. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Black / Brown"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-black-brown-two-tone-rucksack",
+      "seoTitle": "Black & Brown Two-Tone Rucksack | Tuxar",
+      "seoDescription": "A black and brown two-tone rucksack with a flap, twin buckle straps and side pockets."
+    },
+    {
+      "slug": "brown-white-spotted-holdall",
+      "name": "Brown & White Spotted Holdall",
+      "tagline": "Brown / White · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 219,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/brown-white-spotted-holdall-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/brown-white-spotted-holdall-01.png",
+        "https://res.cloudinary.com/rllwk4bi/image/upload/brown-white-spotted-holdall-02.png"
+      ],
+      "colors": [
+        {
+          "name": "Brown / White",
+          "hex": "#795031"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A brown and white spotted holdall with tan trim, top handles, a shoulder strap and a zipped end pocket. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Brown / White"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-brown-white-spotted-holdall",
+      "seoTitle": "Brown & White Spotted Holdall | Tuxar",
+      "seoDescription": "A brown and white spotted holdall with tan trim, top handles, a shoulder strap and a zipped end pocket."
+    },
+    {
+      "slug": "tan-distressed-double-zip-backpack",
+      "name": "Tan Distressed Double-Zip Backpack",
+      "tagline": "Tan · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 139,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/tan-distressed-double-zip-backpack-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/tan-distressed-double-zip-backpack-01.png"
+      ],
+      "colors": [
+        {
+          "name": "Tan",
+          "hex": "#b4773c"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A tan distressed-finish backpack with an upper zipped pocket and a larger lower zipped compartment. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Tan"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-tan-distressed-double-zip-backpack",
+      "seoTitle": "Tan Distressed Double-Zip Backpack | Tuxar",
+      "seoDescription": "A tan distressed-finish backpack with an upper zipped pocket and a larger lower zipped compartment."
+    },
+    {
+      "slug": "black-centre-seam-backpack",
+      "name": "Black Centre-Seam Backpack",
+      "tagline": "Black · Bag collection",
+      "category": "leather-bags",
+      "audience": "both",
+      "priceGBP": 129,
+      "currency": "GBP",
+      "image": "https://res.cloudinary.com/rllwk4bi/image/upload/black-centre-seam-backpack-01.png",
+      "gallery": [
+        "https://res.cloudinary.com/rllwk4bi/image/upload/black-centre-seam-backpack-01.png"
+      ],
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#171717"
+        }
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "material": "Awaiting supplier confirmation",
+      "weight": "",
+      "rating": 0,
+      "reviewCount": 0,
+      "description": "A black backpack with a centre seam, front zipped compartment, side pockets and top carry handle. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "specs": [
+        {
+          "label": "Colour",
+          "value": "Black"
+        },
+        {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      ],
+      "inStock": true,
+      "collections": [
+        "leather-bags",
+        "women-leather-bags"
+      ],
+      "itemGroupId": "bag-black-centre-seam-backpack",
+      "seoTitle": "Black Centre-Seam Backpack | Tuxar",
+      "seoDescription": "A black backpack with a centre seam, front zipped compartment, side pockets and top carry handle."
+    }
+  ]
+}

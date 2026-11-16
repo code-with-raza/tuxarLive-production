@@ -1,0 +1,197 @@
+{
+  "batchId": "puffer-folder-12",
+  "itemGroupId": "tuxar-yoke-collar-puffer",
+  "slugDesign": "yoke-collar",
+  "slugStyle": "puffer",
+  "keywordStyle": "puffer",
+  "skuPrefix": "TX-YC",
+  "category": "leather-jackets",
+  "collection": "puffer-jackets",
+  "priceGBP": 219,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Quilted panels, contrast yoke, soft pile-look collar, press-stud front over zip, and side pockets.",
+  "safetyNote": "Collar and filling composition have not been specified.",
+  "keywords": [
+    "mens leather puffer jacket uk",
+    "mens leather jacket pile collar",
+    "quilted leather jacket men"
+  ],
+  "colours": [
+    {
+      "key": "black-tan",
+      "name": "Black / Tan",
+      "sku": "BLK-TAN",
+      "hex": "#171717",
+      "title": "Men's Black & Tan Yoke-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Black & Tan Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather puffer jacket in black and tan with quilted panels and a soft pile-look collar. Sizes M–XXL.",
+      "description": "A men's genuine leather puffer jacket in black and tan with quilted panels and a contrast yoke. A soft pile-look collar, press-stud front over zip and side pockets give it a relaxed cold-weather look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown-tan",
+      "name": "Brown / Tan",
+      "sku": "BRN-TAN",
+      "hex": "#714329",
+      "title": "Men's Brown & Tan Yoke-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Brown & Tan Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather puffer jacket in brown and tan with quilted panels and a soft pile-look collar. Sizes M–XXL.",
+      "description": "A men's genuine leather puffer jacket in brown and tan with quilted panels and a contrast yoke. A soft pile-look collar, press-stud front over zip and side pockets give it a relaxed cold-weather look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black-yellow",
+      "name": "Black / Yellow",
+      "sku": "BLK-YLW",
+      "hex": "#171717",
+      "title": "Men's Black & Yellow Yoke-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Black & Yellow Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather puffer jacket in black and yellow with quilted panels and a soft pile-look collar. Sizes M–XXL.",
+      "description": "A men's genuine leather puffer jacket in black and yellow with quilted panels and a contrast yoke. A soft pile-look collar, press-stud front over zip and side pockets give it a relaxed cold-weather look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black-white",
+      "name": "Black / White",
+      "sku": "BLK-WHT",
+      "hex": "#171717",
+      "title": "Men's Black & White Yoke-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Black & White Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather puffer jacket in black and white with quilted panels and a soft pile-look collar. Sizes M–XXL.",
+      "description": "A men's genuine leather puffer jacket in black and white with quilted panels and a contrast yoke. A soft pile-look collar, press-stud front over zip and side pockets give it a relaxed cold-weather look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey-black",
+      "name": "Grey / Black",
+      "sku": "GRY-BLK",
+      "hex": "#777b7d",
+      "title": "Men's Grey & Black Yoke-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Grey & Black Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's genuine leather puffer jacket in grey and black with quilted panels and a soft pile-look collar. Sizes M–XXL.",
+      "description": "A men's genuine leather puffer jacket in grey and black with quilted panels and a contrast yoke. A soft pile-look collar, press-stud front over zip and side pockets give it a relaxed cold-weather look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [
+    {
+      "id": 26,
+      "reason": "Promotional overlay excluded"
+    }
+  ],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed £219 based on UK leather puffer comparisons used for the prior puffer batch (£239–£240). No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

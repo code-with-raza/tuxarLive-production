@@ -1,0 +1,129 @@
+{
+  "batchId": "suede-jackets-folder-21",
+  "itemGroupId": "tuxar-suede-textured-collar",
+  "slugDesign": "textured-collar",
+  "slugStyle": "bomber",
+  "keywordStyle": "suede collar",
+  "skuPrefix": "TX-SC",
+  "category": "suede-jackets",
+  "collection": "suede-jackets",
+  "priceGBP": 229,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine suede leather",
+  "style": "Cream textured collar, central zip, angled zip pockets and ribbed cuffs and hem.",
+  "safetyNote": "Collar fibre composition and lining specifications are awaiting confirmation.",
+  "keywords": [
+    "mens suede jacket uk",
+    "mens suede bomber jacket",
+    "mens suede jacket cream collar"
+  ],
+  "colours": [
+    {
+      "key": "tan",
+      "name": "Tan / Cream Collar",
+      "sku": "TAN",
+      "hex": "#a66532",
+      "priceGBP": 229,
+      "title": "Men's Tan Suede Cream-Collar Zip Jacket",
+      "seoTitle": "Men's Tan Suede Collar Jacket | Tuxar",
+      "seoDescription": "Men’s tan suede leather jacket with a cream textured collar, zip pockets and ribbed hem. Sizes M–XXL.",
+      "description": "Warm tan suede gives this collared jacket a relaxed autumn look. Dark zipped pockets frame the front, while ribbed cuffs and hem draw the shape neatly together. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 2,
+          "label": "back"
+        },
+        {
+          "id": 1,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "name": "Brown / Cream Collar",
+      "sku": "BRN",
+      "hex": "#634832",
+      "priceGBP": 239,
+      "title": "Men's Brown Suede Contrast-Collar Jacket",
+      "seoTitle": "Men's Brown Suede Collar Jacket | Tuxar",
+      "seoDescription": "Men’s brown suede leather zip jacket with a cream textured collar and angled zip pockets. Sizes M–XXL.",
+      "description": "Earthy brown suede and a pale textured collar create an easy contrast. Angled zip pockets add a practical detail to the simple front, finished with a ribbed waist. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 9,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black",
+      "name": "Black / Cream Collar",
+      "sku": "BLK",
+      "hex": "#191919",
+      "priceGBP": 229,
+      "title": "Men's Black Suede Cream-Collar Bomber Jacket",
+      "seoTitle": "Men's Black Suede Collar Bomber | Tuxar",
+      "seoDescription": "Men’s black suede leather bomber jacket with a cream textured collar, zipped pockets and ribbed trims. Sizes M–XXL.",
+      "description": "The cream collar stands out against a black suede body for a clean monochrome finish. A central zip and discreet pocket zips keep this bomber shape straightforward to style. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 6,
+          "label": "front"
+        },
+        {
+          "id": 5,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey",
+      "name": "Grey / Cream Collar",
+      "sku": "GRY",
+      "hex": "#777777",
+      "priceGBP": 239,
+      "title": "Men's Grey Suede Contrast-Collar Zip Jacket",
+      "seoTitle": "Men's Grey Suede Collar Jacket | Tuxar",
+      "seoDescription": "Men’s grey suede leather jacket with a cream textured collar, zip pockets and ribbed cuffs. Sizes M–XXL.",
+      "description": "Grey suede brings a softer colour option to this zip jacket. The cream collar lifts the neckline, with silver-tone pocket zips and ribbed trims completing the pared-back design. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 7,
+          "label": "back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [
+    {
+      "id": 10,
+      "reason": "Promotional badge."
+    },
+    {
+      "id": 11,
+      "reason": "Promotional badge."
+    }
+  ],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed retail prices £229–£239; no previous-price or discount claims.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

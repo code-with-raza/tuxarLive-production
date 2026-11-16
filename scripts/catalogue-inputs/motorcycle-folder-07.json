@@ -1,0 +1,289 @@
+{
+  "batchId": "motorcycle-folder-07",
+  "itemGroupId": "tuxar-twin-stripe-contrast-sleeve",
+  "slugDesign": "twin-stripe",
+  "slugStyle": "motorcycle-style",
+  "keywordStyle": "motorcycle style",
+  "skuPrefix": "TX-TS",
+  "category": "leather-jackets",
+  "collection": "motorcycle-jackets",
+  "priceGBP": 199,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Contrast sleeves, twin sleeve stripes, striped back panel, ribbed shoulder and elbow detailing, tab collar, central zip, diagonal chest zip and zipped side pockets.",
+  "safetyNote": "Motorcycle-inspired fashion outerwear. Protective equipment and CE/UKCA certification have not been verified; do not rely on this jacket as motorcycle protective clothing.",
+  "keywords": [
+    "mens striped leather jacket uk",
+    "two tone leather jacket men",
+    "mens motorcycle style leather jacket",
+    "contrast sleeve leather jacket"
+  ],
+  "colours": [
+    {
+      "key": "brown-tan",
+      "name": "Brown / Tan",
+      "sku": "BRN-TAN",
+      "hex": "#493127",
+      "title": "Men's Brown & Tan Twin-Stripe Leather Jacket",
+      "seoTitle": "Men's Brown & Tan Striped Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's brown and tan genuine leather jacket with contrast sleeves, twin stripes and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's brown and tan genuine leather jacket with contrast sleeves and twin upper-arm stripes. A striped back panel and ribbed shoulder and elbow detailing give the design a racing-inspired look. The tab collar, central zip, diagonal zipped chest pocket and zipped side pockets complete the silhouette. Pair with plain denim to highlight the contrasting colours. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 2,
+          "label": "model-front"
+        },
+        {
+          "id": 1,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black-yellow",
+      "name": "Black / Yellow",
+      "sku": "BLK-YLW",
+      "hex": "#171717",
+      "title": "Men's Black & Yellow Twin-Stripe Leather Jacket",
+      "seoTitle": "Men's Black & Yellow Striped Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's black and yellow genuine leather jacket with contrast sleeves, twin stripes and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's black and yellow genuine leather jacket with contrast sleeves and twin upper-arm stripes. A striped back panel and ribbed shoulder and elbow detailing give the design a racing-inspired look. The tab collar, central zip, diagonal zipped chest pocket and zipped side pockets complete the silhouette. Pair with plain denim to highlight the contrasting colours. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy-black",
+      "name": "Burgundy / Black",
+      "sku": "BUR-BLK",
+      "hex": "#632a30",
+      "title": "Men's Burgundy & Black Twin-Stripe Leather Jacket",
+      "seoTitle": "Men's Burgundy & Black Striped Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's burgundy and black genuine leather jacket with contrast sleeves, twin stripes and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's burgundy and black genuine leather jacket with contrast sleeves and twin upper-arm stripes. A striped back panel and ribbed shoulder and elbow detailing give the design a racing-inspired look. The tab collar, central zip, diagonal zipped chest pocket and zipped side pockets complete the silhouette. Pair with plain denim to highlight the contrasting colours. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan-black",
+      "name": "Tan / Black",
+      "sku": "TAN-BLK",
+      "hex": "#b77a39",
+      "title": "Men's Tan & Black Twin-Stripe Leather Jacket",
+      "seoTitle": "Men's Tan & Black Striped Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's tan and black genuine leather jacket with contrast sleeves, twin stripes and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's tan and black genuine leather jacket with contrast sleeves and twin upper-arm stripes. A striped back panel and ribbed shoulder and elbow detailing give the design a racing-inspired look. The tab collar, central zip, diagonal zipped chest pocket and zipped side pockets complete the silhouette. Pair with plain denim to highlight the contrasting colours. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white-black",
+      "name": "White / Black",
+      "sku": "WHT-BLK",
+      "hex": "#f1f1ed",
+      "title": "Men's White & Black Twin-Stripe Leather Jacket",
+      "seoTitle": "Men's White & Black Striped Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's white and black genuine leather jacket with contrast sleeves, twin stripes and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's white and black genuine leather jacket with contrast sleeves and twin upper-arm stripes. A striped back panel and ribbed shoulder and elbow detailing give the design a racing-inspired look. The tab collar, central zip, diagonal zipped chest pocket and zipped side pockets complete the silhouette. Pair with plain denim to highlight the contrasting colours. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 24,
+          "label": "front"
+        },
+        {
+          "id": 23,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "yellow-red",
+      "name": "Yellow / Red",
+      "sku": "YLW-RED",
+      "hex": "#e6b81f",
+      "title": "Men's Yellow & Red Twin-Stripe Leather Jacket",
+      "seoTitle": "Men's Yellow & Red Striped Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's yellow and red genuine leather jacket with contrast sleeves, twin stripes and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's yellow and red genuine leather jacket with contrast sleeves and twin upper-arm stripes. A striped back panel and ribbed shoulder and elbow detailing give the design a racing-inspired look. The tab collar, central zip, diagonal zipped chest pocket and zipped side pockets complete the silhouette. Pair with plain denim to highlight the contrasting colours. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white-red",
+      "name": "White / Red",
+      "sku": "WHT-RED",
+      "hex": "#f1f1ed",
+      "title": "Men's White & Red Twin-Stripe Leather Jacket",
+      "seoTitle": "Men's White & Red Striped Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's white and red genuine leather jacket with contrast sleeves, twin stripes and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's white and red genuine leather jacket with contrast sleeves and twin upper-arm stripes. A striped back panel and ribbed shoulder and elbow detailing give the design a racing-inspired look. The tab collar, central zip, diagonal zipped chest pocket and zipped side pockets complete the silhouette. Pair with plain denim to highlight the contrasting colours. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 33,
+          "label": "front"
+        },
+        {
+          "id": 34,
+          "label": "back"
+        },
+        {
+          "id": 35,
+          "label": "side"
+        },
+        {
+          "id": 31,
+          "label": "model-front"
+        },
+        {
+          "id": 32,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black-red",
+      "name": "Black / Red",
+      "sku": "BLK-RED",
+      "hex": "#171717",
+      "title": "Men's Black & Red Twin-Stripe Leather Jacket",
+      "seoTitle": "Men's Black & Red Striped Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's black and red genuine leather jacket with contrast sleeves, twin stripes and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's black and red genuine leather jacket with contrast sleeves and twin upper-arm stripes. A striped back panel and ribbed shoulder and elbow detailing give the design a racing-inspired look. The tab collar, central zip, diagonal zipped chest pocket and zipped side pockets complete the silhouette. Pair with plain denim to highlight the contrasting colours. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 38,
+          "label": "front"
+        },
+        {
+          "id": 39,
+          "label": "back"
+        },
+        {
+          "id": 40,
+          "label": "side"
+        },
+        {
+          "id": 36,
+          "label": "model-front"
+        },
+        {
+          "id": 37,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed £199 based on UK Leather Company fashion biker listings £149–£199 depending on model/size. Contrast-panel positioning judgement, not identical-product valuation or sales trend. No invented former price.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

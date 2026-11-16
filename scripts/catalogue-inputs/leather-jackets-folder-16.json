@@ -1,0 +1,230 @@
+{
+  "batchId": "leather-jackets-folder-16",
+  "itemGroupId": "tuxar-rib-trim-collar-zip",
+  "slugDesign": "rib-trim",
+  "slugStyle": "zip-up",
+  "keywordStyle": "zip up",
+  "skuPrefix": "TX-RT",
+  "category": "leather-jackets",
+  "collection": null,
+  "priceGBP": 199,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Pointed collar, central zip, contrast piping, striped ribbed collar, cuffs and hem, with side pockets.",
+  "safetyNote": "This is fashion outerwear; protective equipment and certifications have not been verified.",
+  "keywords": [
+    "mens leather zip jacket uk",
+    "mens rib trim leather jacket",
+    "collared leather jacket men"
+  ],
+  "colours": [
+    {
+      "key": "black",
+      "name": "Black",
+      "sku": "BLK",
+      "hex": "#171717",
+      "priceGBP": 199,
+      "title": "Men's Black Rib-Trim Leather Zip Jacket",
+      "seoTitle": "Black Rib-Trim Leather Zip Jacket | Tuxar",
+      "seoDescription": "Men’s black leather zip jacket with a contrast collar edge and striped ribbed trim.",
+      "description": "Black leather gives this zip jacket a versatile base, while the striped ribbed hem and cuffs add a collegiate edge. The pointed collar and clean zip front keep it smart enough for evenings. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 4,
+          "label": "front"
+        },
+        {
+          "id": 5,
+          "label": "back"
+        },
+        {
+          "id": 3,
+          "label": "side"
+        },
+        {
+          "id": 2,
+          "label": "model-front"
+        },
+        {
+          "id": 1,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "name": "Brown",
+      "sku": "BRN",
+      "hex": "#70432d",
+      "priceGBP": 205,
+      "title": "Men's Brown Ribbed-Hem Leather Jacket",
+      "seoTitle": "Brown Ribbed-Hem Leather Jacket | Tuxar",
+      "seoDescription": "Men’s brown leather jacket with striped cuffs, a pointed collar and a streamlined front zip.",
+      "description": "This brown leather jacket balances a warm finish with crisp striped cuffs and hem. Its pointed collar and simple front zip make it an easy layer for denim or tailored trousers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 11,
+          "label": "side"
+        },
+        {
+          "id": 7,
+          "label": "model-front"
+        },
+        {
+          "id": 6,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy",
+      "name": "Burgundy",
+      "sku": "BUR",
+      "hex": "#642932",
+      "priceGBP": 209,
+      "title": "Men's Burgundy College-Trim Leather Jacket",
+      "seoTitle": "Burgundy College-Trim Leather Jacket | Tuxar",
+      "seoDescription": "Men’s burgundy leather jacket with contrast piping and striped ribbed trims.",
+      "description": "The deep burgundy leather gives this jacket a richer alternative to black. Bright piping at the collar and striped ribbed details create a refined college-inspired finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 12,
+          "label": "front"
+        },
+        {
+          "id": 13,
+          "label": "back"
+        },
+        {
+          "id": 14,
+          "label": "side"
+        },
+        {
+          "id": 15,
+          "label": "model-front"
+        },
+        {
+          "id": 10,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "orange",
+      "name": "Orange",
+      "sku": "ORG",
+      "hex": "#df6015",
+      "priceGBP": 199,
+      "title": "Men's Burnt Orange Zip-Front Leather Jacket",
+      "seoTitle": "Burnt Orange Zip-Front Leather Jacket | Tuxar",
+      "seoDescription": "Men’s burnt orange leather jacket with a tailored collar, ribbed trim and front zip.",
+      "description": "Burnt orange makes this leather jacket the statement piece in a simple outfit. The zip front, pointed collar and striped trim keep the bold colour grounded. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan",
+      "name": "Tan",
+      "sku": "TAN",
+      "hex": "#b87d43",
+      "priceGBP": 205,
+      "title": "Men's Tan Stripe-Trim Leather Jacket",
+      "seoTitle": "Tan Stripe-Trim Leather Jacket | Tuxar",
+      "seoDescription": "Men’s tan leather jacket with a collar, contrast piping and striped ribbed cuffs.",
+      "description": "Tan leather brings a softer tone to this zip-through jacket. Matching collar piping and striped ribbed trims provide the details, while the body stays uncluttered. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "blue",
+      "name": "Blue",
+      "sku": "BLU",
+      "hex": "#244d87",
+      "priceGBP": 209,
+      "title": "Men's Cobalt Blue Rib-Trim Leather Jacket",
+      "seoTitle": "Cobalt Blue Rib-Trim Leather Jacket | Tuxar",
+      "seoDescription": "Men’s cobalt blue leather jacket with a pointed collar and contrast striped ribbed edges.",
+      "description": "Cobalt blue gives this leather zip jacket a confident finish. The striped hem and cuffs frame the clean body, while the pointed collar adds a sharper note. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Colourway-specific proposed prices £199–£209. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

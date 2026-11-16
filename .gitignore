@@ -1,0 +1,79 @@
+# Logs
+*.rar
+*.7z
+*.dump
+*.backup
+*.bak
+*.sqlite*
+*.pem
+*.key
+*.pfx
+*.p12
+*.ppk
+*.pgdump
+*.csv
+*.xlsx
+*.xls
+/backups/
+/data-exports/
+/private/
+supabase/remote-public-schema.sql
+supabase/seed_catalog.sql
+supabase/.branches/
+**/__pycache__/
+CPANEL-UPLOAD-FILES/
+Cloudinary Upload*/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+dist-safe
+output
+tmp
+.output
+.vinxi
+.tanstack/**
+.nitro
+*.local
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+prisma
+*.db
+*.db-journal
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+
+# Supabase CLI local metadata
+supabase/.temp/
+
+# Generated deliverables, deployment archives, and local audit caches.
+artifacts/
+outputs/
+.cache/
+*.tar.gz
+*.zip
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

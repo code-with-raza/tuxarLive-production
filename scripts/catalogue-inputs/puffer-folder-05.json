@@ -1,0 +1,202 @@
+{
+  "batchId": "puffer-folder-05",
+  "itemGroupId": "tuxar-stand-collar-leather-puffer",
+  "slugDesign": "stand-collar",
+  "slugStyle": "puffer",
+  "keywordStyle": "puffer",
+  "skuPrefix": "TX-PF",
+  "category": "leather-jackets",
+  "collection": "leather-puffer-jackets",
+  "priceGBP": 219,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Horizontal quilted panels, stand collar, central zip, zipped side pockets and ribbed cuffs and hem.",
+  "safetyNote": "Filling composition and temperature rating have not been specified.",
+  "keywords": [
+    "mens leather puffer jacket uk",
+    "genuine leather puffer jacket men",
+    "stand collar leather jacket",
+    "mens quilted leather jacket"
+  ],
+  "colours": [
+    {
+      "key": "black",
+      "name": "Black",
+      "sku": "BLK",
+      "hex": "#171717",
+      "title": "Men's Black Stand-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Black Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Shop a men's black genuine leather puffer jacket with horizontal quilting, a stand collar and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's black genuine leather puffer jacket with horizontal quilted panels and a stand collar. The central zip, zipped side pockets and ribbed cuffs and hem create a practical everyday design. Wear the black finish with denim and simple knitwear for a casual layered look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "three-quarter"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "name": "Brown",
+      "sku": "BRN",
+      "hex": "#874723",
+      "title": "Men's Brown Stand-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Brown Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Shop a men's brown genuine leather puffer jacket with horizontal quilting, a stand collar and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's brown genuine leather puffer jacket with horizontal quilted panels and a stand collar. The central zip, zipped side pockets and ribbed cuffs and hem create a practical everyday design. Wear the brown finish with denim and simple knitwear for a casual layered look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "three-quarter"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan",
+      "name": "Tan",
+      "sku": "TAN",
+      "hex": "#bf874b",
+      "title": "Men's Tan Stand-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Tan Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Shop a men's tan genuine leather puffer jacket with horizontal quilting, a stand collar and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's tan genuine leather puffer jacket with horizontal quilted panels and a stand collar. The central zip, zipped side pockets and ribbed cuffs and hem create a practical everyday design. Wear the tan finish with denim and simple knitwear for a casual layered look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "three-quarter"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey",
+      "name": "Grey",
+      "sku": "GRY",
+      "hex": "#777b80",
+      "title": "Men's Grey Stand-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Grey Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Shop a men's grey genuine leather puffer jacket with horizontal quilting, a stand collar and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's grey genuine leather puffer jacket with horizontal quilted panels and a stand collar. The central zip, zipped side pockets and ribbed cuffs and hem create a practical everyday design. Wear the grey finish with denim and simple knitwear for a casual layered look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 20,
+          "label": "back"
+        },
+        {
+          "id": 17,
+          "label": "three-quarter"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 19,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "orange",
+      "name": "Orange",
+      "sku": "ORG",
+      "hex": "#dc5a11",
+      "title": "Men's Orange Stand-Collar Leather Puffer Jacket",
+      "seoTitle": "Men's Orange Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Shop a men's orange genuine leather puffer jacket with horizontal quilting, a stand collar and zipped pockets. Sizes M, L, XL and XXL.",
+      "description": "A men's orange genuine leather puffer jacket with horizontal quilted panels and a stand collar. The central zip, zipped side pockets and ribbed cuffs and hem create a practical everyday design. Wear the orange finish with denim and simple knitwear for a casual layered look. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "three-quarter"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [
+    {
+      "id": 26,
+      "reason": "Promotional overlay excluded"
+    },
+    {
+      "id": 27,
+      "reason": "Promotional overlay excluded"
+    }
+  ],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed £219. UK listing comparisons: Vantoro £240, Manzo Orion £239, ASOS real leather puffer £74.50 clearance (£165 reference). Not a sales trend or profit guarantee; no invented former price.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

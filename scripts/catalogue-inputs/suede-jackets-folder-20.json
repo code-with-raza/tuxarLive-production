@@ -1,0 +1,29 @@
+{
+  "batchId": "suede-jackets-folder-20",
+  "itemGroupId": "tuxar-cross-back-zip-jacket",
+  "slugDesign": "cross-back",
+  "slugStyle": "zip-up",
+  "keywordStyle": "zip up",
+  "skuPrefix": "TX-CB",
+  "category": "suede-jackets",
+  "collection": "suede-jackets",
+  "priceGBP": 239,
+  "sizes": ["M", "L", "XL", "XXL"],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Zip-front jacket with shirt collar, elasticated hem and a large contrast cross-shaped back panel.",
+  "safetyNote": "The supplied imagery does not verify suede; finish and panel composition should be confirmed before publishing.",
+  "keywords": ["mens suede style jacket uk", "mens cross back jacket", "mens leather zip jacket"],
+  "colours": [
+    {"key":"black-black-cross","name":"Black / Black Cross","sku":"BLK-BLK","hex":"#171717","priceGBP":239,"title":"Men's Black Cross-Back Leather Zip Jacket","seoTitle":"Black Cross-Back Leather Jacket | Tuxar","seoDescription":"Men’s black zip jacket with a tonal cross-shaped back panel and shirt collar.","description":"A tonal cross-shaped panel gives this black zip jacket its understated signature. The shirt collar, elasticated hem and clean front keep the silhouette concise. Available in M, L, XL and XXL.","views":[{"id":1,"label":"front"},{"id":2,"label":"back"},{"id":3,"label":"side"},{"id":4,"label":"model-front"},{"id":5,"label":"model-back"}]},
+    {"key":"brown-black-cross","name":"Brown / Black Cross","sku":"BRN-BLK","hex":"#7a5136","priceGBP":249,"title":"Men's Brown Cross-Back Leather Zip Jacket","seoTitle":"Brown Cross-Back Leather Jacket | Tuxar","seoDescription":"Men’s brown zip jacket with a black cross-shaped back panel and shirt collar.","description":"Warm brown leather sets off the black cross-shaped back panel on this zip jacket. A classic shirt collar and gathered hem provide a relaxed finish. Available in M, L, XL and XXL.","views":[{"id":8,"label":"front"},{"id":9,"label":"back"},{"id":10,"label":"side"},{"id":6,"label":"model-front"},{"id":7,"label":"model-back"}]},
+    {"key":"black-ivory-cross","name":"Black / Ivory Cross","sku":"BLK-IVY","hex":"#171717","priceGBP":249,"title":"Men's Black & Ivory Cross-Back Leather Jacket","seoTitle":"Black & Ivory Cross-Back Jacket | Tuxar","seoDescription":"Men’s black leather zip jacket with an ivory cross-shaped back panel.","description":"The ivory back panel makes a crisp focal point against this black leather jacket. Its simple zip front, shirt collar and elasticated hem keep the contrast considered. Available in M, L, XL and XXL.","views":[{"id":13,"label":"front"},{"id":14,"label":"back"},{"id":15,"label":"side"},{"id":11,"label":"model-front"},{"id":12,"label":"model-back"}]},
+    {"key":"grey-black-cross","name":"Grey / Black Cross","sku":"GRY-BLK","hex":"#737373","priceGBP":239,"title":"Men's Grey Cross-Back Leather Zip Jacket","seoTitle":"Grey Cross-Back Leather Jacket | Tuxar","seoDescription":"Men’s grey zip jacket with a black cross-shaped back panel and shirt collar.","description":"Grey leather gives this zip jacket a muted finish, offset by the black cross-shaped panel across the back. The collared profile works easily with everyday layers. Available in M, L, XL and XXL.","views":[{"id":18,"label":"front"},{"id":19,"label":"back"},{"id":20,"label":"side"},{"id":16,"label":"model-front"},{"id":17,"label":"model-back"}]},
+    {"key":"burgundy-black-cross","name":"Burgundy / Black Cross","sku":"BRG-BLK","hex":"#64242d","priceGBP":259,"title":"Men's Burgundy Cross-Back Leather Zip Jacket","seoTitle":"Burgundy Cross-Back Leather Jacket | Tuxar","seoDescription":"Men’s burgundy zip jacket with a black cross-shaped back panel.","description":"Deep burgundy gives the jacket a richer tone, while the black cross-shaped back panel sharpens the design. A shirt collar and elasticated waist complete the shape. Available in M, L, XL and XXL.","views":[{"id":23,"label":"front"},{"id":24,"label":"back"},{"id":25,"label":"side"},{"id":21,"label":"model-front"},{"id":22,"label":"model-back"}]},
+    {"key":"yellow-black-cross","name":"Yellow / Black Cross","sku":"YEL-BLK","hex":"#e3af16","priceGBP":249,"title":"Men's Yellow Cross-Back Leather Zip Jacket","seoTitle":"Yellow Cross-Back Leather Jacket | Tuxar","seoDescription":"Men’s yellow zip jacket with a black cross-shaped back panel and shirt collar.","description":"Bright yellow leather makes this zip jacket the boldest option in the range. The black cross-shaped back panel and restrained collar ground the colour. Available in M, L, XL and XXL.","views":[{"id":28,"label":"front"},{"id":29,"label":"back"},{"id":30,"label":"side"},{"id":26,"label":"model-front"},{"id":27,"label":"model-back"}]}
+  ],
+  "excludedImages": [{"id":31,"reason":"Promotional duty-free badge visible."},{"id":32,"reason":"Promotional duty-free badge visible."}],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Colourway-specific proposed prices £239–£259. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

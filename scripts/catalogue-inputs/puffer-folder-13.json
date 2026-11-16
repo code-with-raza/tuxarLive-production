@@ -1,0 +1,192 @@
+{
+  "batchId": "puffer-folder-13",
+  "itemGroupId": "tuxar-chevron-pile-collar-puffer",
+  "slugDesign": "chevron-pile-collar",
+  "slugStyle": "puffer",
+  "keywordStyle": "puffer",
+  "skuPrefix": "TX-CP",
+  "category": "leather-jackets",
+  "collection": "puffer-jackets",
+  "priceGBP": 229,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Chevron quilted panels, large pile-look collar, central zip, zipped side pockets and ribbed cuffs and hem.",
+  "safetyNote": "Collar and filling composition have not been specified.",
+  "keywords": [
+    "mens leather puffer jacket uk",
+    "mens leather jacket pile collar",
+    "chevron quilted leather jacket men"
+  ],
+  "colours": [
+    {
+      "key": "red",
+      "name": "Red",
+      "sku": "RED",
+      "hex": "#c9271d",
+      "title": "Men's Red Chevron Leather Puffer Jacket",
+      "seoTitle": "Men's Red Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's red genuine leather puffer jacket with chevron quilting and a large pile-look collar. Available in M–XXL.",
+      "description": "A men's red genuine leather puffer jacket with chevron quilted panels and a large pile-look collar. The central zip, zipped side pockets and ribbed cuffs and hem create a bold cold-weather silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black",
+      "name": "Black",
+      "sku": "BLK",
+      "hex": "#171717",
+      "title": "Men's Black Chevron Leather Puffer Jacket",
+      "seoTitle": "Men's Black Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's black genuine leather puffer jacket with chevron quilting and a large pile-look collar. Available in M–XXL.",
+      "description": "A men's black genuine leather puffer jacket with chevron quilted panels and a large pile-look collar. The central zip, zipped side pockets and ribbed cuffs and hem create a bold cold-weather silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "blue",
+      "name": "Blue",
+      "sku": "BLU",
+      "hex": "#244d9a",
+      "title": "Men's Blue Chevron Leather Puffer Jacket",
+      "seoTitle": "Men's Blue Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's blue genuine leather puffer jacket with chevron quilting and a large pile-look collar. Available in M–XXL.",
+      "description": "A men's blue genuine leather puffer jacket with chevron quilted panels and a large pile-look collar. The central zip, zipped side pockets and ribbed cuffs and hem create a bold cold-weather silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey",
+      "name": "Grey",
+      "sku": "GRY",
+      "hex": "#777b7d",
+      "title": "Men's Grey Chevron Leather Puffer Jacket",
+      "seoTitle": "Men's Grey Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's grey genuine leather puffer jacket with chevron quilting and a large pile-look collar. Available in M–XXL.",
+      "description": "A men's grey genuine leather puffer jacket with chevron quilted panels and a large pile-look collar. The central zip, zipped side pockets and ribbed cuffs and hem create a bold cold-weather silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white",
+      "name": "White",
+      "sku": "WHT",
+      "hex": "#f3f3ef",
+      "title": "Men's White Chevron Leather Puffer Jacket",
+      "seoTitle": "Men's White Leather Puffer Jacket | Tuxar",
+      "seoDescription": "Men's white genuine leather puffer jacket with chevron quilting and a large pile-look collar. Available in M–XXL.",
+      "description": "A men's white genuine leather puffer jacket with chevron quilted panels and a large pile-look collar. The central zip, zipped side pockets and ribbed cuffs and hem create a bold cold-weather silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 21,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 22,
+          "label": "model-front"
+        },
+        {
+          "id": 23,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed £229, positioned below the £239–£240 UK leather puffer comparators researched for prior puffer batches. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

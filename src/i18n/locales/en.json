@@ -1,0 +1,816 @@
+{
+  "announcement": {
+    "shipping": "Delivery: UK, Germany, Spain, France & Italy",
+    "services": "Clear returns · care support"
+  },
+  "nav": {
+    "jackets": "Leather Jackets",
+    "suits": "Motorcycle Suits",
+    "bags": "Leather Bags",
+    "accessories": "Accessories",
+    "shop": "Shop All",
+    "blog": "Journal",
+    "about": "Atelier",
+    "collections": "Collections",
+    "search": "Search the atelier...",
+    "wishlist": "Wishlist",
+    "cart": "Cart",
+    "account": "Account",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "men": "Men",
+    "women": "Women",
+    "sales": "Sale",
+    "womenJackets": "Women's leather jackets"
+  },
+  "cartDrawer": {
+    "empty": "Your bag is empty",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "viewBag": "View bag"
+  },
+  "collections": {
+    "varsity-jackets": {
+      "title": "Varsity Jackets",
+      "description": "Redefining collegiate heritage. Hand-crafted wool bodies, full-grain leather sleeves, and premium ribbed trims.",
+      "metaIntro": "Discover Tuxar's luxury Varsity Jackets collection.",
+      "seoContent": "Tuxar's Varsity collection pays homage to mid-century collegiate culture."
+    },
+    "textile-jackets": {
+      "title": "Textile Jackets",
+      "description": "Premium hybrid jackets combining weather-resistant technical textiles with durable leather details.",
+      "metaIntro": "Explore Tuxar's hybrid Textile Jackets.",
+      "seoContent": "Our textile jackets blend performance technical canvases with the luxury of full-grain leather."
+    },
+    "bomber-jackets": {
+      "title": "Bomber Jackets",
+      "description": "Military flight heritage refined. Drum-dyed calfskin, detachable shearling collars, and historical tailored fits.",
+      "metaIntro": "Shop luxury Bomber Jackets by Tuxar.",
+      "seoContent": "From the cockpit to the street, Tuxar's bomber and flight jackets are engineered for heritage authenticity."
+    },
+    "motorcycle-jackets": {
+      "title": "Motorcycle Jackets",
+      "description": "Track-inspired street jackets with substantial leather, pre-curved sleeves and optional insert pockets.",
+      "metaIntro": "Explore Motorcycle Jackets by Tuxar with riding-inspired construction.",
+      "seoContent": "Tuxar motorcycle jackets bridge the gap between safety and style."
+    },
+    "cafe-racer-jackets": {
+      "title": "Cafe Racer Jackets",
+      "description": "Minimalist band-collar jackets. Clean lines, hand-distressed patinas, and streamlined café racer silhouettes.",
+      "metaIntro": "Browse Tuxar's luxury Cafe Racer Jackets.",
+      "seoContent": "The Café Racer jacket is the ultimate expression of minimalist speed."
+    },
+    "touring-jackets": {
+      "title": "Touring Jackets",
+      "description": "Long-distance road jackets with ergonomic fits, versatile storage and substantial leather construction.",
+      "metaIntro": "Discover Tuxar's premium Leather Touring Jackets.",
+      "seoContent": "Engineered for the long road, Tuxar's touring jackets focus on absolute ergonomic comfort."
+    },
+    "racing-jackets": {
+      "title": "Racing Jackets",
+      "description": "High-velocity racing jackets. Multi-panel construction, authentic speed aesthetics, and track-grade leather detailing.",
+      "metaIntro": "Discover Tuxar's high-octane Racing Jackets.",
+      "seoContent": "Inspired by mid-century motorsport culture, Tuxar's Racing Jackets pair multi-panel construction with striking racing aesthetics."
+    },
+    "biker-jackets": {
+      "title": "Biker Jackets",
+      "description": "Classic double-rider and asymmetrical leather jackets. Bold zips, snap collars, and rugged, rebellious heritage.",
+      "metaIntro": "Browse Tuxar's classic double-rider Biker Jackets.",
+      "seoContent": "The absolute icon of leather outerwear. Tuxar's asymmetrical Biker Jackets feature substantial chrome-free zips."
+    },
+    "leather-bags": {
+      "title": "Leather Bags",
+      "description": "Vegetable-tanned leather bags with solid hardware, carefully finished edges, and lasting durability.",
+      "metaIntro": "Shop Tuxar's luxury vegetable-tanned Leather Bags.",
+      "seoContent": "Tuxar bags are heirlooms in waiting."
+    },
+    "leather-accessories": {
+      "title": "Leather Accessories",
+      "description": "Small leather goods and riding gear. Goatskin carbon-knuckle gloves, cardholders, and hand-stitched belts.",
+      "metaIntro": "Browse Tuxar's Leather Accessories.",
+      "seoContent": "Details define the luxury experience."
+    },
+    "motorcycle-suits": {
+      "title": "Motorcycle Suits",
+      "description": "One-piece leather track suits with pre-curved riding posture and flexible movement panels.",
+      "metaIntro": "Shop one-piece Motorcycle Suits by Tuxar.",
+      "seoContent": "Explore track-focused leather construction designed for movement and comfort."
+    },
+    "women-suede-jackets": {
+      "title": "Suede Jackets",
+      "description": "Explore suede jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar suede jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the suede jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-bags": {
+      "title": "Bags",
+      "description": "Explore backpacks, rucksacks and travel bags with individual product photographs.",
+      "metaIntro": "Explore backpacks, rucksacks and travel bags with individual product photographs.",
+      "seoContent": "Explore backpacks, rucksacks and travel bags with individual product photographs."
+    },
+    "women-accessories": {
+      "title": "Accessories",
+      "description": "Explore accessories at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar accessories. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the accessories edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-motorcycle-suits": {
+      "title": "Motorcycle Tops",
+      "description": "Explore motorcycle tops at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar motorcycle tops. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the motorcycle tops edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-aviator-jackets": {
+      "title": "Leather Round Jackets",
+      "description": "Explore leather round jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather round jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather round jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-varsity-jackets": {
+      "title": "Leather Hood Jackets",
+      "description": "Explore leather hood jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather hood jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather hood jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-puffer-jackets": {
+      "title": "Cat Top Jacket",
+      "description": "Explore cat top jacket at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar cat top jacket. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the cat top jacket edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-shearling-jackets": {
+      "title": "zipper jacket",
+      "description": "Explore zipper jacket at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar zipper jacket. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the zipper jacket edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-racing-jackets": {
+      "title": "sperade collar jacket",
+      "description": "Explore sperade collar jacket at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar sperade collar jacket. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the sperade collar jacket edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-biker-jackets": {
+      "title": "Biker Jackets",
+      "description": "Explore biker jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar biker jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the biker jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-motorcycle-jackets": {
+      "title": "Motorcycle Jackets",
+      "description": "Explore motorcycle jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar motorcycle jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the motorcycle jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-jackets": {
+      "title": "Leather Jackets",
+      "description": "Explore leather jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-fur-jackets": {
+      "title": "LEATHER FUR JACKETS",
+      "description": "Explore leather fur jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather fur jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather fur jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "best-sellers": {
+      "title": "Featured Pieces",
+      "description": "Explore featured pieces at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar featured pieces. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the featured pieces edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "suede-jackets": {
+      "title": "Suede Jackets",
+      "description": "Explore suede jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar suede jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the suede jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "shearling-jackets": {
+      "title": "Shearling Jackets",
+      "description": "Explore shearling jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar shearling jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the shearling jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "wool-jackets": {
+      "title": "Wool Jackets",
+      "description": "Explore wool jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar wool jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the wool jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "shearling-vests": {
+      "title": "Shearling Vests",
+      "description": "Explore shearling vests at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar shearling vests. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the shearling vests edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-vests": {
+      "title": "Leather Vests",
+      "description": "Explore leather vests at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather vests. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather vests edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-puffer-jackets": {
+      "title": "Leather Puffer Jackets",
+      "description": "Explore leather puffer jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather puffer jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather puffer jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "puffer-jackets": {
+      "title": "Puffer Jackets",
+      "description": "Explore puffer jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar puffer jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the puffer jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-puffer-vests": {
+      "title": "Leather Puffer Vests",
+      "description": "Explore leather puffer vests at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather puffer vests. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather puffer vests edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-blazers": {
+      "title": "Leather Blazers",
+      "description": "Explore leather blazers at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather blazers. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather blazers edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "aviator-jackets": {
+      "title": "Aviator Jackets",
+      "description": "Explore aviator jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar aviator jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the aviator jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "oversize-leather-jackets": {
+      "title": "Oversize Leather Jackets",
+      "description": "Explore oversize leather jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar oversize leather jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the oversize leather jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-pants": {
+      "title": "Leather Pants",
+      "description": "Explore leather pants at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather pants. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather pants edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-shirts": {
+      "title": "Leather Shirts",
+      "description": "Explore leather shirts at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather shirts. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather shirts edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-coats": {
+      "title": "Leather Coats",
+      "description": "Explore leather coats at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather coats. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather coats edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-trench-coats": {
+      "title": "Leather Trench Coats",
+      "description": "Explore leather trench coats at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather trench coats. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather trench coats edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "shearling-coats": {
+      "title": "Shearling Coats",
+      "description": "Explore shearling coats at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar shearling coats. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the shearling coats edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "wool-coats": {
+      "title": "Wool Coats",
+      "description": "Explore wool coats at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar wool coats. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the wool coats edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-jackets": {
+      "title": "View All Women Jackets",
+      "description": "Explore view all women jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar view all women jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the view all women jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "black-jackets": {
+      "title": "Black Jackets",
+      "description": "Explore black jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar black jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the black jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "brown-jackets": {
+      "title": "Brown Jackets",
+      "description": "Explore brown jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar brown jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the brown jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "red-jackets": {
+      "title": "Red Jackets",
+      "description": "Explore red jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar red jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the red jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "shearling-fur-jackets": {
+      "title": "Shearling Fur Jackets",
+      "description": "Explore shearling fur jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar shearling fur jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the shearling fur jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "hooded-jackets": {
+      "title": "Hooded Style Jackets",
+      "description": "Explore hooded style jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar hooded style jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the hooded style jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-blazers": {
+      "title": "Leather Blazer",
+      "description": "Explore leather blazer at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather blazer. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather blazer edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-coats": {
+      "title": "Leather Coats",
+      "description": "Explore leather coats at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather coats. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather coats edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "cropped-jackets": {
+      "title": "Cropped Jackets",
+      "description": "Explore cropped jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar cropped jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the cropped jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "petite-jackets": {
+      "title": "Petite Jackets",
+      "description": "Explore petite jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar petite jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the petite jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "tall-jackets": {
+      "title": "Tall Jackets",
+      "description": "Explore tall jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar tall jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the tall jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "peplum-jackets": {
+      "title": "Peplum",
+      "description": "Explore peplum at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar peplum. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the peplum edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-blazers": {
+      "title": "Blazer",
+      "description": "Explore blazer at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar blazer. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the blazer edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-skirts": {
+      "title": "Leather Skirts",
+      "description": "Explore leather skirts at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather skirts. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather skirts edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "leather-shorts": {
+      "title": "Leather Shorts",
+      "description": "Explore leather shorts at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather shorts. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather shorts edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "skirts": {
+      "title": "Skirts",
+      "description": "Explore skirts at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar skirts. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the skirts edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-bomber-jackets": {
+      "title": "Bomber Jackets",
+      "description": "Explore bomber jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar bomber jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the bomber jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-best-sellers": {
+      "title": "Featured Pieces",
+      "description": "Explore featured pieces at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar featured pieces. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the featured pieces edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-wool-jackets": {
+      "title": "Wool Jackets",
+      "description": "Explore wool jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar wool jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the wool jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-shearling-vests": {
+      "title": "Shearling Vests",
+      "description": "Explore shearling vests at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar shearling vests. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the shearling vests edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-vests": {
+      "title": "Leather Vests",
+      "description": "Explore leather vests at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather vests. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather vests edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-puffer-jackets": {
+      "title": "Leather Puffer Jackets",
+      "description": "Explore leather puffer jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather puffer jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather puffer jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-puffer-vests": {
+      "title": "Leather Puffer Vests",
+      "description": "Explore leather puffer vests at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather puffer vests. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather puffer vests edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-oversize-leather-jackets": {
+      "title": "Oversize Leather Jackets",
+      "description": "Explore oversize leather jackets at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar oversize leather jackets. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the oversize leather jackets edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-pants": {
+      "title": "Leather Pants",
+      "description": "Explore leather pants at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather pants. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather pants edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-shirts": {
+      "title": "Leather Shirts",
+      "description": "Explore leather shirts at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather shirts. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather shirts edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-trench-coats": {
+      "title": "Leather Trench Coats",
+      "description": "Explore leather trench coats at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather trench coats. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather trench coats edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-shearling-coats": {
+      "title": "Shearling Coats",
+      "description": "Explore shearling coats at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar shearling coats. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the shearling coats edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-wool-coats": {
+      "title": "Wool Coats",
+      "description": "Explore wool coats at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar wool coats. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the wool coats edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-skirts": {
+      "title": "Leather Skirts",
+      "description": "Explore leather skirts at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather skirts. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather skirts edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-leather-shorts": {
+      "title": "Leather Shorts",
+      "description": "Explore leather shorts at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar leather shorts. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the leather shorts edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    },
+    "women-skirts": {
+      "title": "Skirts",
+      "description": "Explore skirts at Tuxar. Compare product photographs, colours, materials and available size options.",
+      "metaIntro": "Explore Tuxar skirts. Compare product photographs, colours, materials and available sizes before ordering.",
+      "seoContent": "Browse the skirts edit and check each product's details and size chart before ordering. Trim composition is confirmed only where explicitly stated. Current availability appears on the product page."
+    }
+  },
+  "footer": {
+    "description": "Tuxar offers leather jackets, motorcycle-inspired clothing and travel bags, with delivery to the UK, Germany, Spain, France and Italy.",
+    "newsletter": {
+      "title": "The Tuxar Letter",
+      "placeholder": "Your email address",
+      "submit": "Subscribe",
+      "hint": "Receive lookbook drops and atelier invites. Unsubscribe anytime."
+    },
+    "columns": {
+      "shop": "Shop",
+      "collections": "Collections",
+      "atelier": "Atelier",
+      "service": "Service"
+    },
+    "copyright": "Tuxar"
+  },
+  "common": {
+    "pieces": "pieces",
+    "piece": "piece",
+    "addToBag": "Add to bag",
+    "addedToCart": "Added to cart",
+    "size": "Size",
+    "color": "Color",
+    "quantity": "Quantity",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "emptyCart": "Your bag is empty",
+    "backToShop": "Back to shop",
+    "home": "Home",
+    "loading": "Loading...",
+    "price": "Price",
+    "specifications": "Specifications",
+    "description": "Description",
+    "shippingReturns": "Shipping & Returns",
+    "origin": "Origin",
+    "material": "Material",
+    "weight": "Weight"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "SS26 Collection",
+      "title": "Leather, honestly made.",
+      "subtitle": "Leather-focused design, considered construction and riding-inspired details. Made for lasting use.",
+      "shopJackets": "Shop Jackets",
+      "atelier": "The Atelier"
+    },
+    "heroSlider": {
+      "label": "Tuxar campaign banners",
+      "navigation": "Choose a campaign banner",
+      "previous": "Previous banner",
+      "next": "Next banner",
+      "goTo": "Go to banner",
+      "slide": "Banner",
+      "main": {
+        "eyebrow": "SS26 Collection",
+        "title": "Leather, honestly made.",
+        "subtitle": "Leather-focused design, considered construction and riding-inspired details. Made for lasting use.",
+        "cta": "Explore Jackets",
+        "alt": "Woman wearing a black Tuxar leather jacket in a daylight studio"
+      },
+      "cognac": {
+        "eyebrow": "Men's Leather",
+        "title": "Character in every crease.",
+        "subtitle": "Clean café-racer lines in rich cognac leather, designed to grow better with wear.",
+        "cta": "Explore Café Racer Jackets",
+        "alt": "Man wearing a cognac Tuxar café racer jacket in a working studio"
+      },
+      "worktable": {
+        "eyebrow": "Crafted for the Road",
+        "title": "Ready before the ride.",
+        "subtitle": "Riding-inspired construction, precise stitching and dependable hardware—prepared for every mile.",
+        "cta": "Explore Motorcycle Jackets",
+        "alt": "Black Tuxar motorcycle jacket arranged on a wooden studio worktable"
+      },
+      "standard": {
+        "eyebrow": "The Tuxar Standard",
+        "title": "Details define the difference.",
+        "subtitle": "Considered panel lines, precise stitching and refined hardware—made to be noticed up close.",
+        "cta": "Explore Jackets",
+        "alt": "Close detail of a black Tuxar leather jacket with refined metal hardware"
+      },
+      "bags": {
+        "eyebrow": "Leather Goods",
+        "title": "Carry character.",
+        "subtitle": "Thoughtful storage, dependable hardware and leather that records every journey.",
+        "cta": "Explore Leather Bags",
+        "alt": "Cognac Tuxar leather satchel photographed on a studio worktable"
+      }
+    },
+    "categories": {
+      "title": "Four houses, one atelier.",
+      "eyebrow": "Universes"
+    },
+    "bestsellers": "Featured",
+    "bestsellers_sub": "Selected from the current collection.",
+    "why_tuxar": {
+      "title": "A standard. Not a trend.",
+      "subtitle": "Four principles that guide each piece, from material selection to delivery.",
+      "fg": "Considered materials",
+      "fg_desc": "Materials selected for character, comfort and long-term wear.",
+      "repair": "Care & repair support",
+      "repair_desc": "Contact our team for care guidance and an assessment of repair options.",
+      "shipping": "Tracked UK delivery",
+      "shipping_desc": "Estimated delivery: 7–10 working days.",
+      "returns": "Straightforward returns",
+      "returns_desc": "Eligibility and instructions are explained in our returns policy."
+    },
+    "suits": {
+      "eyebrow": "Motorcycle Suits",
+      "title": "Track-grade. Street-quiet.",
+      "desc": "Riding-focused leather construction with pre-curved shaping and flexible panels for movement.",
+      "cta": "Discover the suits"
+    },
+    "bags": {
+      "eyebrow": "Leather Bags",
+      "title": "Heirlooms in waiting.",
+      "desc": "Vegetable-tanned leather that develops a personal patina. Durable hardware and considered construction for years of travel."
+    },
+    "testimonials": {
+      "eyebrow": "From our clients",
+      "title": "Chosen by riders and travellers."
+    },
+    "atelier": {
+      "eyebrow": "Atelier",
+      "title": "Designed for the people who wear it.",
+      "desc": "Tuxar was founded by riders and a tailor who wanted lasting character and dependable construction. Every piece is designed for years of use.",
+      "cta": "Read our story"
+    },
+    "new_arrivals": "New In",
+    "new_arrivals_sub": "Fresh from the workshop."
+  },
+  "checkout": {
+    "title": "Secure Checkout",
+    "billing": "Billing details",
+    "shipping": "Shipping details",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email address",
+    "address": "Street address",
+    "city": "City",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "payment": "Payment method",
+    "orderSummary": "Order summary",
+    "placeOrder": "Place order",
+    "success": "Order placed successfully!"
+  },
+  "products": {
+    "brown-minimal-zip-backpack": {
+      "slug": "brown-minimal-zip-backpack",
+      "name": "Brown Minimal Zip Backpack",
+      "tagline": "Brown · Bag collection",
+      "description": "A rounded brown backpack with a top carry loop and front zipped pocket. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "brown-buckle-pocket-travel-bag": {
+      "slug": "brown-buckle-pocket-travel-bag",
+      "name": "Brown Buckle-Pocket Travel Bag",
+      "tagline": "Brown · Bag collection",
+      "description": "A rectangular brown travel bag with top handles, a shoulder strap, a front buckle-fastened pocket and two vertical zipped pockets. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "black-logo-patch-backpack": {
+      "slug": "black-logo-patch-backpack",
+      "name": "Black Logo-Patch Backpack",
+      "tagline": "Black · Bag collection",
+      "description": "A black rounded backpack with a front zipped pocket and a visible OVERTOP logo patch. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Black"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "brown-drawstring-buckle-rucksack": {
+      "slug": "brown-drawstring-buckle-rucksack",
+      "name": "Brown Drawstring Buckle Rucksack",
+      "tagline": "Brown · Bag collection",
+      "description": "A brown rucksack with a buckled top flap, drawstring closure and a double-buckle front pocket. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "brown-contrast-trim-backpack": {
+      "slug": "brown-contrast-trim-backpack",
+      "name": "Brown Contrast-Trim Backpack",
+      "tagline": "Brown · Bag collection",
+      "description": "A rounded brown backpack with contrast edging, a front zipped pocket and a small circular badge. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "dark-brown-barrel-duffel": {
+      "slug": "dark-brown-barrel-duffel",
+      "name": "Dark Brown Barrel Duffel",
+      "tagline": "Brown · Bag collection",
+      "description": "A dark brown barrel-shaped duffel with a distressed finish, top handles, a shoulder strap and an exterior zipped pocket. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Brown"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "tan-structured-flap-backpack": {
+      "slug": "tan-structured-flap-backpack",
+      "name": "Tan Structured Flap Backpack",
+      "tagline": "Tan · Bag collection",
+      "description": "A structured tan backpack with a top handle, broad flap, front slip pocket and metal-ring tab. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Tan"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "black-brown-two-tone-rucksack": {
+      "slug": "black-brown-two-tone-rucksack",
+      "name": "Black & Brown Two-Tone Rucksack",
+      "tagline": "Black / Brown · Bag collection",
+      "description": "A black and brown two-tone rucksack with a flap, twin buckle straps and side pockets. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Black / Brown"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "brown-white-spotted-holdall": {
+      "slug": "brown-white-spotted-holdall",
+      "name": "Brown & White Spotted Holdall",
+      "tagline": "Brown / White · Bag collection",
+      "description": "A brown and white spotted holdall with tan trim, top handles, a shoulder strap and a zipped end pocket. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Brown / White"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "tan-distressed-double-zip-backpack": {
+      "slug": "tan-distressed-double-zip-backpack",
+      "name": "Tan Distressed Double-Zip Backpack",
+      "tagline": "Tan · Bag collection",
+      "description": "A tan distressed-finish backpack with an upper zipped pocket and a larger lower zipped compartment. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Tan"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    },
+    "black-centre-seam-backpack": {
+      "slug": "black-centre-seam-backpack",
+      "name": "Black Centre-Seam Backpack",
+      "tagline": "Black · Bag collection",
+      "description": "A black backpack with a centre seam, front zipped compartment, side pockets and top carry handle. See the supplied photographs for the visible design. Material composition, measurements and capacity are awaiting supplier confirmation.",
+      "material": "Awaiting supplier confirmation",
+      "specs": {
+        "Colour": {
+          "label": "Colour",
+          "value": "Black"
+        },
+        "Measurements and capacity": {
+          "label": "Measurements and capacity",
+          "value": "Awaiting supplier confirmation"
+        }
+      }
+    }
+  }
+}

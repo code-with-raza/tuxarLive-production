@@ -1,0 +1,38 @@
+project_id = "tuxar-luxury-launch"
+
+# JWTs are verified against Supabase Auth inside the shared handler. Stripe uses
+# signature verification. This also supports publishable keys that are not JWTs.
+[functions.create-checkout-session]
+verify_jwt = false
+[functions.create-cod-order]
+verify_jwt = false
+[functions.verify-checkout-session]
+verify_jwt = false
+[functions.cancel-cod-order]
+verify_jwt = false
+[functions.cancel-stripe-order]
+verify_jwt = false
+[functions.dispatch-order]
+verify_jwt = false
+[functions.cloudinary-sign-upload]
+verify_jwt = false
+[functions.send-marketing-campaign]
+verify_jwt = false
+[functions.start-email-registration]
+verify_jwt = false
+[functions.resend-email-registration]
+verify_jwt = false
+[functions.verify-email-registration]
+verify_jwt = false
+[functions.registration-email-status]
+verify_jwt = false
+[functions.issue-customer-otp]
+verify_jwt = false
+[functions.verify-customer-otp]
+verify_jwt = false
+[functions.submit-contact]
+verify_jwt = false
+[functions.subscribe-newsletter]
+verify_jwt = false
+[functions.stripe-webhook]
+verify_jwt = false

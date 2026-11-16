@@ -1,0 +1,18 @@
+{
+  "id": "20261116-001-update-jacket-images",
+  "products": [
+    {
+      "slug": "classic-zip-quilted",
+      "images": [
+        {
+          "source": "deployment/media/quilted-jacket-front-v2.webp",
+          "alt": "Black quilted leather jacket, front view"
+        },
+        {
+          "source": "deployment/media/quilted-jacket-back-v2.webp",
+          "alt": "Black quilted leather jacket, rear view"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "batchId": "varsity-folder-15",
+  "itemGroupId": "tuxar-v-panel-varsity",
+  "slugDesign": "v-panel",
+  "slugStyle": "varsity",
+  "keywordStyle": "varsity",
+  "skuPrefix": "TX-VP",
+  "category": "leather-jackets",
+  "collection": "varsity-jackets",
+  "priceGBP": 199,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "V-shaped contrast panels, central zip, ribbed collar, cuffs and hem, with two side pockets.",
+  "safetyNote": "This is fashion outerwear; protective equipment and certifications have not been verified.",
+  "keywords": [
+    "mens leather varsity jacket uk",
+    "mens V panel leather jacket",
+    "colour block varsity jacket men"
+  ],
+  "colours": [
+    {
+      "key": "black-red-white",
+      "name": "Black / Red / White",
+      "sku": "BLK-RED-WHT",
+      "hex": "#171717",
+      "priceGBP": 199,
+      "title": "Men's Black Red & White V-Panel Leather Varsity Jacket",
+      "seoTitle": "Black Red & White V-Panel Leather Varsity Jacket | Tuxar",
+      "seoDescription": "Men’s black leather varsity jacket with red V-panels, white sleeve bands and a zip front.",
+      "description": "Red V-panels break across the black leather body, with white sleeve bands completing the classic varsity contrast. The ribbed collar, cuffs and hem keep the silhouette neat. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy-red-white",
+      "name": "Burgundy / Red / White",
+      "sku": "BUR-RED-WHT",
+      "hex": "#642932",
+      "priceGBP": 205,
+      "title": "Men's Burgundy V-Panel Leather Varsity Jacket",
+      "seoTitle": "Burgundy V-Panel Leather Varsity Jacket | Tuxar",
+      "seoDescription": "Men’s burgundy leather varsity jacket with deep red V-panels and white sleeve bands.",
+      "description": "Layered burgundy and red leather gives this varsity style a richer colour story. A sharp V-panel, white sleeve accents and ribbed trims make it easy to wear with dark denim. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "blue-grey-white",
+      "name": "Blue / Grey / White",
+      "sku": "BLU-GRY-WHT",
+      "hex": "#244c9a",
+      "priceGBP": 199,
+      "title": "Men's Blue & Grey V-Panel Leather Varsity Jacket",
+      "seoTitle": "Blue & Grey V-Panel Leather Varsity Jacket | Tuxar",
+      "seoDescription": "Men’s blue leather varsity jacket with grey V-panels and white cuff bands.",
+      "description": "Royal blue leather meets a broad grey V-panel for a clean collegiate look. White sleeve bands and elasticated trims add a distinct sport-inspired finish. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black-blue-white",
+      "name": "Black / Blue / White",
+      "sku": "BLK-BLU-WHT",
+      "hex": "#171717",
+      "priceGBP": 205,
+      "title": "Men's Black & Blue V-Panel Leather Varsity Jacket",
+      "seoTitle": "Black & Blue V-Panel Leather Varsity Jacket | Tuxar",
+      "seoDescription": "Men’s black leather varsity jacket with a blue V-panel and white sleeve bands.",
+      "description": "This black leather varsity jacket uses a vivid blue chest panel to define the front and back. The contrasting sleeve bands give the jacket a graphic, athletic feel. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan-burgundy-white",
+      "name": "Tan / Burgundy / White",
+      "sku": "TAN-BUR-WHT",
+      "hex": "#b77b3f",
+      "priceGBP": 209,
+      "title": "Men's Tan & Burgundy V-Panel Leather Varsity Jacket",
+      "seoTitle": "Tan & Burgundy V-Panel Leather Varsity Jacket | Tuxar",
+      "seoDescription": "Men’s tan leather varsity jacket with a burgundy V-panel and white sleeve accents.",
+      "description": "Tan leather softens the varsity styling, while the burgundy V-panel adds depth through the body. White sleeve bands and ribbed edges make this colourway stand apart. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black-yellow-white",
+      "name": "Black / Yellow / White",
+      "sku": "BLK-YLW-WHT",
+      "hex": "#171717",
+      "priceGBP": 199,
+      "title": "Men's Black & Yellow V-Panel Leather Varsity Jacket",
+      "seoTitle": "Black & Yellow V-Panel Leather Varsity Jacket | Tuxar",
+      "seoDescription": "Men’s black leather varsity jacket with a yellow V-panel and white sleeve bands.",
+      "description": "A yellow V-panel gives this black leather varsity jacket its strongest visual contrast. White sleeve bands and a zip-through front keep the design rooted in classic collegiate outerwear. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Colourway-specific proposed prices £199–£209. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

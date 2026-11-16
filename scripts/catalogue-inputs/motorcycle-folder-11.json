@@ -1,0 +1,192 @@
+{
+  "batchId": "motorcycle-folder-11",
+  "itemGroupId": "tuxar-double-arm-stripe-racer",
+  "slugDesign": "double-arm-stripe",
+  "slugStyle": "motorcycle-style",
+  "keywordStyle": "motorcycle style",
+  "skuPrefix": "TX-DA",
+  "category": "leather-jackets",
+  "collection": "motorcycle-jackets",
+  "priceGBP": 189,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Double arm stripes, stand collar with snap tabs, central zip, zipped side pockets and zip cuffs.",
+  "safetyNote": "Motorcycle-inspired fashion outerwear. Protective equipment and CE/UKCA certification have not been verified; do not rely on this jacket as motorcycle protective clothing.",
+  "keywords": [
+    "mens striped leather jacket uk",
+    "mens motorcycle style leather jacket",
+    "genuine leather racer jacket men"
+  ],
+  "colours": [
+    {
+      "key": "black",
+      "name": "Black",
+      "sku": "BLK",
+      "hex": "#171717",
+      "title": "Men's Black Double-Stripe Leather Motorcycle Jacket",
+      "seoTitle": "Men's Black Striped Leather Jacket | Tuxar",
+      "seoDescription": "Men's black genuine leather jacket with double arm stripes, a stand collar and zip pockets. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's black genuine leather jacket with double contrast arm stripes and a stand collar with snap tabs. A central zip, zipped side pockets and zip cuffs create a streamlined motorcycle-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "name": "Brown",
+      "sku": "BRN",
+      "hex": "#70442d",
+      "title": "Men's Brown Double-Stripe Leather Motorcycle Jacket",
+      "seoTitle": "Men's Brown Striped Leather Jacket | Tuxar",
+      "seoDescription": "Men's brown genuine leather jacket with double arm stripes, a stand collar and zip pockets. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's brown genuine leather jacket with double contrast arm stripes and a stand collar with snap tabs. A central zip, zipped side pockets and zip cuffs create a streamlined motorcycle-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 9,
+          "label": "front"
+        },
+        {
+          "id": 8,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy",
+      "name": "Burgundy",
+      "sku": "BUR",
+      "hex": "#672b33",
+      "title": "Men's Burgundy Double-Stripe Leather Motorcycle Jacket",
+      "seoTitle": "Men's Burgundy Striped Leather Jacket | Tuxar",
+      "seoDescription": "Men's burgundy genuine leather jacket with double arm stripes, a stand collar and zip pockets. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's burgundy genuine leather jacket with double contrast arm stripes and a stand collar with snap tabs. A central zip, zipped side pockets and zip cuffs create a streamlined motorcycle-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 14,
+          "label": "front"
+        },
+        {
+          "id": 15,
+          "label": "back"
+        },
+        {
+          "id": 13,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey",
+      "name": "Grey",
+      "sku": "GRY",
+      "hex": "#777b7d",
+      "title": "Men's Grey Double-Stripe Leather Motorcycle Jacket",
+      "seoTitle": "Men's Grey Striped Leather Jacket | Tuxar",
+      "seoDescription": "Men's grey genuine leather jacket with double arm stripes, a stand collar and zip pockets. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's grey genuine leather jacket with double contrast arm stripes and a stand collar with snap tabs. A central zip, zipped side pockets and zip cuffs create a streamlined motorcycle-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white",
+      "name": "White",
+      "sku": "WHT",
+      "hex": "#f3f3ef",
+      "title": "Men's White Double-Stripe Leather Motorcycle Jacket",
+      "seoTitle": "Men's White Striped Leather Jacket | Tuxar",
+      "seoDescription": "Men's white genuine leather jacket with double arm stripes, a stand collar and zip pockets. Motorcycle-inspired style in M–XXL.",
+      "description": "A men's white genuine leather jacket with double contrast arm stripes and a stand collar with snap tabs. A central zip, zipped side pockets and zip cuffs create a streamlined motorcycle-inspired silhouette. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed £189 using current UK fashion leather biker comparisons researched for prior batches (£149–£199). No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

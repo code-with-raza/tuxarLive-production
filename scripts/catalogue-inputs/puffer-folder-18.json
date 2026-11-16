@@ -1,0 +1,131 @@
+{
+  "batchId": "puffer-folder-18",
+  "itemGroupId": "tuxar-contrast-panel-pile-collar",
+  "slugDesign": "contrast-panel",
+  "slugStyle": "puffer",
+  "keywordStyle": "puffer",
+  "skuPrefix": "TX-PC",
+  "category": "leather-jackets",
+  "collection": "puffer-jackets",
+  "priceGBP": 239,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Contrast panels, pile-look collar, central zip, leather sleeves and ribbed hem.",
+  "safetyNote": "Panel material, collar composition and filling have not been specified.",
+  "keywords": [
+    "mens contrast panel leather jacket uk",
+    "mens leather jacket pile collar",
+    "two tone leather puffer jacket men"
+  ],
+  "colours": [
+    {
+      "key": "black-ivory",
+      "name": "Black / Ivory",
+      "sku": "BLK-IVY",
+      "hex": "#171717",
+      "priceGBP": 239,
+      "title": "Men's Black & Ivory Contrast-Collar Leather Jacket",
+      "seoTitle": "Black & Ivory Contrast-Collar Leather Jacket | Tuxar",
+      "seoDescription": "Men’s black leather zip jacket with ivory contrast panels and a broad pile-look collar.",
+      "description": "Black leather sleeves frame bold ivory panels across the body. The broad dark collar and simple zip front give the design a strong cold-weather presence. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown-ivory",
+      "name": "Brown / Ivory",
+      "sku": "BRN-IVY",
+      "hex": "#70432d",
+      "priceGBP": 249,
+      "title": "Men's Brown & Ivory Contrast-Collar Leather Jacket",
+      "seoTitle": "Brown & Ivory Contrast-Collar Leather Jacket | Tuxar",
+      "seoDescription": "Men’s brown leather zip jacket with ivory panels, a warm pile-look collar and a clean back panel.",
+      "description": "Warm brown leather and ivory contrast panels create a distinctive two-tone finish. The large collar, centre zip and understated back keep the focus on the surface pattern. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "chocolate-ivory",
+      "name": "Chocolate / Ivory",
+      "sku": "CHC-IVY",
+      "hex": "#44291e",
+      "priceGBP": 249,
+      "title": "Men's Chocolate Contrast-Collar Leather Jacket",
+      "seoTitle": "Chocolate Contrast-Collar Leather Jacket | Tuxar",
+      "seoDescription": "Men’s chocolate leather jacket with ivory contrast panels and a pile-look collar.",
+      "description": "This darker chocolate colourway puts the ivory panels in sharper relief. A large collar and zip-through front make it a bold outer layer for plain trousers and knitwear. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Colourway-specific proposed prices £239–£249 for contrast-panel presentation. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

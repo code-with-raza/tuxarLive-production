@@ -1,0 +1,98 @@
+{
+  "batchId": "leather-jackets-folder-17",
+  "itemGroupId": "tuxar-contrast-panel-stand-collar",
+  "slugDesign": "contrast-panel",
+  "slugStyle": "zip-up",
+  "keywordStyle": "zip up",
+  "skuPrefix": "TX-CP",
+  "category": "leather-jackets",
+  "collection": null,
+  "priceGBP": 229,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Large contrast panels, stand collar, central zip and clean rear panel.",
+  "safetyNote": "Panel material composition and animal species have not been specified.",
+  "keywords": [
+    "mens contrast panel leather jacket uk",
+    "mens cow print style leather jacket",
+    "stand collar leather jacket men"
+  ],
+  "colours": [
+    {
+      "key": "brown-ivory",
+      "name": "Brown / Ivory",
+      "sku": "BRN-IVY",
+      "hex": "#70432d",
+      "priceGBP": 229,
+      "title": "Men's Brown & Ivory Panel Leather Jacket",
+      "seoTitle": "Brown & Ivory Panel Leather Jacket | Tuxar",
+      "seoDescription": "Men’s brown genuine leather zip jacket with large ivory contrast panels and a stand collar.",
+      "description": "Large ivory panels break through the brown leather body for a distinctive graphic finish. A neat stand collar, central zip and clean back panel keep the design balanced. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown-black-ivory",
+      "name": "Brown / Black / Ivory",
+      "sku": "BRN-BLK-IVY",
+      "hex": "#70432d",
+      "priceGBP": 239,
+      "title": "Men's Tri-Colour Panel Leather Jacket",
+      "seoTitle": "Tri-Colour Panel Leather Jacket | Tuxar",
+      "seoDescription": "Men’s brown leather jacket with black and ivory contrast panels, a stand collar and front zip.",
+      "description": "Brown, black and ivory panels give this jacket a more layered look. The central zip and compact stand collar provide a simple frame for the contrasting front and sleeve details. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Colourway-specific proposed prices £229–£239 for the contrast-panel finish. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

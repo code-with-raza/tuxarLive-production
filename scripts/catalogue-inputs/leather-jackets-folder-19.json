@@ -1,0 +1,75 @@
+{
+  "batchId": "leather-jackets-folder-19",
+  "itemGroupId": "tuxar-graphic-panel-stand-collar",
+  "slugDesign": "graphic-panel",
+  "slugStyle": "zip-up",
+  "keywordStyle": "zip up",
+  "skuPrefix": "TX-GP",
+  "category": "leather-jackets",
+  "collection": null,
+  "priceGBP": 229,
+  "sizes": ["M", "L", "XL", "XXL"],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Graphic contrast panels, stand collar, central zip, clean rear panel and fitted cuffs.",
+  "safetyNote": "Panel material composition and animal species have not been specified.",
+  "keywords": [
+    "mens graphic panel leather jacket uk",
+    "mens contrast panel leather jacket",
+    "stand collar leather zip jacket"
+  ],
+  "colours": [
+    {
+      "key": "brown-ivory",
+      "name": "Brown / Ivory",
+      "sku": "BRN-IVY",
+      "hex": "#70432d",
+      "priceGBP": 229,
+      "title": "Men's Brown & Ivory Graphic-Panel Leather Jacket",
+      "seoTitle": "Brown & Ivory Graphic Leather Jacket | Tuxar",
+      "seoDescription": "Men’s brown genuine leather zip jacket with ivory graphic panels and a stand collar.",
+      "description": "Irregular ivory panels give this brown leather jacket a striking contrast. A stand collar and clean zip front balance the graphic detail with a streamlined shape. Available in M, L, XL and XXL.",
+      "views": [{"id": 3, "label": "front"}, {"id": 4, "label": "back"}, {"id": 5, "label": "side"}, {"id": 1, "label": "model-front"}, {"id": 2, "label": "model-back"}]
+    },
+    {
+      "key": "tan-black-ivory",
+      "name": "Tan / Black / Ivory",
+      "sku": "TAN-BLK-IVY",
+      "hex": "#b87835",
+      "priceGBP": 239,
+      "title": "Men's Tan Tri-Panel Leather Zip Jacket",
+      "seoTitle": "Tan Tri-Panel Leather Jacket | Tuxar",
+      "seoDescription": "Men’s tan leather jacket with black and ivory graphic panels and a stand collar.",
+      "description": "This tan jacket builds contrast through black centre panels and ivory accents. The simple stand collar and central zip keep the colour-block construction in focus. Available in M, L, XL and XXL.",
+      "views": [{"id": 8, "label": "front"}, {"id": 9, "label": "back"}, {"id": 10, "label": "side"}, {"id": 6, "label": "model-front"}, {"id": 7, "label": "model-back"}]
+    },
+    {
+      "key": "black-brown-ivory",
+      "name": "Black / Brown / Ivory",
+      "sku": "BLK-BRN-IVY",
+      "hex": "#171717",
+      "priceGBP": 249,
+      "title": "Men's Black & Brown Graphic-Panel Leather Jacket",
+      "seoTitle": "Black & Brown Graphic Leather Jacket | Tuxar",
+      "seoDescription": "Men’s black leather jacket with brown and ivory graphic panel contrast.",
+      "description": "Black leather creates a sharp base for the brown front panel and ivory graphic accent. The stand collar and zip-through closure give the design a compact, modern profile. Available in M, L, XL and XXL.",
+      "views": [{"id": 13, "label": "front"}, {"id": 14, "label": "back"}, {"id": 15, "label": "side"}, {"id": 11, "label": "model-front"}, {"id": 12, "label": "model-back"}]
+    },
+    {
+      "key": "brown-black-ivory",
+      "name": "Brown / Black / Ivory",
+      "sku": "BRN-BLK-IVY",
+      "hex": "#70432d",
+      "priceGBP": 239,
+      "title": "Men's Brown & Black Graphic-Panel Leather Jacket",
+      "seoTitle": "Brown & Black Graphic Leather Jacket | Tuxar",
+      "seoDescription": "Men’s brown leather zip jacket with black sleeves and ivory contrast panels.",
+      "description": "A brown front panel contrasts with black leather sleeves for a layered finish. Ivory accents break up the darker shades, while the stand collar keeps the silhouette clean. Available in M, L, XL and XXL.",
+      "views": [{"id": 18, "label": "front"}, {"id": 19, "label": "back"}, {"id": 20, "label": "side"}, {"id": 16, "label": "model-front"}, {"id": 17, "label": "model-back"}]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Colourway-specific proposed prices £229–£249 for graphic-panel presentation. No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

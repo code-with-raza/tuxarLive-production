@@ -1,0 +1,14 @@
+# Tuxar
+
+> Tuxar is an online leather clothing and accessories shop. Use the storefront for current product availability and prices.
+
+## Storefront
+- [Home](https://tuxar.co.uk/en)
+- [Men's leather jackets](https://tuxar.co.uk/en/leather-jackets)
+- [Women's leather jackets](https://tuxar.co.uk/en/women-leather-jackets)
+- [Shop](https://tuxar.co.uk/en/shop)
+- [Journal](https://tuxar.co.uk/en/blog)
+- [Contact](https://tuxar.co.uk/en/contact)
+- [Sitemap](https://tuxar.co.uk/sitemap.xml)
+
+This file is informational. It does not grant permission to place orders or access customer information.

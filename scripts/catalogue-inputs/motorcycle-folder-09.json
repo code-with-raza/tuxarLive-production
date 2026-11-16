@@ -1,0 +1,412 @@
+{
+  "batchId": "motorcycle-folder-09",
+  "itemGroupId": "tuxar-quilted-patch-racer",
+  "slugDesign": "quilted-patch",
+  "slugStyle": "motorcycle-style",
+  "keywordStyle": "motorcycle style",
+  "skuPrefix": "TX-QP",
+  "category": "leather-jackets",
+  "collection": "motorcycle-jackets",
+  "priceGBP": 199,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Quilted shoulder and elbow patches, stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs.",
+  "safetyNote": "Motorcycle-inspired fashion outerwear. Protective equipment and CE/UKCA certification have not been verified; do not rely on this jacket as motorcycle protective clothing.",
+  "keywords": [
+    "mens quilted leather jacket uk",
+    "mens patch leather jacket",
+    "motorcycle style leather jacket men"
+  ],
+  "colours": [
+    {
+      "key": "white",
+      "name": "White",
+      "sku": "WHT",
+      "hex": "#f3f2ee",
+      "title": "Men's White Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's White Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's white genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's white genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 6,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "name": "Brown",
+      "sku": "BRN",
+      "hex": "#874620",
+      "title": "Men's Brown Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Brown Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's brown genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's brown genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 12,
+          "label": "side"
+        },
+        {
+          "id": 5,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan",
+      "name": "Tan",
+      "sku": "TAN",
+      "hex": "#b97832",
+      "title": "Men's Tan Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Tan Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's tan genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's tan genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 10,
+          "label": "model-front"
+        },
+        {
+          "id": 11,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy",
+      "name": "Burgundy",
+      "sku": "BUR",
+      "hex": "#682932",
+      "title": "Men's Burgundy Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Burgundy Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's burgundy genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's burgundy genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey",
+      "name": "Grey",
+      "sku": "GRY",
+      "hex": "#777b7d",
+      "title": "Men's Grey Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Grey Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's grey genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's grey genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey-tan",
+      "name": "Grey / Tan",
+      "sku": "GRY-TAN",
+      "hex": "#777b7d",
+      "title": "Men's Grey & Tan Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Grey Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's grey and tan genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's grey and tan genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey-black",
+      "name": "Grey / Black",
+      "sku": "GRY-BLK",
+      "hex": "#666b70",
+      "title": "Men's Grey & Black Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Grey Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's grey and black genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's grey and black genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 33,
+          "label": "front"
+        },
+        {
+          "id": 34,
+          "label": "back"
+        },
+        {
+          "id": 35,
+          "label": "side"
+        },
+        {
+          "id": 31,
+          "label": "model-front"
+        },
+        {
+          "id": 32,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "white-black",
+      "name": "White / Black",
+      "sku": "WHT-BLK",
+      "hex": "#f3f2ee",
+      "title": "Men's White & Black Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's White Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's white and black genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's white and black genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 37,
+          "label": "front"
+        },
+        {
+          "id": 38,
+          "label": "back"
+        },
+        {
+          "id": 39,
+          "label": "side"
+        },
+        {
+          "id": 36,
+          "label": "model-front"
+        }
+      ]
+    },
+    {
+      "key": "orange-black",
+      "name": "Orange / Black",
+      "sku": "ORG-BLK",
+      "hex": "#dd5c17",
+      "title": "Men's Orange & Black Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Orange Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's orange and black genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's orange and black genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 42,
+          "label": "front"
+        },
+        {
+          "id": 43,
+          "label": "back"
+        },
+        {
+          "id": 44,
+          "label": "side"
+        },
+        {
+          "id": 40,
+          "label": "model-front"
+        },
+        {
+          "id": 41,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "orange",
+      "name": "Orange",
+      "sku": "ORG",
+      "hex": "#e96517",
+      "title": "Men's Orange Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Orange Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's orange genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's orange genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 47,
+          "label": "front"
+        },
+        {
+          "id": 48,
+          "label": "back"
+        },
+        {
+          "id": 49,
+          "label": "side"
+        },
+        {
+          "id": 45,
+          "label": "model-front"
+        },
+        {
+          "id": 46,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy-black",
+      "name": "Burgundy / Black",
+      "sku": "BUR-BLK",
+      "hex": "#682932",
+      "title": "Men's Burgundy & Black Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Burgundy Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's burgundy and black genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's burgundy and black genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 52,
+          "label": "front"
+        },
+        {
+          "id": 53,
+          "label": "back"
+        },
+        {
+          "id": 54,
+          "label": "side"
+        },
+        {
+          "id": 50,
+          "label": "model-front"
+        },
+        {
+          "id": 51,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black",
+      "name": "Black",
+      "sku": "BLK",
+      "hex": "#171717",
+      "title": "Men's Black Quilted-Patch Leather Jacket",
+      "seoTitle": "Men's Black Quilted Leather Jacket | Tuxar",
+      "seoDescription": "Explore a men's black genuine leather jacket with quilted patches and zipped pockets. Available in M–XXL.",
+      "description": "A men's black genuine leather jacket with quilted shoulder and elbow patches. A stand collar, central zip, diagonal zipped chest pocket, zipped side pockets and adjustable waist tabs create a clean motorcycle-inspired shape. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 55,
+          "label": "front"
+        },
+        {
+          "id": 59,
+          "label": "back"
+        },
+        {
+          "id": 56,
+          "label": "side"
+        },
+        {
+          "id": 57,
+          "label": "model-front"
+        },
+        {
+          "id": 58,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [],
+  "heldMedia": "Images only; videos excluded.",
+  "pricingNote": "Proposed £199 using current UK fashion leather biker comparisons researched for the preceding motorcycle batches (£149–£199). No invented discount.",
+  "keywordNote": "UK intent keywords; monthly search volumes unverified."
+}

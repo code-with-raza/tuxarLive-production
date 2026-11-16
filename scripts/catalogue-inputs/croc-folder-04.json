@@ -1,0 +1,266 @@
+{
+  "batchId": "croc-jackets-folder-04",
+  "itemGroupId": "tuxar-croc-effect-collared-zip",
+  "slugDesign": "croc-effect",
+  "slugStyle": "zip-up",
+  "keywordStyle": "croc effect",
+  "skuPrefix": "TX-CC",
+  "category": "leather-jackets",
+  "collection": null,
+  "priceGBP": 179,
+  "sizes": [
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "stockPerSize": 10,
+  "material": "Genuine leather",
+  "style": "Croc-effect texture, point collar, central zip, slanted side pockets and buttoned cuffs.",
+  "safetyNote": "Croc-effect describes the surface pattern; the leather species has not been specified.",
+  "keywords": [
+    "mens croc effect leather jacket",
+    "mens textured leather jacket uk",
+    "mens collared leather jacket",
+    "mens leather zip up jacket"
+  ],
+  "colours": [
+    {
+      "key": "white",
+      "sku": "WHT",
+      "name": "White",
+      "hex": "#f3f3ef",
+      "title": "Men's White Croc-Effect Leather Zip-Up Jacket",
+      "seoTitle": "Men's White Croc-Effect Leather Jacket | Tuxar",
+      "seoDescription": "Discover a men's white genuine leather jacket with a croc-effect texture, point collar and zip front. Available in M, L, XL and XXL.",
+      "description": "A men's white genuine leather zip-up jacket with an all-over croc-effect texture. A point collar and central zip give it a clean outline, with slanted side pockets and buttoned cuffs completing the design. Pair the light finish with dark trousers for contrast. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 3,
+          "label": "front"
+        },
+        {
+          "id": 4,
+          "label": "back"
+        },
+        {
+          "id": 5,
+          "label": "side"
+        },
+        {
+          "id": 1,
+          "label": "model-front"
+        },
+        {
+          "id": 2,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "brown",
+      "sku": "BRN",
+      "name": "Brown",
+      "hex": "#81451f",
+      "title": "Men's Brown Croc-Effect Leather Zip-Up Jacket",
+      "seoTitle": "Men's Brown Croc-Effect Leather Jacket | Tuxar",
+      "seoDescription": "Discover a men's brown genuine leather jacket with a croc-effect texture, point collar and zip front. Available in M, L, XL and XXL.",
+      "description": "A men's brown genuine leather zip-up jacket with an all-over croc-effect texture. A point collar and central zip give it a clean outline, with slanted side pockets and buttoned cuffs completing the design. The warm brown shade pairs with denim and neutral knitwear. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 8,
+          "label": "front"
+        },
+        {
+          "id": 9,
+          "label": "back"
+        },
+        {
+          "id": 10,
+          "label": "side"
+        },
+        {
+          "id": 6,
+          "label": "model-front"
+        },
+        {
+          "id": 7,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "black",
+      "sku": "BLK",
+      "name": "Black",
+      "hex": "#171717",
+      "title": "Men's Black Croc-Effect Leather Zip-Up Jacket",
+      "seoTitle": "Men's Black Croc-Effect Leather Jacket | Tuxar",
+      "seoDescription": "Discover a men's black genuine leather jacket with a croc-effect texture, point collar and zip front. Available in M, L, XL and XXL.",
+      "description": "A men's black genuine leather zip-up jacket with an all-over croc-effect texture. A point collar and central zip give it a clean outline, with slanted side pockets and buttoned cuffs completing the design. Wear the black finish with denim or tailored trousers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 13,
+          "label": "front"
+        },
+        {
+          "id": 14,
+          "label": "back"
+        },
+        {
+          "id": 15,
+          "label": "side"
+        },
+        {
+          "id": 11,
+          "label": "model-front"
+        },
+        {
+          "id": 12,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "tan",
+      "sku": "TAN",
+      "name": "Tan",
+      "hex": "#b86c26",
+      "title": "Men's Tan Croc-Effect Leather Zip-Up Jacket",
+      "seoTitle": "Men's Tan Croc-Effect Leather Jacket | Tuxar",
+      "seoDescription": "Discover a men's tan genuine leather jacket with a croc-effect texture, point collar and zip front. Available in M, L, XL and XXL.",
+      "description": "A men's tan genuine leather zip-up jacket with an all-over croc-effect texture. A point collar and central zip give it a clean outline, with slanted side pockets and buttoned cuffs completing the design. The golden tan shade adds warmth to simple everyday layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 18,
+          "label": "front"
+        },
+        {
+          "id": 19,
+          "label": "back"
+        },
+        {
+          "id": 20,
+          "label": "side"
+        },
+        {
+          "id": 16,
+          "label": "model-front"
+        },
+        {
+          "id": 17,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "burgundy",
+      "sku": "BUR",
+      "name": "Burgundy",
+      "hex": "#651c29",
+      "title": "Men's Burgundy Croc-Effect Leather Zip-Up Jacket",
+      "seoTitle": "Men's Burgundy Croc-Effect Leather Jacket | Tuxar",
+      "seoDescription": "Discover a men's burgundy genuine leather jacket with a croc-effect texture, point collar and zip front. Available in M, L, XL and XXL.",
+      "description": "A men's burgundy genuine leather zip-up jacket with an all-over croc-effect texture. A point collar and central zip give it a clean outline, with slanted side pockets and buttoned cuffs completing the design. The deep burgundy colour works with black and charcoal layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 23,
+          "label": "front"
+        },
+        {
+          "id": 24,
+          "label": "back"
+        },
+        {
+          "id": 25,
+          "label": "side"
+        },
+        {
+          "id": 21,
+          "label": "model-front"
+        },
+        {
+          "id": 22,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "yellow",
+      "sku": "YLW",
+      "name": "Yellow",
+      "hex": "#e4a413",
+      "title": "Men's Yellow Croc-Effect Leather Zip-Up Jacket",
+      "seoTitle": "Men's Yellow Croc-Effect Leather Jacket | Tuxar",
+      "seoDescription": "Discover a men's yellow genuine leather jacket with a croc-effect texture, point collar and zip front. Available in M, L, XL and XXL.",
+      "description": "A men's yellow genuine leather zip-up jacket with an all-over croc-effect texture. A point collar and central zip give it a clean outline, with slanted side pockets and buttoned cuffs completing the design. The bold yellow finish makes a statement with understated dark layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 28,
+          "label": "front"
+        },
+        {
+          "id": 29,
+          "label": "back"
+        },
+        {
+          "id": 30,
+          "label": "side"
+        },
+        {
+          "id": 26,
+          "label": "model-front"
+        },
+        {
+          "id": 27,
+          "label": "model-back"
+        }
+      ]
+    },
+    {
+      "key": "grey",
+      "sku": "GRY",
+      "name": "Grey",
+      "hex": "#777777",
+      "title": "Men's Grey Croc-Effect Leather Zip-Up Jacket",
+      "seoTitle": "Men's Grey Croc-Effect Leather Jacket | Tuxar",
+      "seoDescription": "Discover a men's grey genuine leather jacket with a croc-effect texture, point collar and zip front. Available in M, L, XL and XXL.",
+      "description": "A men's grey genuine leather zip-up jacket with an all-over croc-effect texture. A point collar and central zip give it a clean outline, with slanted side pockets and buttoned cuffs completing the design. The muted grey shade pairs with navy, black and off-white layers. Available in M, L, XL and XXL.",
+      "views": [
+        {
+          "id": 33,
+          "label": "front"
+        },
+        {
+          "id": 34,
+          "label": "back"
+        },
+        {
+          "id": 35,
+          "label": "side"
+        },
+        {
+          "id": 31,
+          "label": "model-front"
+        },
+        {
+          "id": 32,
+          "label": "model-back"
+        }
+      ]
+    }
+  ],
+  "excludedImages": [
+    {
+      "id": 36,
+      "reason": "Unverified Duty Free badge"
+    },
+    {
+      "id": 37,
+      "reason": "Unverified Duty Free badge"
+    }
+  ],
+  "heldMedia": "Six MP4 videos excluded.",
+  "pricingNote": "Proposed £179 based on UK asking-price comparisons researched 18 October 2026: eBay croc embossed £102.45; Leather Company 1895 £169 sale / £229 reference. Different sellers and specifications, not identical products or transaction data. Costs and margins not supplied. No invented was price.",
+  "keywordNote": "UK-intent keywords; monthly search volumes unverified."
+}

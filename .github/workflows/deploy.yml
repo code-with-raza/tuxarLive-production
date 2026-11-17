@@ -11,7 +11,7 @@ permissions:
 # Never cancel a release halfway through database or hosting writes. Older queued
 # commits fail the branch-head check before receiving production mutations.
 concurrency:
-  group: tuxar-${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.ref == 'refs/heads/main' && 'tuxar-production-setup' || format('tuxar-check-{0}', github.ref) }}
   cancel-in-progress: false
 
 jobs:
@@ -94,12 +94,16 @@ jobs:
           SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           SUPABASE_FUNCTION_SECRETS: ${{ secrets.SUPABASE_FUNCTION_SECRETS }}
-      - name: Upload referenced images and resolve product URLs
-        run: node scripts/ci/catalogue.mjs --upload --write-frontend
-        env:
+      - name: Verify restricted Cloudinary upload access
+        run: node scripts/ci/cloudinary-check.mjs
+        env: &cloudinary
           CLOUDINARY_CLOUD_NAME: ${{ vars.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_FOLDER_MODE: ${{ vars.CLOUDINARY_FOLDER_MODE || 'dynamic' }}
           CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
           CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+      - name: Upload referenced images and resolve product URLs
+        run: node scripts/ci/catalogue.mjs --upload --write-frontend
+        env: *cloudinary
       - name: Validate resolved catalogue and compile website before database writes
         run: |
           npm run typecheck

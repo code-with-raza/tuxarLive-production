@@ -106,10 +106,13 @@ export async function imageBytes(root,source) {
 }
 
 export async function uploadImage(bytes,credentials,fetcher=fetch) {
-  const {cloudName,apiKey,apiSecret}=credentials;
+  const {cloudName,apiKey,apiSecret,folderMode='dynamic'}=credentials;
   assert(/^[a-z0-9_-]+$/i.test(cloudName??'') && apiKey && apiSecret,'Cloudinary credentials are missing');
+  assert(['dynamic','fixed'].includes(folderMode),'Cloudinary folder mode must be dynamic or fixed');
   const publicId=`tuxar/ci/${hash(bytes)}`;
   const parameters={overwrite:'false',public_id:publicId,timestamp:String(Math.floor(Date.now()/1000))};
+  // Dynamic folders do not derive asset location or permissions from public_id.
+  if(folderMode==='dynamic') parameters.asset_folder='tuxar/ci';
   const signature=createHash('sha1').update(Object.entries(parameters).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>`${k}=${v}`).join('&')+apiSecret).digest('hex');
   const body=new FormData(); for(const [k,v] of Object.entries(parameters)) body.append(k,v);
   body.append('api_key',apiKey);body.append('signature',signature);body.append('file',new Blob([bytes]));
@@ -206,7 +209,7 @@ export async function prepareCatalogue({root=process.cwd(),upload=false,credenti
 if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
   try {
     const upload=process.argv.includes('--upload');
-    const result=await prepareCatalogue({upload,credentials:{cloudName:process.env.CLOUDINARY_CLOUD_NAME,apiKey:process.env.CLOUDINARY_API_KEY,apiSecret:process.env.CLOUDINARY_API_SECRET}});
+    const result=await prepareCatalogue({upload,credentials:{cloudName:process.env.CLOUDINARY_CLOUD_NAME,apiKey:process.env.CLOUDINARY_API_KEY,apiSecret:process.env.CLOUDINARY_API_SECRET,folderMode:process.env.CLOUDINARY_FOLDER_MODE||'dynamic'}});
     await fs.mkdir('output/ci',{recursive:true});
     await fs.writeFile('output/ci/catalogue-plan.json',JSON.stringify(result.releases,null,2)+'\n');
     await fs.writeFile('output/ci/catalogue.sql',result.sql);

@@ -58,6 +58,7 @@ Add these **environment variables**:
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | Existing publishable key or legacy **anon** key |
 | `SUPABASE_PROJECT_REF` | Existing production project reference; must match the URL and database connection |
 | `CLOUDINARY_CLOUD_NAME` | Existing Cloudinary cloud name |
+| `CLOUDINARY_FOLDER_MODE` | `dynamic` (default) or `fixed`, matching the existing Cloudinary environment |
 | `DEPLOY_TRANSPORT` | `ssh` or `ftps` |
 | `HOSTING_DOCUMENT_ROOT` | Verified path from step 1 |
 | `HOSTING_PORT` | SSH port, normally `22`, or explicit FTPS port, normally `21` |
@@ -98,7 +99,43 @@ allowed names are listed in `scripts/ci/backend.mjs`. This is optional; an omitt
 secret is preserved. OAuth provider settings, DNS and domain verification remain
 one-time service configuration, rather than something reset on each code push.
 
-## 3. Align the existing Supabase migration history once
+## 3. Run the setup check before enabling deployment
+
+Open **Actions → Production setup check → Run workflow**, select `main`, and
+leave the one-time folder-configuration checkbox unchecked for the first run.
+This workflow works while `DEPLOY_ENABLED` is false/unset. Its three independent
+jobs check hosting, database history, and the restricted Cloudinary upload key.
+It never publishes a website, applies migrations, deploys functions, or changes
+products, inventory, payments, or customer records. The database connection is
+forced read-only. Hosting checks create temporary/protected diagnostic files;
+Cloudinary keeps one tiny reusable diagnostic image in `tuxar/ci` without
+overwriting any asset. These checks share the main deployment concurrency lock.
+
+If the Cloudinary key has the **Media Library User** role but no folder access,
+configure folder access once. Cloudinary assigns API-key folder roles through
+its Admin API, rather than the normal folder-sharing UI:
+
+1. Keep `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` set to the restricted key.
+2. Temporarily add the existing administrator key and its matching secret as
+   **Production environment secrets** `CLOUDINARY_SETUP_API_KEY` and
+   `CLOUDINARY_SETUP_API_SECRET`. Never put these values in source or chat.
+3. Run **Production setup check** on `main`, this time checking the one-time
+   folder-configuration option. The helper checks folder mode, creates `tuxar/ci`
+   if needed, grants that key the **Contributor** role on that folder only, and
+   tests a signed upload with the restricted key. It neither upgrades its global
+   role nor deletes/moves/replaces assets. If it reports fixed folder mode, set
+   the `CLOUDINARY_FOLDER_MODE` variable to `fixed` and rerun.
+4. Remove both `CLOUDINARY_SETUP_*` secrets immediately after successful setup.
+   Keep the original administrator key active if the live site uses it.
+5. Rerun with the checkbox unchecked to verify the ordinary deployment credentials.
+
+The normal production workflow does not receive the temporary setup credentials.
+It checks upload access even when no product-image changes are pending.
+
+References: [Cloudinary folder roles](https://cloudinary.com/documentation/admin_api#folder_operations)
+and [folder modes](https://cloudinary.com/documentation/folder_modes).
+
+## 4. Align the existing Supabase migration history once
 
 This project has previously shipped SQL files for manual SQL Editor execution.
 The workflow therefore verifies that all repository migrations through
@@ -125,7 +162,7 @@ Keep future schema/data changes in new migration files. Never edit an already
 applied migration. Production upgrades must remain compatible with the previous
 frontend until the new website is published.
 
-## 4. Add or update product images with one commit
+## 5. Add or update product images with one commit
 
 1. Put the original new images in `deployment/media/`. Keep the committed files
    below GitHub's size limits; the uploader allows JPEG, PNG, WebP and AVIF up to

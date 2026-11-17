@@ -9,6 +9,28 @@ import {prepareCatalogue,validateRelease,releaseSql,uploadImage,verifyImageUrl} 
 import {migrationPreflightSql,validateBackendEnvironment,functionSecretsFile} from '../../scripts/ci/backend.mjs';
 import {releaseManifest} from '../../scripts/ci/release.mjs';
 const require=createRequire(import.meta.url);
+
+test('manual setup stays separate from publication and isolates temporary administrator credentials',async()=>{
+  const setup=require('js-yaml').load(await fs.readFile('.github/workflows/setup-check.yml','utf8'));
+  const deploy=require('js-yaml').load(await fs.readFile('.github/workflows/deploy.yml','utf8'));
+  assert.deepEqual(Object.keys(setup.on),['workflow_dispatch']);
+  assert.equal(setup.on.workflow_dispatch.inputs.configure_cloudinary_folder.default,false);
+  assert.equal(setup.permissions.contents,'read');
+  for(const job of Object.values(setup.jobs)) {
+    assert.equal(job.if,"github.ref == 'refs/heads/main'");
+    assert.equal(job.environment,'production');
+    assert.ok(!JSON.stringify(job).includes('hosting.py publish'));
+    assert.ok(!JSON.stringify(job).includes('db push'));
+  }
+  const database=setup.jobs.database.steps.find(step=>step.run);
+  assert.equal(database.run,'node scripts/ci/backend.mjs --check');
+  assert.equal(database.env.PGOPTIONS,'-c default_transaction_read_only=on');
+  const administrator=setup.jobs.cloudinary.steps.filter(step=>step.env?.CLOUDINARY_SETUP_API_SECRET);
+  assert.equal(administrator.length,1);
+  assert.equal(administrator[0].if,'inputs.configure_cloudinary_folder');
+  assert.ok(!JSON.stringify(deploy).includes('CLOUDINARY_SETUP_'));
+  assert.ok(deploy.jobs.production.steps.some(step=>step.run==='node scripts/ci/cloudinary-check.mjs'));
+});
 const url='https://res.cloudinary.com/test-cloud/image/upload/v1/jacket.webp';
 const change=()=>({id:'20261116-update',products:[{slug:'existing-jacket',fields:{pricePence:13900,comparePricePence:18900,status:'draft'},images:[{source:url,alt:'Front view'}]}]});
 const newProduct=()=>({slug:'new-jacket',create:{slug:'new-jacket',name:'New jacket',tagline:'Black leather',category:'leather-jackets',priceGBP:150,currency:'GBP',colors:[{name:'Black',hex:'#111111'}],sizes:['M'],material:'Leather',weight:'',audience:'men',rating:0,reviewCount:0,description:'A new jacket.',specs:[],inStock:true,collections:['biker-jackets']},images:[{source:url,alt:'New jacket front'}],variants:[{sku:'NEW-JACKET-M',size:'M',color:'Black',colorHex:'#111111',stock:5}]});

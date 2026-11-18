@@ -23,6 +23,8 @@ test("database migration, ownership, MFA, and transactional guards", { timeout: 
       alter table storage.objects enable row level security;
       alter default privileges in schema public grant all on tables to anon,authenticated,service_role;
       alter default privileges in schema public grant all on sequences to anon,authenticated,service_role;
+      -- Match Supabase's direct default EXECUTE grants, not just PostgreSQL PUBLIC.
+      alter default privileges in schema public grant execute on functions to anon,authenticated,service_role;
     `);
     const migrations = (await fs.readdir("supabase/migrations")).filter((name) => name.endsWith(".sql")).sort();
     for (const migration of migrations) {
@@ -53,6 +55,13 @@ test("database migration, ownership, MFA, and transactional guards", { timeout: 
     await t.test("retired COD placement is denied to anon, authenticated and service_role", async () => {
       for (const role of ["anon", "authenticated", "service_role"]) {
         await assert.rejects(asRole(role, alice, "aal1", "select public.place_cod_order_for_user($1::jsonb,$2::jsonb,$3,$4,null)", [JSON.stringify(customer), JSON.stringify(items), key, alice]), /permission denied/);
+      }
+    });
+    await t.test("staff RPCs reject anonymous execution despite Supabase default grants", async () => {
+      for (const signature of ['is_admin_aal2(text[])','authorize_cancellation_email(uuid)','cancel_pending_cod_order(uuid,text)','mark_cod_collected(uuid)']) {
+        const result = await db.query("select has_function_privilege('anon',$1,'EXECUTE') as anonymous, has_function_privilege('authenticated',$1,'EXECUTE') as staff", ['public.'+signature]);
+        assert.equal(result.rows[0].anonymous,false,signature);
+        assert.equal(result.rows[0].staff,true,signature);
       }
     });
     await t.test("anonymous users cannot read private orders or OTP tables", async () => {

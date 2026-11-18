@@ -13,8 +13,14 @@ try {
     if(attempt<3) await pause(5000);
   }
   if(!verified) throw new Error('The live site did not serve this release revision');
+  // HEAD only: verify private paths stay inaccessible without retrieving contents.
+  for(const pathname of ['/.env','/.git/HEAD','/.backup.zip','/.env.example.zip']) {
+    const response=await fetch(`${site}${pathname}`,{method:'HEAD',redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(20000)});
+    if(![403,404,410].includes(response.status)) throw new Error(`Private path protection failed: ${pathname}`);
+  }
   for(const locale of ['en','de','fr','it','es']) {
     const response=await read(`${site}/${locale}?release=${revision}`),html=await response.text();
+    if(response.headers.get('x-content-type-options')!=='nosniff' || !response.headers.get('content-security-policy')) throw new Error(`Live ${locale} homepage is missing security headers`);
     if(!html.includes(`lang="${locale}"`) || !html.includes(`href="${site}/${locale}"`) || !/<h1\b/i.test(html)) throw new Error(`Live ${locale} homepage failed its language/canonical/content check`);
     const asset=html.match(/(?:src|href)="(\/assets\/[^"\s]+\.js)"/)?.[1];
     if(!asset) throw new Error(`Live ${locale} homepage has no application script`);
@@ -23,5 +29,5 @@ try {
   }
   const sitemap=await (await read(`${site}/sitemap.xml?release=${revision}`)).text();
   if(!sitemap.includes('<urlset')) throw new Error('Live sitemap is invalid');
-  console.log('Live release revision, all five homepages, JavaScript and sitemap verified.');
+  console.log('Live release revision, private path protection, security headers, all five homepages, JavaScript and sitemap verified.');
 } catch(error) { console.error(error.message);process.exitCode=1; }

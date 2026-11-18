@@ -76,6 +76,7 @@ import { Route as LocaleBlogIndexRouteImport } from './routes/$locale.blog.index
 import { Route as LocaleBlogSlugRouteImport } from './routes/$locale.blog.$slug'
 import { Route as LocaleCollectionsSlugRouteImport } from './routes/$locale.collections.$slug'
 import { Route as LocaleProductSlugRouteImport } from './routes/$locale.product.$slug'
+import { Route as LocaleAdminBannersIdRouteImport } from './routes/$locale.admin_.banners.$id'
 import { Route as LocaleAdminCategoriesIdRouteImport } from './routes/$locale.admin_.categories.$id'
 import { Route as LocaleAdminJournalIdRouteImport } from './routes/$locale.admin_.journal.$id'
 import { Route as LocaleAdminProductsIdRouteImport } from './routes/$locale.admin_.products.$id'
@@ -416,6 +417,11 @@ const LocaleProductSlugRoute = LocaleProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleAdminBannersIdRoute = LocaleAdminBannersIdRouteImport.update({
+  id: '/admin_/banners/$id',
+  path: '/admin/banners/$id',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocaleAdminCategoriesIdRoute = LocaleAdminCategoriesIdRouteImport.update({
   id: '/admin_/categories/$id',
   path: '/admin/categories/$id',
@@ -500,6 +506,7 @@ export interface FileRoutesByFullPath {
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/account/': typeof LocaleAccountIndexRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
+  '/$locale/admin/banners/$id': typeof LocaleAdminBannersIdRoute
   '/$locale/admin/categories/$id': typeof LocaleAdminCategoriesIdRoute
   '/$locale/admin/journal/$id': typeof LocaleAdminJournalIdRoute
   '/$locale/admin/products/$id': typeof LocaleAdminProductsIdRoute
@@ -570,6 +577,7 @@ export interface FileRoutesByTo {
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/account': typeof LocaleAccountIndexRoute
   '/$locale/blog': typeof LocaleBlogIndexRoute
+  '/$locale/admin/banners/$id': typeof LocaleAdminBannersIdRoute
   '/$locale/admin/categories/$id': typeof LocaleAdminCategoriesIdRoute
   '/$locale/admin/journal/$id': typeof LocaleAdminJournalIdRoute
   '/$locale/admin/products/$id': typeof LocaleAdminProductsIdRoute
@@ -643,6 +651,7 @@ export interface FileRoutesById {
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/account/': typeof LocaleAccountIndexRoute
   '/$locale/blog/': typeof LocaleBlogIndexRoute
+  '/$locale/admin_/banners/$id': typeof LocaleAdminBannersIdRoute
   '/$locale/admin_/categories/$id': typeof LocaleAdminCategoriesIdRoute
   '/$locale/admin_/journal/$id': typeof LocaleAdminJournalIdRoute
   '/$locale/admin_/products/$id': typeof LocaleAdminProductsIdRoute
@@ -717,6 +726,7 @@ export interface FileRouteTypes {
     | '/$locale/product/$slug'
     | '/$locale/account/'
     | '/$locale/blog/'
+    | '/$locale/admin/banners/$id'
     | '/$locale/admin/categories/$id'
     | '/$locale/admin/journal/$id'
     | '/$locale/admin/products/$id'
@@ -787,6 +797,7 @@ export interface FileRouteTypes {
     | '/$locale/product/$slug'
     | '/$locale/account'
     | '/$locale/blog'
+    | '/$locale/admin/banners/$id'
     | '/$locale/admin/categories/$id'
     | '/$locale/admin/journal/$id'
     | '/$locale/admin/products/$id'
@@ -859,6 +870,7 @@ export interface FileRouteTypes {
     | '/$locale/product/$slug'
     | '/$locale/account/'
     | '/$locale/blog/'
+    | '/$locale/admin_/banners/$id'
     | '/$locale/admin_/categories/$id'
     | '/$locale/admin_/journal/$id'
     | '/$locale/admin_/products/$id'
@@ -1368,6 +1380,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleProductSlugRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/admin_/banners/$id': {
+      id: '/$locale/admin_/banners/$id'
+      path: '/admin/banners/$id'
+      fullPath: '/$locale/admin/banners/$id'
+      preLoaderRoute: typeof LocaleAdminBannersIdRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/admin_/categories/$id': {
       id: '/$locale/admin_/categories/$id'
       path: '/admin/categories/$id'
@@ -1445,6 +1464,7 @@ interface LocaleRouteChildren {
   LocaleCollectionsSlugRoute: typeof LocaleCollectionsSlugRoute
   LocaleProductSlugRoute: typeof LocaleProductSlugRoute
   LocaleBlogIndexRoute: typeof LocaleBlogIndexRoute
+  LocaleAdminBannersIdRoute: typeof LocaleAdminBannersIdRoute
   LocaleAdminCategoriesIdRoute: typeof LocaleAdminCategoriesIdRoute
   LocaleAdminJournalIdRoute: typeof LocaleAdminJournalIdRoute
   LocaleAdminProductsIdRoute: typeof LocaleAdminProductsIdRoute
@@ -1483,6 +1503,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleCollectionsSlugRoute: LocaleCollectionsSlugRoute,
   LocaleProductSlugRoute: LocaleProductSlugRoute,
   LocaleBlogIndexRoute: LocaleBlogIndexRoute,
+  LocaleAdminBannersIdRoute: LocaleAdminBannersIdRoute,
   LocaleAdminCategoriesIdRoute: LocaleAdminCategoriesIdRoute,
   LocaleAdminJournalIdRoute: LocaleAdminJournalIdRoute,
   LocaleAdminProductsIdRoute: LocaleAdminProductsIdRoute,

@@ -9,7 +9,8 @@ export const legacyNamespace = '^(?:product|product-category|product-tag|tag|cat
 const escape = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export async function loadPolicy() {
-  const source = JSON.parse(await fs.readFile('output/wordpress-retirement-20261028/source-urls.json', 'utf8'));
+  // Only public site URLs are needed for the policy, not private workbook exports.
+  const source = JSON.parse(await fs.readFile('tests/fixtures/wordpress-retirement-urls.json', 'utf8'));
   const sitemap = await fs.readFile('public/sitemap.xml', 'utf8');
   const english = new Set([...sitemap.matchAll(/<loc>(https:\/\/tuxar\.co\.uk\/en(?:\/[^<]*)?)<\/loc>/g)].map(match => match[1]));
   const maps = new Map([

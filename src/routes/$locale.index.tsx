@@ -12,6 +12,9 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { PRODUCTS, type Product } from "@/data/products";
 import { absoluteUrl, localizedAlternates } from "@/lib/seo";
 import { cloudinaryUrl, bagImageUrl } from "@/lib/cloudinary";
+import { campaignImageSources } from "@/lib/homepage-campaign";
+import { getHomepageSlides } from "@/lib/homepage-slides-query";
+import { isOriginalHomepagePhoto, type HomepageSlideRow } from "@/lib/homepage-slides";
 import { heroImageSources } from "@/lib/hero-image";
 
 function tileImageSources(url: string) {
@@ -25,8 +28,8 @@ const catAccessories = getProductAsset("/src/assets/cat-accessories.webp");
 const jacket1 = getProductAsset("/src/assets/p-jacket-1.webp");
 
 export const Route = createFileRoute("/$locale/")({
-  loader: async () => ({ products: await getStorefrontProducts() }),
-  head: ({ params }) => {
+  loader: async ({params}) => { const [products,banners]=await Promise.all([getStorefrontProducts(),getHomepageSlides(params.locale)]);return {products,banners}; },
+  head: ({ params, loaderData }) => {
     const locale = params.locale as Locale;
     const title =
       locale === "en"
@@ -34,7 +37,8 @@ export const Route = createFileRoute("/$locale/")({
         : `${t("home.hero.title", locale)} — Tuxar`;
     const description = t("footer.description", locale);
     const canonicalUrl = absoluteUrl(`/${locale}`);
-    const socialImage = absoluteUrl(heroImg);
+    const firstBanner=loaderData?.banners?.[0];
+    const socialImage = absoluteUrl(firstBanner?.image_url??'/favicon.svg');
     return {
       meta: [
         { title },
@@ -51,7 +55,7 @@ export const Route = createFileRoute("/$locale/")({
       links: [
         { rel: "canonical", href: canonicalUrl },
         ...localizedAlternates((targetLocale) => `/${targetLocale}`),
-        { rel: "preload", as: "image", href: cloudinaryUrl(heroImg, { width: 1280, height: 900, crop: "fill" }), imageSrcSet: heroImageSources(heroImg), imageSizes: "100vw", fetchPriority: "high" },
+        ...(firstBanner?[{ rel: "preload", as: "image", href: cloudinaryUrl(firstBanner.image_url,isOriginalHomepagePhoto(firstBanner)?{width:1280,height:900,crop:'fill'}:{width:1280,crop:'fit'}),imageSrcSet:isOriginalHomepagePhoto(firstBanner)?heroImageSources(firstBanner.image_url):campaignImageSources(firstBanner.image_url),imageSizes:'100vw',fetchPriority:'high' as const}]:[]),
       ],
     };
   },
@@ -60,7 +64,7 @@ export const Route = createFileRoute("/$locale/")({
 
 function Home() {
   const { locale } = Route.useParams() as { locale: Locale };
-  const { products } = Route.useLoaderData() as { products: Product[] };
+  const { products,banners } = Route.useLoaderData() as { products: Product[];banners:HomepageSlideRow[] };
 
   // Localize products
   const localizedProducts = products.map((p) => getLocalizedProduct(p, locale));
@@ -86,7 +90,8 @@ function Home() {
 
   return (
     <>
-      <HeroSlider locale={locale} />
+      <HeroSlider locale={locale} initialSlides={banners} />
+      {banners.length===0&&<h1 className="sr-only">{t('home.hero.title',locale)}</h1>}
 
       {/* FEATURED CATEGORIES */}
       <section className="container-luxe py-20 md:py-28">

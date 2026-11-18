@@ -10,7 +10,12 @@ export type HomepageSlideRow = HomepageBannerRow & {
   subtitle: string;
   show_text: boolean;
   tone: "light" | "dark";
+  legacy_locale?: string | null;
 };
+
+export function isOriginalHomepagePhoto(row:HomepageSlideRow):boolean {
+  return Boolean(row.legacy_locale?.startsWith('builtin:') && row.image_url.includes('/tuxar/website/banner/') && row.image_width/row.image_height<2.2);
+}
 
 export function publishedHomepageSlides(rows: HomepageSlideRow[], locale: string): HomepageSlideRow[] {
   return rows.filter(row => !row.archived && homepageBannerFromRow(row,locale))

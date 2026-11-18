@@ -1,20 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
-import { getProductAsset } from "@/assets";
-import { getLocalizedSlug, t, type Locale } from "@/i18n/i18n";
+import { t, type Locale } from "@/i18n/i18n";
 import { cloudinaryUrl } from "@/lib/cloudinary";
 import { heroImageSources } from "@/lib/hero-image";
-import { HOMEPAGE_SLIDE_INTERVAL_MS, publishedHomepageSlides, type HomepageSlideRow } from "@/lib/homepage-slides";
+import { campaignImageSources } from "@/lib/homepage-campaign";
+import { HOMEPAGE_SLIDE_INTERVAL_MS, publishedHomepageSlides, isOriginalHomepagePhoto, type HomepageSlideRow } from "@/lib/homepage-slides";
 
 const SLIDE_INTERVAL_MS = HOMEPAGE_SLIDE_INTERVAL_MS;
 const SWIPE_THRESHOLD_PX = 48;
-const heroMain = getProductAsset("/src/assets/banners/hero-main.webp");
-const mensCognac = getProductAsset("/src/assets/banners/mens-cognac.webp");
-const studioWorktable = getProductAsset("/src/assets/banners/studio-worktable.webp");
-const tuxarStandard = getProductAsset("/src/assets/banners/tuxar-standard.webp");
-const leatherBag = getProductAsset("/src/assets/banners/leather-bag.webp");
-
 type HeroSlide = {
   id: string;
   image: string;
@@ -29,79 +23,27 @@ type HeroSlide = {
   cta?: string;
   showText?: boolean;
   custom?: boolean;
+  width?: number;
+  height?: number;
 };
 
-const defaultSlides: HeroSlide[] = [
-  {
-    id: "main",
-    image: heroMain,
-    tone: "dark",
-    category: "leather-jackets",
-  },
-  {
-    id: "cognac",
-    image: mensCognac,
-    tone: "dark",
-    collection: "cafe-racer-jackets",
-  },
-  {
-    id: "worktable",
-    image: studioWorktable,
-    tone: "light",
-    collection: "motorcycle-jackets",
-  },
-  {
-    id: "standard",
-    image: tuxarStandard,
-    tone: "light",
-    category: "leather-jackets",
-  },
-  {
-    id: "bags",
-    image: leatherBag,
-    tone: "dark",
-    collection: "leather-bags",
-  },
-];
-
-function getSlideHref(slide: HeroSlide, locale: Locale) {
-  if (slide.href) return slide.href;
-  if (slide.collection) {
-    const slug = getLocalizedSlug(slide.collection, "collection", locale);
-    return `/${locale}/collections/${slug}`;
-  }
-
-  return `/${locale}/${slide.category}`;
-}
-
-export function HeroSlider({ locale }: { locale: Locale }) {
-  const [rows, setRows] = useState<HomepageSlideRow[]>([]);
-  useEffect(() => {
-    let active = true;
-    let request = 0;
-    setRows([]);
-    const refresh = async () => {
-      const revision = ++request;
-      try {
-        const { publicSupabase: supabase } = await import("@/lib/supabase");
-        const { data, error } = await supabase.from("homepage_slides").select("*").eq("locale", locale).eq("enabled", true).eq("archived", false).order("position").order("id");
-        if (active && revision === request && !error) setRows(data ?? []);
-      } catch { /* Keep the original hero when settings are unavailable. */ }
-    };
-    void refresh();
-    const onFocus = () => { void refresh(); };
-    window.addEventListener("focus", onFocus);
-    return () => { active = false; window.removeEventListener("focus", onFocus); };
-  }, [locale]);
-  const addedSlides = useMemo(() => publishedHomepageSlides(rows,locale),[rows,locale]);
-  return <StandardHeroSlider locale={locale} addedSlides={addedSlides} />;
+const EMPTY_SLIDES: HomepageSlideRow[] = [];
+export function HeroSlider({locale,initialSlides=EMPTY_SLIDES}:{locale:Locale;initialSlides?:HomepageSlideRow[]}) {
+  const [rows,setRows]=useState(initialSlides);
+  useEffect(()=>{
+    let active=true;let revision=0;setRows(initialSlides);
+    const refresh=async()=>{const request=++revision;try{const {getHomepageSlides}=await import('@/lib/homepage-slides-query');const next=await getHomepageSlides(locale);if(active&&request===revision)setRows(next);}catch{/* Retain the last successful public response on a transient network failure. */}};
+    const onFocus=()=>{void refresh();};window.addEventListener('focus',onFocus);
+    return ()=>{active=false;window.removeEventListener('focus',onFocus);};
+  },[locale,initialSlides]);
+  return <StandardHeroSlider locale={locale} addedSlides={publishedHomepageSlides(rows,locale)}/>;
 }
 
 function StandardHeroSlider({ locale, addedSlides }: { locale: Locale; addedSlides: HomepageSlideRow[] }) {
   const [failedImages,setFailedImages] = useState<string[]>([]);
-  const slides = useMemo<HeroSlide[]>(() => [...defaultSlides, ...addedSlides.filter(row=>!failedImages.includes(row.image_url)).map(row => ({
+  const slides = useMemo<HeroSlide[]>(() => [...addedSlides.filter(row=>!failedImages.includes(row.image_url)).map(row => ({
     id:row.id,image:row.image_url,tone:row.tone,href:row.destination_url,title:row.title,alt:row.alt_text,
-    eyebrow:row.eyebrow,subtitle:row.subtitle,cta:row.button_label,showText:row.show_text,custom:true,
+    eyebrow:row.eyebrow,subtitle:row.subtitle,cta:row.button_label,showText:row.show_text,custom:!isOriginalHomepagePhoto(row),width:row.image_width,height:row.image_height,
   }))],[addedSlides,failedImages]);
   const [selectedIndex, setActiveIndex] = useState(0);
   const activeIndex = selectedIndex < slides.length ? selectedIndex : 0;
@@ -111,11 +53,11 @@ function StandardHeroSlider({ locale, addedSlides }: { locale: Locale; addedSlid
   const touchStartX = useRef<number | null>(null);
 
   const showNext = useCallback(() => {
-    setActiveIndex((current) => ((current < slides.length ? current : 0) + 1) % slides.length);
+    setActiveIndex((current) => slides.length ? ((current < slides.length ? current : 0) + 1) % slides.length : 0);
   }, [slides.length]);
 
   const showPrevious = useCallback(() => {
-    setActiveIndex((current) => ((current < slides.length ? current : 0) - 1 + slides.length) % slides.length);
+    setActiveIndex((current) => slides.length ? ((current < slides.length ? current : 0) - 1 + slides.length) % slides.length : 0);
   }, [slides.length]);
 
   useEffect(() => {
@@ -128,20 +70,23 @@ function StandardHeroSlider({ locale, addedSlides }: { locale: Locale; addedSlid
   }, []);
 
   useEffect(() => {
-    if (!firstImageLoaded || interactionPaused || prefersReducedMotion) return;
+    if (slides.length < 2 || !firstImageLoaded || interactionPaused || prefersReducedMotion) return;
 
     const timer = window.setInterval(showNext, SLIDE_INTERVAL_MS);
     return () => window.clearInterval(timer);
-  }, [activeIndex, firstImageLoaded, interactionPaused, prefersReducedMotion, showNext]);
+  }, [activeIndex, firstImageLoaded, interactionPaused, prefersReducedMotion, showNext, slides.length]);
 
   useEffect(() => {
-    if (!firstImageLoaded || prefersReducedMotion) return;
+    if (slides.length < 2 || !firstImageLoaded || prefersReducedMotion) return;
     const timer = window.setTimeout(() => {
       const next = slides[(activeIndex + 1) % slides.length];
       const image = new Image();
       image.sizes = "100vw";
-      image.srcset = heroImageSources(next.image);
-      image.src = cloudinaryUrl(next.image, {
+      image.srcset = (next.custom ? campaignImageSources(next.image) : heroImageSources(next.image)) ?? "";
+      image.src = cloudinaryUrl(next.image, next.custom ? {
+        width: window.innerWidth < 768 ? 640 : 1280,
+        crop: "fit",
+      } : {
         width: window.innerWidth < 768 ? 640 : 1280,
         height: window.innerWidth < 768 ? 900 : 720,
         crop: "fill",
@@ -150,6 +95,7 @@ function StandardHeroSlider({ locale, addedSlides }: { locale: Locale; addedSlid
     return () => window.clearTimeout(timer);
   }, [activeIndex, firstImageLoaded, prefersReducedMotion, slides]);
 
+  if (!slides.length) return null;
   return (
     <section
       className="relative h-[88vh] min-h-[600px] w-full overflow-hidden bg-foreground"
@@ -193,7 +139,7 @@ function StandardHeroSlider({ locale, addedSlides }: { locale: Locale; addedSlid
         return (
           <a
             key={slide.id}
-            href={getSlideHref(slide, locale)}
+            href={slide.href}
             tabIndex={isActive ? 0 : -1}
             aria-hidden={!isActive}
             aria-label={`${title}${cta ? `. ${cta}` : ""}`}
@@ -202,8 +148,8 @@ function StandardHeroSlider({ locale, addedSlides }: { locale: Locale; addedSlid
             }`}
           >
             {isActive && <img
-              src={cloudinaryUrl(slide.image, { width: 1280, height: 900, crop: "fill" })}
-              srcSet={heroImageSources(slide.image)}
+              src={cloudinaryUrl(slide.image, slide.custom ? { width: 1280, crop: "fit" } : { width: 1280, height: 900, crop: "fill" })}
+              srcSet={slide.custom ? campaignImageSources(slide.image) : heroImageSources(slide.image)}
               sizes="100vw"
               alt={slide.alt ?? t(`home.heroSlider.${slide.id}.alt`, locale)}
               fetchPriority={index === 0 ? "high" : undefined}
@@ -211,9 +157,9 @@ function StandardHeroSlider({ locale, addedSlides }: { locale: Locale; addedSlid
               onLoad={() => setFirstImageLoaded(true)}
               onError={() => { setFirstImageLoaded(true); if(slide.custom) setFailedImages(previous=>[...previous,slide.image]); else showNext(); }}
               decoding="async"
-              width={1672}
-              height={941}
-              className={`absolute inset-0 h-full w-full object-cover object-[68%_center] transition-transform duration-[7000ms] ease-out motion-reduce:transition-none md:object-center ${
+              width={slide.custom ? slide.width : 1672}
+              height={slide.custom ? slide.height : 941}
+              className={`absolute inset-0 h-full w-full ${slide.custom ? "object-contain object-center" : "object-cover object-[68%_center] md:object-center"} transition-transform duration-[7000ms] ease-out motion-reduce:transition-none ${
                 isActive ? "scale-100" : "scale-[1.035]"
               }`}
             />}

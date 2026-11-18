@@ -174,7 +174,13 @@ test("database migration, ownership, MFA, and transactional guards", { timeout: 
     });
     await t.test("approved catalogue import preserves existing records and refuses stock-resetting reruns", async () => {
       const before = (await db.query("select count(*)::integer as count from public.products")).rows[0].count;
-      const sql = await fs.readFile("output/catalogue-publication/IMPORT-125-PRODUCTS.sql", "utf8");
+      // Reconstruct the historical insert-only fixture from public source data.
+      // Never depend on private/generated operator output in a clean checkout.
+      const products = JSON.parse(await fs.readFile("src/data/products/approved-catalogue.json", "utf8")).products;
+      const variants = JSON.parse(await fs.readFile("src/data/products/local-jackets.json", "utf8")).variants;
+      const sql = (await fs.readFile("tests/fixtures/catalogue-sql/import-approved-catalogue.sql", "utf8"))
+        .replace('__CATALOGUE_PAYLOAD__', JSON.stringify({ products, variants }))
+        .replace('__CATALOGUE_SLUGS__', JSON.stringify(products.map(p => ({ slug: p.slug }))));
       await db.exec(sql);
       assert.equal((await db.query("select count(*)::integer as count from public.products")).rows[0].count, before + 125);
       const imported = JSON.parse(await fs.readFile("src/data/products/approved-catalogue.json", "utf8")).products;

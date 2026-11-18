@@ -53,6 +53,7 @@ export function useUser() {
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
   const authRevision = useRef(0);
+  const observedSession = useRef<{ userId: string; accessToken: string } | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -82,6 +83,8 @@ export function useUser() {
             if (mounted && revision === authRevision.current) setUser(mapUser(sessionUser, profile));
           } catch {
             if (mounted && revision === authRevision.current) {
+              // Let a later focus event retry a failed account check.
+              observedSession.current = null;
               setUser(null);
               setAuthError("We couldn't check your account. Please try again.");
             }
@@ -95,6 +98,15 @@ export function useUser() {
           data: { subscription },
         } = supabase.auth.onAuthStateChange((_event, session) => {
           if (!mounted) return;
+          // Supabase emits SIGNED_IN again when this tab regains focus. If the
+          // actual session has not changed, restarting loading only hides the
+          // workspace and repeats requests; it adds no authentication check.
+          const previous = observedSession.current;
+          if (_event === "SIGNED_IN" && session?.access_token &&
+              previous?.userId === session.user.id && previous.accessToken === session.access_token) return;
+          observedSession.current = session?.access_token
+            ? { userId: session.user.id, accessToken: session.access_token }
+            : null;
           // INITIAL_SESSION supplies the saved session too. A second getSession()
           // request races this event and used to release checkout before its user loaded.
           // Defer database work until Supabase releases its auth callback lock.
@@ -125,6 +137,7 @@ export function useUser() {
     return () => {
       mounted = false;
       authRevision.current += 1;
+      observedSession.current = null;
       if (authTimer) clearTimeout(authTimer);
       unsubscribe?.();
     };

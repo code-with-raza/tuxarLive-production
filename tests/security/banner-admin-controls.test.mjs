@@ -24,9 +24,36 @@ test('banner destinations include real localized pages, collections and the acti
 });
 test('existing uploaded images can be selected without uploading a second copy',async()=>{
  const h=hooks(),chosen=[];const q={select(){return this},eq(){return this},async order(){return {data:[asset]}}};
- const {AdminMediaManager}=await evaluate('src/components/admin/AdminMediaManager.tsx',{react:h.react,'react/jsx-runtime':jsx,'lucide-react':{},'@/lib/supabase':{supabase:{from:()=>q}},'@/lib/cloudinary':{cloudinaryUrl:url=>url},sonner:{toast:{}}});
+ const {AdminMediaManager}=await evaluate('src/components/admin/AdminMediaManager.tsx',{react:h.react,'react/jsx-runtime':jsx,'lucide-react':{},'@/lib/supabase':{supabase:{from:()=>q}},'@/lib/cloudinary':cloudinary,sonner:{toast:{}}});
  const render=()=>{h.reset();return AdminMediaManager({entityType:'homepage-banner',entityKey:'en',contextName:'Campaign',onSelect:image=>chosen.push(image)})};
  render();h.effects[0]();await settle();const tree=render();const button=find(tree,node=>node.type==='button'&&text(node)==='Use this image');assert.ok(button);button.props.onClick();assert.equal(chosen[0].secure_url,asset.secure_url);
+ const thumbnail=find(tree,node=>node.type==='img');assert.match(thumbnail.props.className,/object-contain/);assert.match(thumbnail.props.src,/c_fit/);assert.ok(!thumbnail.props.src.includes('h_300'));
+});
+
+test('Add image opens the local picker directly, including when returning from URL mode',async()=>{
+ const h=hooks();let opened=0,requests=0;
+ const {AdminMediaManager}=await evaluate('src/components/admin/AdminMediaManager.tsx',{react:h.react,'react/jsx-runtime':jsx,'lucide-react':{},'@/lib/supabase':{supabase:{from(){requests++;throw Error('Picking a file must not write to the database')}}},'@/lib/cloudinary':cloudinary,sonner:{toast:{}}});
+ const render=()=>{h.reset();return AdminMediaManager({entityType:'homepage-banner',entityKey:'en',contextName:'Campaign'})};
+ let tree=render();const input=find(tree,node=>node.type==='input'&&node.props.type==='file');assert.ok(input);
+ input.props.ref.current={click(){opened++}};
+ find(tree,node=>node.type==='button'&&text(node).trim()==='Add image').props.onClick();
+ assert.equal(opened,1,'the first click must open the picker rather than only select a tab');
+ find(tree,node=>node.type==='button'&&text(node).trim()==='Add URL').props.onClick();tree=render();
+ assert.ok(find(tree,node=>node.type==='input'&&node.props.type==='file'));
+ find(tree,node=>node.type==='button'&&text(node).trim()==='Add image').props.onClick();
+ assert.equal(opened,2,'the picker must also open on the first click from URL mode');
+ tree=render();find(tree,node=>node.type==='button'&&text(node).includes('Choose an image')).props.onClick();
+ assert.equal(opened,3);assert.equal(requests,0);
+});
+
+test('cancelling or rejecting an oversized local image leaves the picker ready to retry',async()=>{
+ const h=hooks(),errors=[];
+ const {AdminMediaManager}=await evaluate('src/components/admin/AdminMediaManager.tsx',{react:h.react,'react/jsx-runtime':jsx,'lucide-react':{},'@/lib/supabase':{supabase:{functions:{invoke(){assert.fail('Cancelled/oversized files must not request an upload')}}}},'@/lib/cloudinary':cloudinary,sonner:{toast:{error:message=>errors.push(message)}}});
+ h.reset();const tree=AdminMediaManager({entityType:'homepage-banner',entityKey:'en',contextName:'Campaign'});
+ const input=find(tree,node=>node.type==='input'&&node.props.type==='file');
+ const cancelled={files:[],value:''};input.props.onChange({currentTarget:cancelled});assert.equal(errors.length,0);
+ const oversized={files:[{size:5*1024*1024+1}],value:'selected-file.png'};
+ input.props.onChange({currentTarget:oversized});assert.equal(oversized.value,'');assert.match(errors[0],/5 MB/);
 });
 test('Banners is available to catalogue staff but not fulfilment-only staff',async()=>{
  const source=await fs.readFile('src/routes/$locale.admin.tsx','utf8');const body=source.slice(source.indexOf('function allowedSections('),source.indexOf('function AdminPage('))+';exports.allowed=allowedSections;';const api=compile(body);

@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Archive, ImagePlus, Link2, Loader2, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
@@ -41,6 +41,14 @@ export function AdminMediaManager({
     [busy, setBusy] = useState(false),
     [url, setUrl] = useState(""),
     [mode, setMode] = useState<"file" | "url">("file");
+  const fileInput = useRef<HTMLInputElement>(null);
+  const openFilePicker = () => {
+    if (busy) return;
+    setMode("file");
+    // Keep this synchronous with the user's click so browsers allow the picker.
+    // The input stays mounted even while the URL-import controls are displayed.
+    fileInput.current?.click();
+  };
   const filter = useCallback(() => {
     let q = supabase
       .from("media_assets")
@@ -127,7 +135,9 @@ export function AdminMediaManager({
     }
   };
   const fileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.currentTarget.files?.[0];
+    // Allow choosing the same file again after a failed/oversized upload.
+    e.currentTarget.value = "";
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
       toast.error("Image must be 5 MB or smaller");
@@ -144,10 +154,20 @@ export function AdminMediaManager({
   };
   return (
     <div className="space-y-4">
+      <input
+        ref={fileInput}
+        type="file"
+        aria-label="Choose image file"
+        accept={scope === "email" ? "image/jpeg,image/png,image/gif,image/webp" : "image/jpeg,image/png,image/webp,image/avif"}
+        className="hidden"
+        disabled={busy}
+        onChange={fileChange}
+      />
       <div className="flex gap-2">
         <button
           type="button"
-          onClick={() => setMode("file")}
+          onClick={openFilePicker}
+          disabled={busy}
           className={`border px-3 py-2 text-xs uppercase tracking-wider ${mode === "file" ? "bg-foreground text-background" : ""}`}
         >
           <ImagePlus className="mr-2 inline h-4 w-4" />
@@ -156,6 +176,7 @@ export function AdminMediaManager({
         <button
           type="button"
           onClick={() => setMode("url")}
+          disabled={busy}
           className={`border px-3 py-2 text-xs uppercase tracking-wider ${mode === "url" ? "bg-foreground text-background" : ""}`}
         >
           <Link2 className="mr-2 inline h-4 w-4" />
@@ -166,19 +187,9 @@ export function AdminMediaManager({
         </button>
       </div>
       {mode === "file" ? (
-        <label className="flex min-h-24 cursor-pointer items-center justify-center border border-dashed bg-section text-sm">
-          <input
-            type="file"
-            accept={
-              scope === "email"
-                ? "image/jpeg,image/png,image/gif,image/webp"
-                : "image/jpeg,image/png,image/webp,image/avif"
-            }
-            className="hidden"
-            onChange={fileChange}
-          />
+        <button type="button" disabled={busy} onClick={openFilePicker} className="flex min-h-24 w-full cursor-pointer items-center justify-center border border-dashed bg-section text-sm disabled:cursor-wait">
           {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : "Choose an image (maximum 5 MB)"}
-        </label>
+        </button>
       ) : (
         <div className="flex">
           <input
@@ -204,11 +215,11 @@ export function AdminMediaManager({
               <img
                 src={cloudinaryUrl(item.secure_url, {
                   width: 420,
-                  height: 300,
+                  ...(entityType === "homepage-banner" ? { crop: "fit" as const } : { height: 300 }),
                   email: scope === "email",
                 })}
                 alt={item.alt_text}
-                className="h-36 w-full object-cover"
+                className={`h-36 w-full ${entityType === "homepage-banner" ? "object-contain bg-zinc-950" : "object-cover"}`}
               />
               <p className="mt-2 truncate text-xs font-medium">{item.title}</p>
               <p className="truncate text-[10px] text-muted-foreground">{item.alt_text}</p>

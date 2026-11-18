@@ -58,6 +58,24 @@ test('MFA refresh retains workspace state while hiding access until assurance is
  level='aal1';render(false);h.effects[0]();await settle();tree=render(false);assert.equal(tree.props.children[0].props.children,child);assert.equal(tree.props.children[0].props.hidden,true);
 });
 
+test('successful two-factor verification mounts the workspace immediately; failed assurance never grants it',async()=>{
+ for(const accepted of [false,true]){
+  const h=hooks();let level='aal1';const child={type:'workspace',props:{}};
+  const mfa={async getAuthenticatorAssuranceLevel(){return {data:{currentLevel:level}}},async listFactors(){return {data:{totp:[{id:'verified-factor',status:'verified'}]}}},async challengeAndVerify(){if(accepted)level='aal2';return {error:null}}};
+  const {AdminMfaGate}=await evaluate('src/components/admin/AdminMfaGate.tsx',{react:h.react,'react/jsx-runtime':jsx,'@/lib/supabase':{supabase:{auth:{mfa}}}});
+  const render=()=>{h.reset();return AdminMfaGate({children:child,logout(){}})};
+  render();h.effects[0]();await settle();
+  let tree=render();let form=tree.props.children[1].props.children.find(node=>node?.type==='form');assert.ok(form);
+  const label=form.props.children.find(node=>node?.type==='label');
+  label.props.children.find(node=>node?.type==='input').props.onChange({target:{value:'123456'}});
+  tree=render();form=tree.props.children[1].props.children.find(node=>node?.type==='form');
+  await form.props.onSubmit({preventDefault(){}});
+  tree=render();
+  if(accepted){assert.equal(tree.props.children.props.children,child);assert.equal(tree.props.children.props.hidden,false)}
+  else assert.equal(tree.props.children[0],false);
+ }
+});
+
 test('a missing built-in category opens in the real editor and creates its database row only on Save',async()=>{
  const h=hooks(),writes=[];const slug='women-leather-blazers';const location={href:'https://tuxar.co.uk/en/admin/categories/storefront--'+slug+'?audience=women',search:'?audience=women'};
  const history={state:{__TSR_index:2},replaceState(state,unused,url){location.href=String(url)}};

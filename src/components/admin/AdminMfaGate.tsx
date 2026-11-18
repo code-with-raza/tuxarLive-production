@@ -66,7 +66,7 @@ export function AdminMfaGate({ children, logout, rechecking = false }: { childre
             if (result.error) throw result.error;
             const level = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
             if (level.error || level.data.currentLevel !== "aal2") throw new Error("Verification incomplete");
-            setEnrollment(null); setCode(""); setReady(true);
+            setEnrollment(null); setCode(""); setReady(true); setGranted(true);
           } catch { setCode(""); setError("The authenticator code could not be verified. Please try again."); }
           finally { setBusy(false); }
         }}>

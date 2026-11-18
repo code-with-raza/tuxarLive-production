@@ -6,8 +6,6 @@ import react from "@vitejs/plugin-react";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { cloudinaryUrl } from "./src/lib/cloudinary";
-import { heroImageSources } from "./src/lib/hero-image";
 export default defineConfig(({ mode }) => {
   assertPublicEnvironment({ ...loadEnv(mode, process.cwd(), "VITE_"), ...process.env });
   return {
@@ -25,18 +23,6 @@ export default defineConfig(({ mode }) => {
           if (!target.startsWith(output + path.sep)) throw new Error("Invalid public image path");
           rmSync(target, { force: true });
         }
-      },
-    },
-    {
-      name: "homepage-hero-discovery",
-      transformIndexHtml() {
-        const assets = JSON.parse(readFileSync(new URL("./src/data/cloudinary-assets.json", import.meta.url), "utf8"));
-        const hero = assets["/src/assets/banners/hero-main.webp"].url as string;
-        // Start the LCP request before the application bundle runs, only on home.
-        // Other routes must not download an unrelated campaign banner.
-        return [{ tag: "script", injectTo: "head" as const, children:
-          `if(/^\\/(?:en|it|de|fr|es)\\/?$/.test(location.pathname)||location.pathname==='/'){var heroPreload=document.createElement('link');heroPreload.rel='preload';heroPreload.as='image';heroPreload.href=${JSON.stringify(cloudinaryUrl(hero, { width: 1280, height: 900, crop: "fill" }))};heroPreload.imageSrcset=${JSON.stringify(heroImageSources(hero))};heroPreload.imageSizes='100vw';heroPreload.fetchPriority='high';document.head.appendChild(heroPreload);}`,
-        }];
       },
     },
     tanstackRouter({

@@ -29,6 +29,8 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Check dependencies for known security advisories
+        run: npm audit --audit-level=moderate --registry=https://registry.npmjs.org --fetch-retries=0 --fetch-timeout=20000
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run typecheck:functions

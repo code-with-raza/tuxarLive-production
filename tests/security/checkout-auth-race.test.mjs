@@ -41,8 +41,38 @@ async function mount() {
   const cleanup = effects[0]();
   timers.shift()();
   await flush();
-  return { snapshot, requests, cleanup, get unsubscribed() { return unsubscribed; }, async emit(user, event = 'SIGNED_IN') { callback(event, user ? { user } : null); while (timers.length) timers.shift()(); await flush(); } };
+  return { snapshot, requests, cleanup, get unsubscribed() { return unsubscribed; }, async emit(user, event = 'SIGNED_IN', accessToken) { callback(event, user ? { user, access_token: accessToken } : null); while (timers.length) timers.shift()(); await flush(); } };
 }
+
+test('returning to a tab with the same session does not restart loading or profile requests', async () => {
+  const h=await mount();
+  await h.emit(customer,'INITIAL_SESSION','test-session-a');
+  h.requests[0].resolve(verified);await flush();
+  const before=h.snapshot();
+  for(let count=0;count<3;count++) await h.emit(customer,'SIGNED_IN','test-session-a');
+  assert.equal(h.requests.length,1);
+  assert.equal(h.snapshot().isLoading,false);
+  assert.equal(h.snapshot().user,before.user);
+});
+
+test('token renewal, profile changes and failed-check retries still revalidate the account', async () => {
+  const h=await mount();
+  await h.emit(customer,'INITIAL_SESSION','test-session-a');
+  await h.emit(customer,'SIGNED_IN','test-session-a');
+  assert.equal(h.requests.length,1,'duplicate focus must not restart an in-flight request');
+  h.requests[0].resolve(verified);await flush();
+  await h.emit(customer,'TOKEN_REFRESHED','test-session-b');
+  assert.equal(h.snapshot().isLoading,true);
+  h.requests[1].resolve(verified);await flush();
+  await h.emit(customer,'SIGNED_IN','test-session-b');
+  assert.equal(h.requests.length,2);
+  await h.emit(customer,'USER_UPDATED','test-session-b');
+  h.requests[2].resolve({data:null,error:{message:'temporary failure'}});await flush();
+  await h.emit(customer,'SIGNED_IN','test-session-b');
+  assert.equal(h.requests.length,4,'a failed profile check must allow a later retry');
+  h.requests[3].resolve({data:{account_status:'disabled'},error:null});await flush();
+  assert.equal(h.snapshot().user,null);
+});
 
 test('a saved verified session reaches checkout only after its profile is resolved', async () => {
   const h = await mount();

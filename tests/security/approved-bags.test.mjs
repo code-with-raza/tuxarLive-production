@@ -37,8 +37,8 @@ test('bag activation validates drafts atomically and reruns preserve sold stock 
  const schema=fs.readFileSync('supabase/migrations/202609130003_catalog_content.sql','utf8').split('create table if not exists public.blog_posts')[0];
  await db.exec(schema);
  await db.exec("create table public.product_categories(slug text primary key,status text);insert into public.product_categories values('leather-bags','active');insert into public.products(slug,name,category,price_pence,status) values('existing-bag','Existing','leather-bags',34900,'active');");
- await db.exec(fs.readFileSync('output/supabase-bags-release/02-IMPORT-11-BAGS-AS-DRAFTS.sql','utf8'));
- const activate=fs.readFileSync('output/supabase-bags-release/04-ACTIVATE-11-APPROVED-BAGS.sql','utf8');
+ await db.exec(fs.readFileSync('tests/fixtures/catalogue-sql/02-IMPORT-11-BAGS-AS-DRAFTS.sql','utf8'));
+ const activate=fs.readFileSync('tests/fixtures/catalogue-sql/04-ACTIVATE-11-APPROVED-BAGS.sql','utf8');
  await db.query('update public.products set price_pence=1 where slug=$1',[bags[0].slug]);
  await assert.rejects(()=>db.exec(activate),/price differs/);await db.exec('rollback');
  assert.equal(Number((await db.query("select count(*) n from public.products where status='draft'")).rows[0].n),11);

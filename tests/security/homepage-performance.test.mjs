@@ -17,7 +17,7 @@ const cloudinary = await evaluate('src/lib/cloudinary.ts');
 const heroImage = await evaluate('src/lib/hero-image.ts', { './cloudinary': cloudinary });
 const campaign = await evaluate('src/lib/homepage-campaign.ts', { './cloudinary': cloudinary });
 const slideshow = await evaluate('src/lib/homepage-slides.ts', { './homepage-campaign': campaign });
-const url = 'https://res.cloudinary.com/rllwk4bi/image/upload/v1/hero.webp';
+const url = 'https://res.cloudinary.com/rllwk4bi/image/upload/v1/tuxar/website/banner/hero.webp';
 
 test('homepage preload matches the hero responsive candidates and only one slide image renders initially', async () => {
   const i18n = { t: key => key, getLocalizedSlug: value => value };
@@ -31,16 +31,23 @@ test('homepage preload matches the hero responsive candidates and only one slide
     '@/lib/homepage-slides': slideshow,
     '@/lib/seo': { absoluteUrl: value => value, localizedAlternates: () => [] },
   };
+  const rows=Array.from({length:5},(_,index)=>({id:'banner-'+index,locale:'en',enabled:true,archived:false,position:index,image_url:url,destination_url:'/en/shop',title:'Banner '+index,alt_text:'Campaign',button_label:'Shop',eyebrow:'',subtitle:'',show_text:true,tone:'light',image_width:1672,image_height:941,legacy_locale:'builtin:en:'+index}));
   const { HeroSlider } = await evaluate('src/components/site/HeroSlider.tsx', modules);
-  const html = renderToStaticMarkup(React.createElement(HeroSlider, { locale: 'en' }));
+  const html = renderToStaticMarkup(React.createElement(HeroSlider, { locale: 'en',initialSlides:rows }));
   const { Route } = await evaluate('src/routes/$locale.index.tsx', modules);
-  const preload = Route.head({ params: { locale: 'en' } }).links.find(link => link.rel === 'preload');
+  const preload = Route.head({ params: { locale: 'en' },loaderData:{banners:rows} }).links.find(link => link.rel === 'preload');
   assert.equal(preload.imageSrcSet, heroImage.heroImageSources(url));
   assert.equal(preload.imageSizes, '100vw');
   assert.ok(html.includes(`srcSet="${preload.imageSrcSet}"`));
   assert.ok(html.includes(`src="${preload.href}"`));
   assert.equal((html.match(/<img /g) ?? []).length, 1);
   assert.equal((html.match(/<button[^>]*h-11 w-11/g) ?? []).length, 5);
+  const empty=renderToStaticMarkup(React.createElement(HeroSlider,{locale:'en',initialSlides:[]}));
+  assert.equal(empty,'','No published banners must produce no fallback carousel');
+  const emptyHead=Route.head({params:{locale:'en'},loaderData:{banners:[]}});
+  assert.ok(!emptyHead.links.some(link=>link.rel==='preload'),'Deleted/draft banner images must not be preloaded into a new page');
+  const vite=await fs.readFile('vite.config.ts','utf8');
+  assert.ok(!vite.includes('homepage-hero-discovery'),'The old fixed-image preload must not bypass publication state');
 });
 
 test('inlined consent still defaults every analytics and advertising permission to denied before the app', async () => {

@@ -117,7 +117,11 @@ export async function uploadImage(bytes,credentials,fetcher=fetch) {
   const body=new FormData(); for(const [k,v] of Object.entries(parameters)) body.append(k,v);
   body.append('api_key',apiKey);body.append('signature',signature);body.append('file',new Blob([bytes]));
   const response=await fetcher(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,{method:'POST',body,signal:AbortSignal.timeout(120000)});
-  assert(response.ok,'Cloudinary upload failed; no product links have been changed');
+  const uploadHint=response.status===401 ? 'check that the cloud name, API key and API secret belong to the same active key'
+    : response.status===403 ? 'check that the restricted API key has Contributor access to tuxar/ci'
+    : response.status===400 ? 'check the upload parameters and Cloudinary folder mode'
+    : 'check the Cloudinary service and upload permissions';
+  assert(response.ok,`Cloudinary upload failed (HTTP ${response.status}); ${uploadHint}; no product links have been changed`);
   const asset=await response.json();
   assert(asset.public_id===publicId && asset.secure_url?.startsWith(`https://res.cloudinary.com/${cloudName}/image/upload/`),'Unexpected Cloudinary upload response');
   return asset.secure_url;

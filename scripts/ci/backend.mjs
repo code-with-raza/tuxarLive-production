@@ -25,6 +25,17 @@ export function validateBackendEnvironment(env) {
   return {database:url,ref};
 }
 
+export function postgresEnvironment(database, base = {}) {
+  // PGDATABASE is a database name, not a reliable way to expand a connection URI.
+  // Supply each libpq field explicitly so psql cannot fall back to a local socket.
+  const env={...base};
+  for(const key of ['PGHOSTADDR','PGSERVICE','PGSERVICEFILE']) delete env[key];
+  return {...env,PGHOST:database.hostname,PGPORT:database.port || '5432',
+    PGDATABASE:decodeURIComponent(database.pathname.slice(1)) || 'postgres',
+    PGUSER:decodeURIComponent(database.username),PGPASSWORD:decodeURIComponent(database.password),
+    PGSSLMODE:'require',PGCONNECT_TIMEOUT:'15'};
+}
+
 const serverSecretNames=['RESEND_API_KEY','AUTH_FROM_EMAIL','ORDERS_FROM_EMAIL','MARKETING_FROM_EMAIL','CONTACT_FROM_EMAIL','CONTACT_NOTIFICATION_EMAIL','OTP_PEPPER','RATE_LIMIT_SECRET','SITE_URL','ADDITIONAL_ALLOWED_ORIGINS','ALLOW_LOCAL_ORIGINS','CLOUDINARY_CLOUD_NAME','CLOUDINARY_API_KEY','CLOUDINARY_API_SECRET','STRIPE_SECRET_KEY','STRIPE_WEBHOOK_SECRET'];
 export function functionSecretsFile(input) {
   const values=JSON.parse(input);
@@ -48,7 +59,7 @@ async function main() {
     try { const result=execFileSync(command,args,{encoding:'utf8',maxBuffer:16000000,env:process.env,...options});if(result) console.log(redact(result)); }
     catch(error) { if(error.stdout)console.error(redact(error.stdout));if(error.stderr)console.error(redact(error.stderr));throw new Error(`${label} failed; publication stopped`); }
   };
-  const pgEnv={...process.env,PGDATABASE:process.env.SUPABASE_DB_URL,PGSSLMODE:'require',PGCONNECT_TIMEOUT:'15'};
+  const pgEnv=postgresEnvironment(config.database,process.env);
   run('Checking existing database migration history','psql',['-X','--set','ON_ERROR_STOP=1','--quiet'],{input:migrationPreflightSql(versions),env:pgEnv});
   if(process.argv.includes('--check')) return;
   const npx=process.platform==='win32'?'npx.cmd':'npx';

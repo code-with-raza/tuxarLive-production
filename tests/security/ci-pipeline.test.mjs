@@ -6,9 +6,31 @@ import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {PGlite} from '@electric-sql/pglite';
 import {prepareCatalogue,validateRelease,releaseSql,uploadImage,verifyImageUrl} from '../../scripts/ci/catalogue.mjs';
-import {migrationPreflightSql,validateBackendEnvironment,functionSecretsFile} from '../../scripts/ci/backend.mjs';
+import {migrationPreflightSql,validateBackendEnvironment,functionSecretsFile,postgresEnvironment} from '../../scripts/ci/backend.mjs';
 import {releaseManifest} from '../../scripts/ci/release.mjs';
 const require=createRequire(import.meta.url);
+
+test('psql gets the remote connection fields and decodes special characters without a local socket fallback',()=>{
+  const ref='a'.repeat(20),password='sample!@#$%';
+  const database=new URL(`postgresql://postgres.${ref}:${encodeURIComponent(password)}@aws-1-eu-west-1.pooler.supabase.com:5432/postgres`);
+  const env=postgresEnvironment(database,{PGHOST:'localhost',PGHOSTADDR:'127.0.0.1',PGDATABASE:'old',PGSERVICE:'local',PGOPTIONS:'-c default_transaction_read_only=on'});
+  assert.equal(env.PGHOST,'aws-1-eu-west-1.pooler.supabase.com');
+  assert.equal(env.PGPORT,'5432');assert.equal(env.PGDATABASE,'postgres');
+  assert.equal(env.PGUSER,`postgres.${ref}`);assert.equal(env.PGPASSWORD,password);
+  assert.equal(env.PGSSLMODE,'require');assert.equal(env.PGCONNECT_TIMEOUT,'15');
+  assert.equal(env.PGOPTIONS,'-c default_transaction_read_only=on');
+  assert.equal(env.PGHOSTADDR,undefined);assert.equal(env.PGSERVICE,undefined);
+});
+
+test('Cloudinary upload diagnostics identify the failure without exposing provider responses or secrets',async()=>{
+  const credentials={cloudName:'test-cloud',apiKey:'test-key',apiSecret:'test-secret'};
+  for(const [status,hint] of [[401,/same active key/],[403,/Contributor access/],[400,/folder mode/]]) {
+    await assert.rejects(()=>uploadImage(Buffer.from('test'),credentials,async()=>({ok:false,status,json:async()=>{throw Error('Provider details must not be logged');}})),error=>{
+      assert.ok(error.message.includes(`HTTP ${status}`));assert.match(error.message,hint);
+      assert.ok(!error.message.includes(credentials.apiSecret));return true;
+    });
+  }
+});
 
 test('manual setup stays separate from publication and isolates temporary administrator credentials',async()=>{
   const setup=require('js-yaml').load(await fs.readFile('.github/workflows/setup-check.yml','utf8'));

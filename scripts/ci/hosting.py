@@ -17,6 +17,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import time
 import urllib.error
 import urllib.request
 
@@ -199,10 +200,35 @@ def remote_main(mode, document_root, identity):
 
 
 class FTPSPublisher:
-    def __init__(self, ftp, identity):
+    def __init__(self, ftp, identity, reconnect=None):
         self.ftp = ftp
         self.release = f".tuxar-ci/{identity}"
         self.identity = identity
+        self.reconnect = reconnect
+        self.directories = set()
+
+    def transfer(self, label, operation):
+        # Retry only idempotent reads/writes, never replay an uncertain rename.
+        for attempt in range(3):
+            try:
+                if attempt:
+                    if self.ftp is not None:
+                        self.ftp.close()
+                    self.ftp = None
+                    self.directories.clear()
+                    self.ftp = self.reconnect()
+                return operation()
+            except ssl.SSLCertVerificationError:
+                raise
+            except (TimeoutError, ConnectionError, EOFError, ssl.SSLError, ftplib.error_temp) as error:
+                if not self.reconnect or attempt == 2:
+                    # A safe public-path annotation is readable without downloading
+                    # private job logs. Never include raw FTP replies/credentials.
+                    if __name__ == "__main__":
+                        print(f"::error title=FTPS transfer stopped::{label} stopped after {attempt + 1} attempt(s) ({type(error).__name__}); activation and rollback state must be checked", flush=True)
+                    raise
+                print(f"Transient FTPS {label} failure ({type(error).__name__}); reconnecting for attempt {attempt + 2}/3", flush=True)
+                time.sleep(attempt + 1)
 
     def exists(self, name):
         # MLST avoids treating a permission/connection failure as an absent file.
@@ -220,20 +246,38 @@ class FTPSPublisher:
         current = ""
         for part in PurePosixPath(name).parts:
             current = f"{current}/{part}".lstrip("/")
+            if current in self.directories:
+                continue
             if not self.exists(current):
                 self.ftp.mkd(current)
+            self.directories.add(current)
 
     def write(self, name, data):
-        parent = str(PurePosixPath(name).parent)
-        if parent != ".":
-            self.mkdir(parent)
-        self.exists(name)  # Reject an existing symlink before STOR follows it.
-        self.ftp.storbinary(f"STOR {name}", io.BytesIO(data))
+        def upload():
+            parent = str(PurePosixPath(name).parent)
+            if parent != ".":
+                self.mkdir(parent)
+            self.exists(name)  # Reject an existing symlink before STOR follows it.
+            # Always rewind from byte zero after an interrupted/partial upload.
+            self.ftp.storbinary(f"STOR {name}", io.BytesIO(data), blocksize=65536)
+        self.transfer(f"upload {name}", upload)
 
     def read(self, name):
-        content = io.BytesIO()
-        self.ftp.retrbinary(f"RETR {name}", content.write)
-        return content.getvalue()
+        def download():
+            # A retry must discard partially downloaded bytes, not append to them.
+            content = io.BytesIO()
+            self.ftp.retrbinary(f"RETR {name}", content.write, blocksize=65536)
+            return content.getvalue()
+        return self.transfer(f"download {name}", download)
+
+    def save_journal(self, journal):
+        pending = f"{self.release}/journal.next.json"
+        content = json.dumps(journal).encode()
+        self.write(pending, content)
+        if self.read(pending) != content:
+            raise ValueError("FTPS rollback journal verification failed")
+        # Preserve the last complete journal if the data connection fails.
+        self.ftp.rename(pending, f"{self.release}/journal.json")
 
     def check(self):
         self.mkdir(".tuxar-ci")
@@ -266,20 +310,40 @@ class FTPSPublisher:
                 self.mkdir(str(PurePosixPath(failed).parent))
                 self.ftp.rename(relative, failed)
         journal["rolled_back"] = True
-        self.write(f"{self.release}/journal.json", json.dumps(journal).encode())
+        self.save_journal(journal)
 
     def publish(self, folder, manifest):
         verify_artifact(folder, manifest)
         staged = f"{self.release}/staged"
-        if self.exists(staged) or self.exists(f"{self.release}/journal.json"):
-            raise ValueError("Staging/activation already started; use a fresh workflow attempt")
+        manifest_path = f"{self.release}/manifest.json"
+        if self.exists(f"{self.release}/journal.json"):
+            raise ValueError("Activation already started; use a fresh workflow attempt")
+        if self.exists(manifest_path):
+            if json.loads(self.read(manifest_path)) != manifest:
+                raise ValueError("Staged release manifest differs; refusing to resume")
+        elif self.exists(staged):
+            raise ValueError("Unidentified staging directory; use a fresh workflow attempt")
+        else:
+            self.write(manifest_path, json.dumps(manifest).encode())
+        total_bytes = sum(item["bytes"] for item in manifest["files"])
+        print(f"Staging {len(manifest['files'])} files ({total_bytes / 1048576:.1f} MiB); TLS verification and read-back hashes required", flush=True)
         for index, item in enumerate(manifest["files"]):
             target = f"{staged}/{item['path']}"
-            self.write(target, (folder / item["path"]).read_bytes())
-            # Hash the staged upload before any visible file changes.
-            if hashlib.sha256(self.read(target)).hexdigest() != item["sha256"]:
-                raise ValueError("FTPS staged upload hash mismatch")
-            if index % 100 == 0:
+            def stage():
+                # A previous transfer may have completed before its reply was lost.
+                if self.transfer(f"inspect {item['path']}", lambda: self.exists(target)) and hashlib.sha256(self.read(target)).hexdigest() == item["sha256"]:
+                    return
+                self.write(target, (folder / item["path"]).read_bytes())
+                if hashlib.sha256(self.read(target)).hexdigest() != item["sha256"]:
+                    raise ValueError("FTPS staged upload hash mismatch")
+            if item["bytes"] >= 1048576:
+                print(f"Staging file {index + 1}/{len(manifest['files'])}: {item['path']} ({item['bytes']} bytes)", flush=True)
+            try:
+                stage()
+            except Exception:
+                print(f"Staging stopped at file {index + 1}/{len(manifest['files'])}: {item['path']}; website activation has not started", flush=True)
+                raise
+            if index % 25 == 0 or index + 1 == len(manifest["files"]):
                 print(f"Staged and verified {index + 1}/{len(manifest['files'])} files", flush=True)
         for item in manifest["files"]:
             if item["path"].startswith("assets/"):
@@ -297,7 +361,7 @@ class FTPSPublisher:
                 if not self.exists(source) and (relative not in GENERATED or not exists):
                     continue
                 journal["changes"].append([relative, exists])
-                self.write(f"{self.release}/journal.json", json.dumps(journal).encode())
+                self.save_journal(journal)
                 if exists:
                     backup = f"{self.release}/backup/{relative}"
                     self.mkdir(str(PurePosixPath(backup).parent))
@@ -305,7 +369,8 @@ class FTPSPublisher:
                 if self.exists(source):
                     self.ftp.rename(source, relative)
         except Exception:
-            self.rollback(force=True)
+            if self.transfer("rollback journal lookup", lambda: self.exists(f"{self.release}/journal.json")):
+                self.rollback(force=True)
             raise
         print("Website published; protected FTPS rollback copy retained")
 
@@ -355,13 +420,19 @@ def main(mode):
     elif transport == "ftps":
         if not os.environ.get("HOSTING_PASSWORD"):
             raise ValueError("Set HOSTING_PASSWORD for FTPS")
-        ftp = ftplib.FTP_TLS(context=ssl.create_default_context(), timeout=60)
+        def connect():
+            ftp = ftplib.FTP_TLS(context=ssl.create_default_context(), timeout=180)
+            try:
+                ftp.connect(os.environ["HOSTING_HOST"], int(os.environ.get("HOSTING_PORT") or "21"))
+                ftp.login(os.environ["HOSTING_USER"], os.environ["HOSTING_PASSWORD"])
+                ftp.prot_p()
+                ftp.cwd(root)
+                return ftp
+            except Exception:
+                ftp.close()
+                raise
+        publisher = FTPSPublisher(connect(), identity, reconnect=connect)
         try:
-            ftp.connect(os.environ["HOSTING_HOST"], int(os.environ.get("HOSTING_PORT") or "21"))
-            ftp.login(os.environ["HOSTING_USER"], os.environ["HOSTING_PASSWORD"])
-            ftp.prot_p()
-            ftp.cwd(root)
-            publisher = FTPSPublisher(ftp, identity)
             if mode == "check":
                 publisher.check()
                 probe = f"ci-probe-{identity}.txt"
@@ -378,13 +449,14 @@ def main(mode):
                         if error.code not in (403, 404):
                             raise
                 finally:
-                    ftp.delete(probe)
+                    publisher.ftp.delete(probe)
             elif mode == "rollback":
                 publisher.rollback()
             else:
                 publisher.publish(Path("dist"), json.loads(Path("output/ci/release-manifest.json").read_text()))
         finally:
-            ftp.close()
+            if publisher.ftp is not None:
+                publisher.ftp.close()
     else:
         raise ValueError("Set DEPLOY_TRANSPORT to ssh or ftps after confirming hosting access")
 

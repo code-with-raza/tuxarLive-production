@@ -3,9 +3,11 @@ import hashlib
 import importlib.util
 import io
 import json
+import ssl
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location("hosting", Path(__file__).resolve().parents[2] / "scripts/ci/hosting.py")
 hosting = importlib.util.module_from_spec(spec)
@@ -49,17 +51,20 @@ class FakeFTP:
     def mkd(self, name):
         (self.root / name).mkdir()
 
-    def storbinary(self, command, stream):
+    def storbinary(self, command, stream, blocksize=8192):
         (self.root / command.removeprefix("STOR ")).write_bytes(stream.read())
 
-    def retrbinary(self, command, callback):
+    def retrbinary(self, command, callback, blocksize=8192):
         callback((self.root / command.removeprefix("RETR ")).read_bytes())
 
     def rename(self, source, target):
         if self.fail and self.fail(source, target):
             self.fail = None
             raise OSError("Injected server failure")
-        (self.root / source).rename(self.root / target)
+        (self.root / source).replace(self.root / target)
+
+    def close(self):
+        pass
 
 
 class HostingTests(unittest.TestCase):
@@ -117,6 +122,118 @@ class HostingTests(unittest.TestCase):
             publisher.publish(folder, manifest)
         self.assertEqual((self.root / "index.html").read_text(), "old-index")
         self.assertTrue((self.root / "prerender-pages/en/product/hidden/index.html").exists())
+
+    @patch.object(hosting.time, "sleep")
+    def test_ftps_reconnect_rewinds_partial_upload_and_discards_partial_download(self, _sleep):
+        folder = self.base / "dist"
+        manifest = fixture(folder)
+        failures = {"upload": True, "download": True}
+        connections = []
+
+        class UnstableFTP(FakeFTP):
+            def storbinary(inner, command, stream, blocksize=8192):
+                if command.endswith("staged/index.html") and failures["upload"]:
+                    failures["upload"] = False
+                    (inner.root / command.removeprefix("STOR ")).write_bytes(stream.read(2))
+                    raise TimeoutError("Injected partial upload")
+                super().storbinary(command, stream, blocksize)
+
+            def retrbinary(inner, command, callback, blocksize=8192):
+                if command.endswith("staged/index.html") and failures["download"]:
+                    failures["download"] = False
+                    callback(b"partial")
+                    raise TimeoutError("Injected partial download")
+                super().retrbinary(command, callback, blocksize)
+
+        def connect():
+            ftp = UnstableFTP(self.root)
+            connections.append(ftp)
+            return ftp
+
+        publisher = hosting.FTPSPublisher(connect(), "retry", reconnect=connect)
+        publisher.publish(folder, manifest)
+        self.assertEqual(len(connections), 3)
+        self.assertEqual((self.root / "index.html").read_bytes(), b"new-index")
+        publisher.rollback()
+        self.assertEqual((self.root / "index.html").read_bytes(), b"old-index")
+
+    @patch.object(hosting.time, "sleep")
+    def test_ftps_exhausted_retries_leave_live_site_intact_and_resume_only_matching_hashes(self, _sleep):
+        folder = self.base / "dist"
+        manifest = fixture(folder)
+        attempts = []
+
+        class BrokenFTP(FakeFTP):
+            def storbinary(inner, command, stream, blocksize=8192):
+                if command.endswith("staged/.htaccess"):
+                    attempts.append(command)
+                    (inner.root / command.removeprefix("STOR ")).write_bytes(b"partial")
+                    raise TimeoutError("Injected recurring failure")
+                super().storbinary(command, stream, blocksize)
+
+        publisher = hosting.FTPSPublisher(BrokenFTP(self.root), "resume", reconnect=lambda: BrokenFTP(self.root))
+        with self.assertRaises(TimeoutError):
+            publisher.publish(folder, manifest)
+        self.assertEqual(len(attempts), 3)
+        self.assertEqual((self.root / "index.html").read_text(), "old-index")
+        self.assertFalse((self.root / ".tuxar-ci/resume/journal.json").exists())
+        writes = []
+
+        class TrackingFTP(FakeFTP):
+            def storbinary(inner, command, stream, blocksize=8192):
+                writes.append(command)
+                super().storbinary(command, stream, blocksize)
+
+        publisher = hosting.FTPSPublisher(TrackingFTP(self.root), "resume")
+        publisher.publish(folder, manifest)
+        self.assertNotIn("STOR .tuxar-ci/resume/staged/index.html", writes)
+        self.assertEqual((self.root / ".htaccess").read_text(), "new-rules")
+        self.assertEqual((self.root / "index.html").read_text(), "new-index")
+
+    def test_ftps_resume_rejects_changed_manifest_and_never_retries_certificate_failures(self):
+        folder = self.base / "dist"
+        manifest = fixture(folder)
+        publisher = hosting.FTPSPublisher(FakeFTP(self.root), "mismatch")
+        publisher.write(f"{publisher.release}/manifest.json", b"{}")
+        with self.assertRaisesRegex(ValueError, "manifest differs"):
+            publisher.publish(folder, manifest)
+        self.assertEqual((self.root / "index.html").read_text(), "old-index")
+        reconnects = []
+
+        class BadCertificateFTP(FakeFTP):
+            def storbinary(inner, *args, **kwargs):
+                raise ssl.SSLCertVerificationError("Injected certificate mismatch")
+
+        publisher = hosting.FTPSPublisher(BadCertificateFTP(self.root), "certificate", reconnect=lambda: reconnects.append(True))
+        with self.assertRaises(ssl.SSLCertVerificationError):
+            publisher.write(".tuxar-ci/certificate/test", b"test")
+        self.assertEqual(reconnects, [])
+
+    @patch.object(hosting.time, "sleep")
+    def test_ftps_failed_journal_upload_keeps_last_complete_journal_for_rollback(self, _sleep):
+        folder = self.base / "dist"
+        manifest = fixture(folder)
+        journal_writes = []
+
+        class JournalFailureFTP(FakeFTP):
+            def storbinary(inner, command, stream, blocksize=8192):
+                if command.endswith("journal.next.json"):
+                    data = stream.read()
+                    # Fail after at least one generated directory has been swapped.
+                    if not journal_writes or len(json.loads(data)["changes"]) < 2:
+                        journal_writes.append(command)
+                        return super().storbinary(command, io.BytesIO(data), blocksize)
+                    (inner.root / command.removeprefix("STOR ")).write_bytes(b"{partial")
+                    raise TimeoutError("Injected journal upload failure")
+                super().storbinary(command, stream, blocksize)
+
+        publisher = hosting.FTPSPublisher(JournalFailureFTP(self.root), "journal", reconnect=lambda: JournalFailureFTP(self.root))
+        with self.assertRaises(TimeoutError):
+            publisher.publish(folder, manifest)
+        self.assertEqual((self.root / "index.html").read_text(), "old-index")
+        self.assertEqual((self.root / "prerender-home/en.html").read_text(), "old-home")
+        self.assertTrue((self.root / "prerender-pages/en/product/hidden/index.html").exists())
+        self.assertTrue(json.loads((self.root / ".tuxar-ci/journal/journal.json").read_text())["rolled_back"])
 
     def test_tampered_artifact_and_private_paths_are_rejected_before_publication(self):
         folder = self.base / "dist"

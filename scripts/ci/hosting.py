@@ -4,6 +4,7 @@ Upload assets first, swap the complete generated page directories, publish index
 last, and retain a private rollback copy. Unrelated hosting files are untouched.
 """
 import ftplib
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import hashlib
 import io
 import json
@@ -17,6 +18,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -200,12 +202,15 @@ def remote_main(mode, document_root, identity):
 
 
 class FTPSPublisher:
-    def __init__(self, ftp, identity, reconnect=None):
+    def __init__(self, ftp, identity, reconnect=None, stage_workers=1):
+        if stage_workers not in (1, 2, 3) or (stage_workers > 1 and reconnect is None):
+            raise ValueError("FTPS staging requires one to three independently authenticated connections")
         self.ftp = ftp
         self.release = f".tuxar-ci/{identity}"
         self.identity = identity
         self.reconnect = reconnect
         self.directories = set()
+        self.stage_workers = stage_workers
 
     def transfer(self, label, operation):
         # Retry only idempotent reads/writes, never replay an uncertain rename.
@@ -249,7 +254,15 @@ class FTPSPublisher:
             if current in self.directories:
                 continue
             if not self.exists(current):
-                self.ftp.mkd(current)
+                try:
+                    self.ftp.mkd(current)
+                except ftplib.error_perm as error:
+                    if not str(error).startswith("550"):
+                        raise
+                    # Another staging worker may have created this parent first.
+                    facts = self.ftp.sendcmd(f"MLST {current}")
+                    if "slink" in facts.lower() or "symlink" in facts.lower() or not re.search(r"(?:^|[;\s])type=dir(?:;|\s|$)", facts, re.I):
+                        raise ValueError("FTPS parent creation did not resolve to a regular directory") from error
             self.directories.add(current)
 
     def write(self, name, data):
@@ -278,6 +291,73 @@ class FTPSPublisher:
             raise ValueError("FTPS rollback journal verification failed")
         # Preserve the last complete journal if the data connection fails.
         self.ftp.rename(pending, f"{self.release}/journal.json")
+
+    def stage_item(self, folder, item):
+        target = f"{self.release}/staged/{item['path']}"
+        try:
+            if self.transfer(f"inspect {item['path']}", lambda: self.exists(target)) and hashlib.sha256(self.read(target)).hexdigest() == item["sha256"]:
+                return
+            self.write(target, (folder / item["path"]).read_bytes())
+            if hashlib.sha256(self.read(target)).hexdigest() != item["sha256"]:
+                raise ValueError("FTPS staged upload hash mismatch")
+        except Exception:
+            print(f"Staging stopped at {item['path']}; website activation has not started", flush=True)
+            raise
+
+    def stage_files(self, folder, manifest):
+        started = time.monotonic()
+        count = len(manifest["files"])
+
+        def progress(completed):
+            if time.monotonic() - started > 45 * 60:
+                raise ValueError("FTPS staging exceeded the safe activation deadline; old website retained")
+            if completed == 1 or completed % 25 == 0 or completed == count:
+                elapsed = int(time.monotonic() - started)
+                print(f"Staged and verified {completed}/{count} files ({elapsed}s elapsed)", flush=True)
+            if __name__ == "__main__" and (completed % 100 == 0 or completed == count):
+                print(f"::notice title=FTPS staging progress::Staged and verified {completed}/{count} files", flush=True)
+
+        if self.stage_workers == 1:
+            for completed, item in enumerate(manifest["files"], 1):
+                self.stage_item(folder, item)
+                progress(completed)
+        else:
+            # Only private staging is parallel. Every worker owns its TLS control
+            # connection; activation/rollback remain serial after all hashes pass.
+            self.mkdir(f"{self.release}/staged")
+            self.ftp.close()
+            self.ftp = None
+            local = threading.local()
+            workers = []
+            workers_lock = threading.Lock()
+
+            def stage(item):
+                if not hasattr(local, "publisher"):
+                    local.publisher = FTPSPublisher(self.reconnect(), self.identity, reconnect=self.reconnect)
+                    with workers_lock:
+                        workers.append(local.publisher)
+                local.publisher.stage_item(folder, item)
+
+            executor = ThreadPoolExecutor(max_workers=self.stage_workers)
+            pending = []
+            try:
+                pending = [executor.submit(stage, item) for item in manifest["files"]]
+                for completed, future in enumerate(as_completed(pending), 1):
+                    future.result()
+                    progress(completed)
+            finally:
+                for future in pending:
+                    future.cancel()
+                executor.shutdown(wait=True, cancel_futures=True)
+                for worker in workers:
+                    if worker.ftp is not None:
+                        worker.ftp.close()
+            # Refresh the main connection before any public rename, even after a
+            # long upload. A failed reconnect leaves the old website untouched.
+            self.ftp = self.reconnect()
+            self.directories.clear()
+        if time.monotonic() - started > 45 * 60:
+            raise ValueError("FTPS staging exceeded the safe activation deadline; old website retained")
 
     def check(self):
         self.mkdir(".tuxar-ci")
@@ -326,25 +406,8 @@ class FTPSPublisher:
         else:
             self.write(manifest_path, json.dumps(manifest).encode())
         total_bytes = sum(item["bytes"] for item in manifest["files"])
-        print(f"Staging {len(manifest['files'])} files ({total_bytes / 1048576:.1f} MiB); TLS verification and read-back hashes required", flush=True)
-        for index, item in enumerate(manifest["files"]):
-            target = f"{staged}/{item['path']}"
-            def stage():
-                # A previous transfer may have completed before its reply was lost.
-                if self.transfer(f"inspect {item['path']}", lambda: self.exists(target)) and hashlib.sha256(self.read(target)).hexdigest() == item["sha256"]:
-                    return
-                self.write(target, (folder / item["path"]).read_bytes())
-                if hashlib.sha256(self.read(target)).hexdigest() != item["sha256"]:
-                    raise ValueError("FTPS staged upload hash mismatch")
-            if item["bytes"] >= 1048576:
-                print(f"Staging file {index + 1}/{len(manifest['files'])}: {item['path']} ({item['bytes']} bytes)", flush=True)
-            try:
-                stage()
-            except Exception:
-                print(f"Staging stopped at file {index + 1}/{len(manifest['files'])}: {item['path']}; website activation has not started", flush=True)
-                raise
-            if index % 25 == 0 or index + 1 == len(manifest["files"]):
-                print(f"Staged and verified {index + 1}/{len(manifest['files'])} files", flush=True)
+        print(f"Staging {len(manifest['files'])} files ({total_bytes / 1048576:.1f} MiB) using {self.stage_workers} connection(s); TLS and read-back hashes required", flush=True)
+        self.stage_files(folder, manifest)
         for item in manifest["files"]:
             if item["path"].startswith("assets/"):
                 self.mkdir(str(PurePosixPath(item["path"]).parent))
@@ -431,7 +494,7 @@ def main(mode):
             except Exception:
                 ftp.close()
                 raise
-        publisher = FTPSPublisher(connect(), identity, reconnect=connect)
+        publisher = FTPSPublisher(connect(), identity, reconnect=connect, stage_workers=3)
         try:
             if mode == "check":
                 publisher.check()

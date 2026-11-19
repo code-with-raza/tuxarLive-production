@@ -6,6 +6,8 @@ import json
 import ssl
 from pathlib import Path
 import tempfile
+import threading
+import time
 import unittest
 from unittest.mock import patch
 
@@ -49,7 +51,10 @@ class FakeFTP:
         return "250 type=dir;" if target.is_dir() else "250 type=file;"
 
     def mkd(self, name):
-        (self.root / name).mkdir()
+        try:
+            (self.root / name).mkdir()
+        except FileExistsError as error:
+            raise ftplib.error_perm("550 Directory already exists") from error
 
     def storbinary(self, command, stream, blocksize=8192):
         (self.root / command.removeprefix("STOR ")).write_bytes(stream.read())
@@ -208,6 +213,118 @@ class HostingTests(unittest.TestCase):
         with self.assertRaises(ssl.SSLCertVerificationError):
             publisher.write(".tuxar-ci/certificate/test", b"test")
         self.assertEqual(reconnects, [])
+
+    def test_parallel_ftps_staging_is_bounded_and_activation_waits_for_every_hash(self):
+        folder = self.base / "dist"
+        manifest = fixture(folder)
+        blocked, release = threading.Event(), threading.Event()
+        lock = threading.Lock()
+        counts = {"active": 0, "maximum": 0}
+        errors = []
+
+        class ParallelFTP(FakeFTP):
+            def __init__(inner):
+                super().__init__(self.root)
+                inner.closed = False
+                with lock:
+                    counts["active"] += 1
+                    counts["maximum"] = max(counts["maximum"], counts["active"])
+
+            def storbinary(inner, command, stream, blocksize=8192):
+                if command.endswith("staged/index.html"):
+                    blocked.set()
+                    if not release.wait(5):
+                        raise TimeoutError("Test release barrier")
+                time.sleep(0.005)
+                super().storbinary(command, stream, blocksize)
+
+            def close(inner):
+                if not inner.closed:
+                    with lock:
+                        counts["active"] -= 1
+                    inner.closed = True
+
+        publisher = hosting.FTPSPublisher(ParallelFTP(), "parallel", reconnect=ParallelFTP, stage_workers=3)
+
+        def publish():
+            try:
+                publisher.publish(folder, manifest)
+            except Exception as error:
+                errors.append(error)
+
+        thread = threading.Thread(target=publish)
+        thread.start()
+        try:
+            self.assertTrue(blocked.wait(5))
+            self.assertEqual((self.root / "index.html").read_text(), "old-index")
+            self.assertEqual((self.root / "prerender-home/en.html").read_text(), "old-home")
+            self.assertFalse((self.root / ".tuxar-ci/parallel/journal.json").exists())
+        finally:
+            release.set()
+            thread.join(10)
+        self.assertFalse(thread.is_alive())
+        self.assertEqual(errors, [])
+        self.assertGreaterEqual(counts["maximum"], 2)
+        self.assertLessEqual(counts["maximum"], 3)
+        self.assertEqual((self.root / "index.html").read_text(), "new-index")
+        publisher.rollback()
+        publisher.ftp.close()
+        self.assertEqual(counts["active"], 0)
+        self.assertEqual((self.root / "index.html").read_text(), "old-index")
+
+    @patch.object(hosting.time, "sleep")
+    def test_parallel_worker_failure_never_activates_and_closes_all_connections(self, _sleep):
+        folder = self.base / "dist"
+        manifest = fixture(folder)
+        connections = []
+
+        class FailedFTP(FakeFTP):
+            def __init__(inner):
+                super().__init__(self.root)
+                inner.closed = False
+                connections.append(inner)
+
+            def storbinary(inner, command, stream, blocksize=8192):
+                if command.endswith("staged/index.html"):
+                    raise TimeoutError("Injected parallel transfer failure")
+                super().storbinary(command, stream, blocksize)
+
+            def close(inner):
+                inner.closed = True
+
+        publisher = hosting.FTPSPublisher(FailedFTP(), "failed-parallel", reconnect=FailedFTP, stage_workers=3)
+        with self.assertRaises(TimeoutError):
+            publisher.publish(folder, manifest)
+        self.assertTrue(all(connection.closed for connection in connections))
+        self.assertEqual((self.root / "index.html").read_text(), "old-index")
+        self.assertFalse((self.root / ".tuxar-ci/failed-parallel/journal.json").exists())
+
+    def test_parallel_parent_creation_race_accepts_only_a_verified_directory(self):
+        class RacedFTP(FakeFTP):
+            def mkd(inner, name):
+                (inner.root / name).mkdir()
+                raise ftplib.error_perm("550 Directory was just created by another worker")
+
+        publisher = hosting.FTPSPublisher(RacedFTP(self.root), "race")
+        publisher.mkdir(".tuxar-ci/race/staged")
+        self.assertTrue((self.root / ".tuxar-ci/race/staged").is_dir())
+
+        class DeniedFTP(FakeFTP):
+            def mkd(inner, name):
+                raise ftplib.error_perm("550 Permission denied")
+
+        with self.assertRaises(ftplib.error_perm):
+            hosting.FTPSPublisher(DeniedFTP(self.root), "denied").mkdir(".tuxar-ci/denied")
+
+    def test_staging_deadline_stops_before_any_public_activation(self):
+        folder = self.base / "dist"
+        manifest = fixture(folder)
+        publisher = hosting.FTPSPublisher(FakeFTP(self.root), "deadline")
+        with patch.object(hosting.time, "monotonic", side_effect=[0, 2701]):
+            with self.assertRaisesRegex(ValueError, "safe activation deadline"):
+                publisher.publish(folder, manifest)
+        self.assertEqual((self.root / "index.html").read_text(), "old-index")
+        self.assertFalse((self.root / ".tuxar-ci/deadline/journal.json").exists())
 
     @patch.object(hosting.time, "sleep")
     def test_ftps_failed_journal_upload_keeps_last_complete_journal_for_rollback(self, _sleep):

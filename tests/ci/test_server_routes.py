@@ -27,7 +27,9 @@ class ServerRouteTests(unittest.TestCase):
 
     def test_valid_public_language_and_private_routes_survive(self):
         paths = ["/en", "/de/shop", "/en/account/orders", "/en/product/existing",
-                 "/en/collections/existing", "/en/blog/existing", "/en/admin/journal/new"]
+                 "/en/collections/existing", "/en/blog/existing", "/en/admin/journal/new",
+                 "/en/admin/categories/storefront--cafe-racer-jackets",
+                 "/en/admin/products/preview--mens-test-jacket"]
         self.assertEqual(self.statuses(paths), [200] * len(paths))
 
     def test_new_published_articles_work_without_a_static_slug(self):

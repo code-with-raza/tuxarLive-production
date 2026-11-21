@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 function tuxar_route_status(string $path, array $routes, callable $published): int {
     if (in_array($path, $routes['paths'], true)) return 200;
-    if (preg_match('~^/(en|de|fr|it|es)/admin/(products|categories|journal|banners)/(new|[a-f0-9-]{36})$~D', $path)) return 200;
+    if (preg_match('~^/(en|de|fr|it|es)/admin/(products|categories|journal|banners)/(new|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|(?:storefront|preview)--[a-z0-9]+(?:-[a-z0-9]+)*)$~D', $path)) return 200;
     if (preg_match('~^/(?:(en|de|fr|it|es)/)?blog/([a-z0-9]+(?:-[a-z0-9]+)*)$~D', $path, $match)) {
         return $published($match[1] ?: 'en', $match[2]);
     }

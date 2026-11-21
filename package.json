@@ -7,7 +7,7 @@
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "typecheck": "tsc --noEmit",
     "typecheck:functions": "tsc -p supabase/tsconfig.functions.json",
-    "test:security": "node --test tests/security/*.test.mjs",
+    "test:security": "node --test --test-concurrency=1 tests/security/*.test.mjs",
     "audit:secrets": "node scripts/audit-secrets.mjs",
     "deploy:check": "npm run lint && npm run typecheck && npm run typecheck:functions && npm run test:security && npm run build && npm run audit:secrets",
     "prebuild": "npm run generate:sitemap",

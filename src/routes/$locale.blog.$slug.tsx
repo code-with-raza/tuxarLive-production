@@ -113,7 +113,10 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
       ],
       links: [
         { rel: "canonical", href: fullUrl },
-        ...(post.translations ? Object.entries(post.translations).map(([language, slug]) => ({ rel: "alternate", hrefLang: language, href: `${SITE_URL}/${language}/blog/${slug}` })) : BLOG_SLUG_MAP[canonicalSlug] ? localizedAlternates(
+        ...(post.translations ? [
+          ...Object.entries(post.translations).map(([language, slug]) => ({ rel: "alternate", hrefLang: language, href: `${SITE_URL}/${language}/blog/${slug}` })),
+          { rel: "alternate", hrefLang: "x-default", href: post.translations.en ? `${SITE_URL}/en/blog/${post.translations.en}` : fullUrl },
+        ] : BLOG_SLUG_MAP[canonicalSlug] ? localizedAlternates(
           (targetLocale) =>
             `/${targetLocale}/blog/${getLocalizedSlug(canonicalSlug, "blog", targetLocale)}`,
         ) : [{ rel: "alternate", hrefLang: locale, href: fullUrl }]),

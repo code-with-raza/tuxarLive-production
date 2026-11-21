@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import vm from 'node:vm';
 import ts from 'typescript';
+import { normalizeArticleBody } from '../../src/lib/blog/article-body.ts';
 
 const source=await fs.readFile('src/lib/blog/published.ts','utf8');
 function setup({rows=[],bundled=[],states=[],languages=[],maps={},configured=true,error=null}={}) {
@@ -23,11 +24,18 @@ function setup({rows=[],bundled=[],states=[],languages=[],maps={},configured=tru
     './markdown':{calculateReadMinutes:()=>3,markdownToHtml:body=>`<p>${body}</p>`},
     '@/assets':{getProductAsset:path=>path},
     '@/i18n/i18n':{BLOG_SLUG_MAP:maps},
+    './article-body':{normalizeArticleBody},
   };
   vm.runInNewContext(ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports,require:name=>modules[name],AbortSignal,Map,Date});
   return {...exports,calls};
 }
 const article=(extra={})=>({id:'live-1',locale:'en',slug:'new-motorcycle-guide',title:'New guide',excerpt:'New excerpt',content_markdown:'Body',category:'Journal',author:'Tuxar',cover_image_url:'https://res.cloudinary.com/test/image/upload/cover.webp',cover_image_alt:'Cover',seo_title:'Guide SEO',seo_description:'Description',status:'published',published_at:'2026-11-21T00:00:00Z',...extra});
+
+test('pasted duplicate titles are removed and body headings retain a semantic hierarchy',()=>{
+  const body=normalizeArticleBody('<h1><span style="font-family:Arial">Leather &amp; Bags</span></h1><h2>Buying guide</h2><h3>Fit</h3>','Leather & Bags');
+  assert.equal(body,'<h2>Buying guide</h2><h3>Fit</h3>');
+  assert.equal(normalizeArticleBody('<h1>Different section</h1><p>Text</p>','Article title'),'<h2>Different section</h2><p>Text</p>');
+});
 
 test('new CMS articles appear without a bundled slug and retain saved content and metadata',async()=>{
   const api=setup({rows:[article()]});

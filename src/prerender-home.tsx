@@ -2,6 +2,7 @@ import { renderToString } from "react-dom/server";
 import { createMemoryHistory, createRouter, RouterProvider } from "@tanstack/react-router";
 import { QueryClient } from "@tanstack/react-query";
 import { getStorefrontProducts } from "./lib/storefront-products";
+import { getPublishedPosts } from "./lib/blog/published";
 import { COLLECTIONS } from "./data/products";
 import { CATEGORY_CHILDREN } from "./lib/catalogCategories";
 import { resolveSlug, type Locale } from "./i18n/i18n";
@@ -50,9 +51,18 @@ export async function renderHomepage(locale: string) {
 /** The static release must not advertise products that are unpublished in Supabase. */
 export async function publishedPublicUrls(urls: string[]) {
   const products = await getStorefrontProducts();
+  const articleUrls = new Set<string>();
+  if (urls.some(url => /\/(en|de|fr|it|es)\/blog\//.test(new URL(url).pathname))) {
+    for (const locale of ['en','de','fr','it','es'] as const) {
+      for (const post of await getPublishedPosts(locale)) articleUrls.add(`https://tuxar.co.uk/${locale}/blog/${post.slug}`);
+    }
+    // New CMS articles need initial HTML too; archived bundled URLs must not be rendered.
+    urls = [...new Set([...urls, ...articleUrls])];
+  }
   const active = new Set(products.map(product => product.slug));
   return urls.filter(url => {
     const [, locale, section, slug] = new URL(url).pathname.split("/");
+    if (section === "blog" && slug) return articleUrls.has(url);
     if (section === "women-leather-jackets") return products.some(product => CATEGORY_CHILDREN["leather-jackets"].includes(product.category) && isProductForAudience(product, "women"));
     if (section === "product") return active.has(resolveSlug(slug, "product", locale as Locale));
     if (section !== "collections") return true;

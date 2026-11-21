@@ -109,7 +109,8 @@ test('release sitemap and prerender selection omit inactive products and empty c
  const code=source.slice(source.indexOf('export async function publishedPublicUrls'),source.indexOf('export async function renderPublicPage'));
  const exports={};
  vm.runInNewContext(ts.transpileModule(code,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{
-  exports,URL,getStorefrontProducts:async()=>[{slug:'active-jacket',collections:['featured']}],
+   exports,URL,getStorefrontProducts:async()=>[{slug:'active-jacket',collections:['featured']}],
+   getPublishedPosts:async locale=>locale==='en'?[{slug:'live-blog'},{slug:'new-cms-blog'}]:locale==='fr'?[{slug:'guide'}]:[],
   CATEGORY_CHILDREN:{'leather-jackets':['classic']},COLLECTIONS:[{slug:'featured'},{slug:'empty'}],resolveSlug:slug=>slug,
   collectionAudience:()=>null,isProductForAudience:()=>true,
  });
@@ -118,6 +119,9 @@ test('release sitemap and prerender selection omit inactive products and empty c
   const published=await exports.publishedPublicUrls(urls);
   assert.deepEqual(Array.from(published),[urls[0],urls[1],urls[4]]);
  }
+  const urls=['https://tuxar.co.uk/en/blog/archived-blog','https://tuxar.co.uk/en/blog/live-blog','https://tuxar.co.uk/en/shop'];
+  const published=await exports.publishedPublicUrls(urls);
+  assert.deepEqual(Array.from(published).sort(),['https://tuxar.co.uk/en/blog/live-blog','https://tuxar.co.uk/en/blog/new-cms-blog','https://tuxar.co.uk/en/shop','https://tuxar.co.uk/fr/blog/guide'].sort());
 });
 
 test('adding the same variant again replaces its saved price and recalculates the bag total',async()=>{

@@ -5,6 +5,7 @@ import { calculateReadMinutes, markdownToHtml } from "./markdown";
 import { BLOG_SLUG_MAP, type Locale } from "@/i18n/i18n";
 import type { BlogPost } from "./types";
 import { getProductAsset } from "@/assets";
+import { normalizeArticleBody } from "./article-body";
 
 interface PublishedRow {
   translation_source_id?: string | null;
@@ -52,7 +53,7 @@ export async function getPublishedPosts(locale: Locale): Promise<BlogPost[]> {
         id: row.id, locale, slug: row.slug, title: row.title,
         translationSourceId: row.translation_source_id || undefined,
         excerpt: row.excerpt, contentMarkdown: row.content_markdown,
-        contentHtml: markdownToHtml(row.content_markdown),
+        contentHtml: normalizeArticleBody(markdownToHtml(row.content_markdown), row.title),
         image: getProductAsset(row.cover_image_url || previous?.image || "/blog_images/italian-leather.webp"),
         imageFallback: previous?.image || getProductAsset("/blog_images/italian-leather.webp"),
         category: row.category, author: row.author,
@@ -69,12 +70,16 @@ export async function getPublishedPosts(locale: Locale): Promise<BlogPost[]> {
 export async function getPublishedPost(slug: string, locale: Locale) {
   const post = (await getPublishedPosts(locale)).find(post => post.slug === slug);
   const group = post?.translationSourceId || post?.id;
-  if (!post || !group || !/^[a-f0-9-]{36}$/i.test(group) || !isSupabaseConfigured()) return post;
-  const { data, error } = await publicSupabase.from("blog_posts").select("locale,slug")
-    .eq("status", "published").or(`id.eq.${group},translation_source_id.eq.${group}`)
-    .abortSignal(AbortSignal.timeout(15000));
-  if (error) throw new Error("Article languages could not be checked. Please try again.");
-  const translations: Partial<Record<Locale, string>> = {};
+  if (!post || !isSupabaseConfigured()) return post;
+  let data: { locale: string; slug: string }[] = [];
+  if (group && /^[a-f0-9-]{36}$/i.test(group)) {
+    const result = await publicSupabase.from("blog_posts").select("locale,slug")
+      .eq("status", "published").or(`id.eq.${group},translation_source_id.eq.${group}`)
+      .abortSignal(AbortSignal.timeout(15000));
+    if (result.error) throw new Error("Article languages could not be checked. Please try again.");
+    data = result.data ?? [];
+  }
+  const translations: Partial<Record<Locale, string>> = { [locale]: slug };
   const legacy = Object.values(BLOG_SLUG_MAP).find(mapping => mapping[locale] === slug);
   if (legacy) {
     const bundledSlugs = new Set(getAllPostsFromMarkdown().map(item => item.slug));

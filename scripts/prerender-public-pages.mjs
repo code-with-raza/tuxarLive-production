@@ -8,6 +8,7 @@ const locales = ['en','it','de','fr','es'];
 const template = await fs.readFile('dist/index.html', 'utf8');
 const sitemap = await fs.readFile('dist/sitemap.xml','utf8');
 let urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
+const originalUrls = new Set(urls);
 const builtAssets = await fs.readdir('dist/assets');
 if (new Set(urls).size !== urls.length) throw Error('Duplicate sitemap URLs');
 console.log('Preparing the public page renderer…');
@@ -76,6 +77,20 @@ try {
   }
   const byUrl = new Map(report.map(row => [row.url,row]));
   for (const row of report) for (const alternate of Object.values(row.alternates)) if (byUrl.get(alternate)?.alternates[row.locale] !== row.url) throw Error(`Non-reciprocal hreflang: ${row.url}`);
+  const addedArticles = report.filter(row => !originalUrls.has(row.url));
+  {
+    const escapeXml = value => value.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
+    const articleLinks = row => Object.entries(row.alternates).map(([language,href]) => `<xhtml:link rel="alternate" hreflang="${language}" href="${escapeXml(href)}"/>`).join('');
+    const extra = addedArticles.map(row => `<url><loc>${escapeXml(row.url)}</loc>${Object.entries(row.alternates).map(([language,href]) => `<xhtml:link rel="alternate" hreflang="${language}" href="${escapeXml(href)}"/>`).join('')}</url>`).join('\n');
+    const current = await fs.readFile('dist/sitemap.xml','utf8');
+    const updated = current.replace(/<url>[\s\S]*?<\/url>/g, block => {
+      const url = block.match(/<loc>([^<]+)<\/loc>/)?.[1];
+      const row = byUrl.get(url);
+      if (!row || !/\/(en|de|es|fr|it)\/blog\//.test(new URL(url).pathname)) return block;
+      return block.replace(/\s*<xhtml:link\b[^>]*\/>/g, '').replace('</url>', `${articleLinks(row)}</url>`);
+    });
+    await fs.writeFile('dist/sitemap.xml', updated.replace('</urlset>', `${extra}\n</urlset>`));
+  }
   await fs.mkdir('output/prerender-homepages', { recursive: true });
   await fs.writeFile('output/prerender-homepages/report.json',JSON.stringify(homes,null,2)+'\n');
   await fs.mkdir('output/multilingual-audit-20261028', { recursive: true });

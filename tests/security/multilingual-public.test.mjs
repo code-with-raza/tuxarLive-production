@@ -70,3 +70,12 @@ test('public HTML validator rejects non-self canonicals, wrong languages, noinde
  assert.equal(inspectPublicHtml(html,url).locale,'fr');
  for(const bad of [html.replace('lang="fr"','lang="en"'),html.replace('rel="canonical"','rel="other"'),html.replace('</head>','<meta name="robots" content="noindex, follow"></head>'),html.replace('hrefLang="de"','hrefLang="en"'),html.replace('https://tuxar.co.uk/de/shop','https://tuxar.co.uk/en/shop')])assert.throws(()=>inspectPublicHtml(bad,url));
 });
+
+test('Journal language links describe published translations without inventing missing languages',()=>{
+ const url='https://tuxar.co.uk/en/blog/new-guide';
+ const html=`<html lang="en"><head><title>Guide</title><meta name="description" content="A guide"><link rel="canonical" href="${url}"><link rel="alternate" hreflang="en" href="${url}"><link rel="alternate" hreflang="x-default" href="${url}"></head><body><h1>Guide</h1></body></html>`;
+ assert.equal(inspectPublicHtml(html,url).alternates['x-default'],url);
+ assert.throws(()=>inspectPublicHtml(html.replace(/<link rel="alternate" hreflang="x-default"[^>]*>/,''),url));
+ assert.throws(()=>inspectPublicHtml(html.replace('</head>',`<link rel="alternate" hreflang="en" href="${url}"></head>`),url));
+ assert.throws(()=>inspectPublicHtml(html.replace('hreflang="en"','hreflang="de"'),url));
+});

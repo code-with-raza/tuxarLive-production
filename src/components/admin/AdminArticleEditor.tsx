@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { AdminMediaManager } from "@/components/admin/AdminMediaManager";
+import { AdminArticleTranslations } from "./AdminArticleTranslations";
 import { articleDraftKey, blankArticle, readArticleDraft, writeArticleDraft, type ArticleDraft } from "@/lib/article-draft";
 
 export function AdminArticleEditor({ id, locale }: { id: string; locale: string }) {
@@ -144,6 +145,7 @@ export function AdminArticleEditor({ id, locale }: { id: string; locale: string 
             {saving ? "Saving…" : "Save"}
           </button>
         </div>
+        <p className="mb-6 text-sm text-muted-foreground">Publishing and archiving update fresh website views. New article content, search previews and the sitemap need the <a className="underline" href="https://github.com/code-with-raza/tuxarLive-production/actions/workflows/deploy.yml" target="_blank" rel="noreferrer">website publishing workflow</a> to refresh their initial HTML.</p>
         <form id="article-form" onSubmit={save} className="grid lg:grid-cols-[1fr_340px] gap-6">
           <div className="space-y-6">
             <section className="bg-background border p-6 space-y-4">
@@ -283,6 +285,7 @@ export function AdminArticleEditor({ id, locale }: { id: string; locale: string 
             </section>
           </aside>
         </form>
+        {persisted.current && <AdminArticleTranslations key={post.id} sourceId={post.id} sourceLocale={post.locale} />}
       </div>
     </main>
   );

@@ -16,7 +16,6 @@ export default defineConfig(({ mode }) => {
         // Keep source originals for verification, but do not ship unused copies.
         const output = path.resolve("dist");
         for (const relative of [
-          "blog_images/cognac_leather.webp", "blog_images/italian-leather.webp", "blog_images/winter.webp",
           "size-charts/mens-jackets.webp", "size-charts/womens-jackets.webp",
         ]) {
           const target = path.resolve(output, relative);

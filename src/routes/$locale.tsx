@@ -2,6 +2,8 @@ import { createFileRoute, Link, Outlet, redirect, useLocation } from "@tanstack/
 import { SUPPORTED_LOCALES, Locale, DEFAULT_LOCALE } from "@/i18n/i18n";
 import { useEffect } from "react";
 import { initializeAutomaticMarket } from "@/i18n/automatic-market";
+import { getSitePage } from "@/lib/site-pages";
+import { ManagedPageContent } from "@/components/site/ManagedPageContent";
 
 export const Route = createFileRoute("/$locale")({
   beforeLoad: ({ params }) => {
@@ -12,8 +14,9 @@ export const Route = createFileRoute("/$locale")({
       });
     }
   },
-  loader: ({ params }) => {
-    return { locale: params.locale as Locale };
+  staleTime: 0,
+  loader: async ({ params, location }) => {
+    return { locale: params.locale as Locale, page: await getSitePage(location.pathname, params.locale) };
   },
   component: LocaleLayout,
   notFoundComponent: LocaleNotFound,
@@ -50,7 +53,7 @@ function LocaleNotFound() {
 }
 
 function LocaleLayout() {
-  const { locale } = Route.useLoaderData();
+  const { locale, page } = Route.useLoaderData();
   const pathname = useLocation({select: location => location.pathname});
 
   useEffect(() => {
@@ -58,5 +61,5 @@ function LocaleLayout() {
     void initializeAutomaticMarket();
   }, [locale, pathname]);
 
-  return <Outlet />;
+  return <ManagedPageContent page={page}><Outlet /></ManagedPageContent>;
 }

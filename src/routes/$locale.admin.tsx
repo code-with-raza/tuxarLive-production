@@ -33,6 +33,7 @@ import { AdminCatalog } from "@/components/admin/AdminCatalog";
 import { AdminJournal } from "@/components/admin/AdminJournal";
 import { AdminCategories } from "@/components/admin/AdminCategories";
 import { AdminCoupons } from "@/components/admin/AdminCoupons";
+import { AdminPages } from "@/components/admin/AdminPages";
 import { AdminMarketing } from "@/components/admin/AdminMarketing";
 import { AdminMfaGate } from "@/components/admin/AdminMfaGate";
 
@@ -98,6 +99,7 @@ type AdminSection =
   | "coupons"
   | "banners"
   | "marketing"
+  | "pages"
   | "journal"
   | "customers";
 type CustomerProfile = {
@@ -113,9 +115,9 @@ type CustomerProfile = {
 };
 
 function allowedSections(role: string): AdminSection[] {
-  if (role === "editor") return ["products", "categories", "coupons", "banners", "marketing", "journal"];
+  if (role === "editor") return ["products", "categories", "coupons", "banners", "marketing", "pages", "journal"];
   if (role === "fulfilment") return ["orders", "customers"];
-  return ["overview", "orders", "products", "categories", "coupons", "banners", "marketing", "journal", "customers"];
+  return ["overview", "orders", "products", "categories", "coupons", "banners", "marketing", "pages", "journal", "customers"];
 }
 
 function AdminPage() {
@@ -267,6 +269,7 @@ function OrdersDashboard({
       "coupons",
       "banners",
       "marketing",
+      "pages",
       "journal",
       "customers",
     ];
@@ -605,6 +608,7 @@ function OrdersDashboard({
     { id: "coupons", label: "Coupons", icon: BadgePercent },
     { id: "banners", label: "Banners", icon: ImageIcon },
     { id: "marketing", label: "Marketing", icon: Megaphone },
+    { id: "pages", label: "Website pages", icon: BookOpen },
     { id: "journal", label: "Journal", icon: BookOpen },
     { id: "customers", label: "Customers", icon: Users },
   ];
@@ -698,6 +702,8 @@ function OrdersDashboard({
             <AdminHomepageBanner />
           ) : section === "marketing" ? (
             <AdminMarketing />
+          ) : section === "pages" ? (
+            <AdminPages />
           ) : section === "journal" ? (
             <AdminJournal />
           ) : section === "customers" ? (

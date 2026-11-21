@@ -23,7 +23,7 @@ test('validation rejects wrong language, draft content and missing app code', ()
 
 test('cPanel serves generated homepages before the SPA and the browser removes initial head tags before rendering', async () => {
   const apache = await fs.readFile('public/.htaccess', 'utf8');
-  const rule = 'RewriteRule ^(en|it|de|fr|es)/?$ /prerender-home/$1.html [END]';
+  const rule = 'RewriteRule ^(en|it|de|fr|es)/?$ /server-router.php [END]';
   assert.ok(apache.includes(rule));
   assert.ok(apache.indexOf(rule) < apache.indexOf('RewriteRule . /server-router.php'));
   assert.ok(apache.includes('RewriteCond %{DOCUMENT_ROOT}/prerender-home/$1.html -f'));

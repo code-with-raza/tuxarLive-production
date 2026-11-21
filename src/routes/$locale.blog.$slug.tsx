@@ -1,25 +1,11 @@
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
-import { ChevronRight, Calendar, User, Clock } from "lucide-react";
+import { ChevronRight, Calendar, User } from "lucide-react";
 import { blogDateTime, formatBlogDate } from "@/lib/blog/date";
 import { t, Locale, getLocalizedLink, getLocalizedSlug, resolveSlug, BLOG_SLUG_MAP } from "@/i18n/i18n";
 import { localizedAlternates } from "@/lib/seo";
 
 const SITE_URL = "https://tuxar.co.uk";
 
-const readLabel = (locale: Locale) => {
-  switch (locale) {
-    case "it":
-      return "min lettura";
-    case "de":
-      return "Min. Lesezeit";
-    case "fr":
-      return "min de lecture";
-    case "es":
-      return "min de lectura";
-    default:
-      return "min read";
-  }
-};
 
 const byLabel = (locale: Locale) => {
   switch (locale) {
@@ -83,8 +69,8 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
 
     // Use metaTitle/metaDescription from frontmatter if available via excerpt
     const journalName = { en:"The Tuxar Journal",de:"Das Tuxar Journal",es:"El Diario Tuxar",fr:"Le Journal Tuxar",it:"Il Diario Tuxar" }[locale];
-    const metaTitle = `${post.title} — ${journalName}`;
-    const metaDesc = post.excerpt || post.seo?.metaDescription || "";
+    const metaTitle = post.seo?.metaTitle || `${post.title} — ${journalName}`;
+    const metaDesc = post.seo?.metaDescription || post.excerpt || "";
 
     return {
       meta: [
@@ -127,7 +113,7 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
       ],
       links: [
         { rel: "canonical", href: fullUrl },
-        ...(BLOG_SLUG_MAP[canonicalSlug] ? localizedAlternates(
+        ...(post.translations ? Object.entries(post.translations).map(([language, slug]) => ({ rel: "alternate", hrefLang: language, href: `${SITE_URL}/${language}/blog/${slug}` })) : BLOG_SLUG_MAP[canonicalSlug] ? localizedAlternates(
           (targetLocale) =>
             `/${targetLocale}/blog/${getLocalizedSlug(canonicalSlug, "blog", targetLocale)}`,
         ) : [{ rel: "alternate", hrefLang: locale, href: fullUrl }]),
@@ -261,11 +247,7 @@ function BlogPost() {
           </span>
           <span className="flex items-center gap-1.5 font-sans">
             <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
-            <time dateTime={blogDateTime(post.date)}>{formatBlogDate(post.date || "2026-06-11", locale)}</time>
-          </span>
-          <span className="flex items-center gap-1.5 font-sans">
-            <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-            {post.readMinutes} {readLabel(locale)}
+            <time dateTime={blogDateTime(post.date)}>{formatBlogDate(post.date, locale)}</time>
           </span>
         </div>
       </header>
@@ -276,6 +258,7 @@ function BlogPost() {
           <div className="aspect-[21/9] w-full overflow-hidden bg-section">
             <img
               src={post.image}
+              onError={event => { const img = event.currentTarget; if (post.imageFallback && img.getAttribute("src") !== post.imageFallback) img.src = post.imageFallback; }}
               alt={post.seo.imageAlt || post.title}
               className="w-full h-full object-cover"
               loading="eager"
@@ -298,7 +281,7 @@ function BlogPost() {
         {post.date && <meta itemProp="datePublished" content={post.date} />}
 
         <div
-          className="rich-text-content prose prose-neutral max-w-none text-foreground/90 font-serif text-lg leading-relaxed
+          className="journal-content rich-text-content prose prose-neutral max-w-none text-foreground/90 font-serif text-lg leading-relaxed
             prose-headings:font-display prose-headings:text-foreground prose-headings:font-normal
             prose-h1:hidden
             prose-h2:text-3xl prose-h2:mt-14 prose-h2:mb-4

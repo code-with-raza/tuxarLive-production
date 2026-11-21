@@ -39,7 +39,9 @@ try {
     const pathname = route === 'index' ? '/' : '/' + route.replaceAll('.', '/');
     for (const locale of locales) paths.add(pathname.replace('$locale', locale));
   }
-  await fs.writeFile('dist/server-routes.json', JSON.stringify({ paths:[...paths].sort(), supabaseUrl:environment.VITE_SUPABASE_URL, publishableKey:environment.VITE_SUPABASE_PUBLISHABLE_KEY || environment.VITE_SUPABASE_ANON_KEY })+'\n');
+  const { PRODUCT_SLUG_MAP } = await runner.import('/src/i18n/i18n.ts');
+  const productSlugs = Object.fromEntries(Object.entries(PRODUCT_SLUG_MAP).flatMap(([canonical, translations]) => Object.values(translations).map(slug => [slug, canonical])));
+  await fs.writeFile('dist/server-routes.json', JSON.stringify({ paths:[...paths].sort(), productSlugs, supabaseUrl:environment.VITE_SUPABASE_URL, publishableKey:environment.VITE_SUPABASE_PUBLISHABLE_KEY || environment.VITE_SUPABASE_ANON_KEY })+'\n');
   console.log('Rendering ' + urls.length + ' published public pages…');
   const published = new Set(urls);
   await fs.writeFile('dist/sitemap.xml', sitemap.replace(/\s*<url>[\s\S]*?<\/url>/g, block => published.has(block.match(/<loc>([^<]+)<\/loc>/)?.[1]) ? block : ''));

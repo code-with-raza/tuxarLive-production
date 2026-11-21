@@ -34,7 +34,7 @@ export function ProductCard({
   const alternateReady = Boolean(alternateImage && loadedAlternate === alternateImage);
 
   return (
-      <article className="luxe-product-card group relative"
+      <article data-publication-product={p.slug} className="luxe-product-card group relative"
         onPointerEnter={event => { if (event.pointerType === "mouse") setHoverRequested(true); }}
         onFocusCapture={event => { if (event.target.matches(":focus-visible")) setHoverRequested(true); }}>
         <Link

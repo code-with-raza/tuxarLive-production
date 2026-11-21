@@ -2,11 +2,12 @@ import { publicSupabase, isSupabaseConfigured } from "../supabase";
 import { getAllPostsFromMarkdown } from "./content";
 import { filterPostsByLocale } from "./locale";
 import { calculateReadMinutes, markdownToHtml } from "./markdown";
-import type { Locale } from "@/i18n/i18n";
+import { BLOG_SLUG_MAP, type Locale } from "@/i18n/i18n";
 import type { BlogPost } from "./types";
 import { getProductAsset } from "@/assets";
 
 interface PublishedRow {
+  translation_source_id?: string | null;
   id: string;
   locale: string;
   slug: string;
@@ -28,9 +29,18 @@ export async function getPublishedPosts(locale: Locale): Promise<BlogPost[]> {
   const bundled = filterPostsByLocale(getAllPostsFromMarkdown(), locale);
   if (!isSupabaseConfigured()) return bundled;
   const posts = new Map(bundled.map(post => [post.slug, post]));
+  // Status-only tombstones prevent bundled content reappearing after archiving/deletion.
+  for (let offset = 0; offset < bundled.length; offset += 100) {
+    const visibility = await publicSupabase.from("blog_publication_states")
+      .select("slug,is_published").eq("locale", locale)
+      .in("slug", bundled.slice(offset, offset + 100).map(post => post.slug))
+      .abortSignal(AbortSignal.timeout(15000));
+    if (visibility.error) throw new Error("The journal publication status could not be checked. Please try again.");
+    for (const state of visibility.data ?? []) if (!state.is_published) posts.delete(state.slug);
+  }
   for (let offset = 0; ; offset += 100) {
     const { data, error } = await publicSupabase.from("blog_posts")
-      .select("id,locale,slug,title,excerpt,content_markdown,category,author,cover_image_url,cover_image_alt,seo_title,seo_description,status,published_at")
+      .select("id,locale,slug,title,excerpt,content_markdown,category,author,cover_image_url,cover_image_alt,seo_title,seo_description,status,published_at,translation_source_id")
       .eq("status", "published").eq("locale", locale)
       .order("slug").range(offset, offset + 99)
       .abortSignal(AbortSignal.timeout(15000));
@@ -40,9 +50,11 @@ export async function getPublishedPosts(locale: Locale): Promise<BlogPost[]> {
       const previous = posts.get(row.slug);
       posts.set(row.slug, {
         id: row.id, locale, slug: row.slug, title: row.title,
+        translationSourceId: row.translation_source_id || undefined,
         excerpt: row.excerpt, contentMarkdown: row.content_markdown,
         contentHtml: markdownToHtml(row.content_markdown),
-        image: row.cover_image_url || previous?.image || getProductAsset("/blog_images/italian-leather.webp"),
+        image: getProductAsset(row.cover_image_url || previous?.image || "/blog_images/italian-leather.webp"),
+        imageFallback: previous?.image || getProductAsset("/blog_images/italian-leather.webp"),
         category: row.category, author: row.author,
         date: row.published_at || undefined,
         readMinutes: calculateReadMinutes(row.content_markdown),
@@ -55,5 +67,23 @@ export async function getPublishedPosts(locale: Locale): Promise<BlogPost[]> {
 }
 
 export async function getPublishedPost(slug: string, locale: Locale) {
-  return (await getPublishedPosts(locale)).find(post => post.slug === slug);
+  const post = (await getPublishedPosts(locale)).find(post => post.slug === slug);
+  const group = post?.translationSourceId || post?.id;
+  if (!post || !group || !/^[a-f0-9-]{36}$/i.test(group) || !isSupabaseConfigured()) return post;
+  const { data, error } = await publicSupabase.from("blog_posts").select("locale,slug")
+    .eq("status", "published").or(`id.eq.${group},translation_source_id.eq.${group}`)
+    .abortSignal(AbortSignal.timeout(15000));
+  if (error) throw new Error("Article languages could not be checked. Please try again.");
+  const translations: Partial<Record<Locale, string>> = {};
+  const legacy = Object.values(BLOG_SLUG_MAP).find(mapping => mapping[locale] === slug);
+  if (legacy) {
+    const bundledSlugs = new Set(getAllPostsFromMarkdown().map(item => item.slug));
+    for (const [language, translated] of Object.entries(legacy)) if (bundledSlugs.has(translated)) translations[language as Locale] = translated;
+    const visibility = await publicSupabase.from("blog_publication_states").select("locale,slug,is_published")
+      .in("slug", Object.values(legacy)).abortSignal(AbortSignal.timeout(15000));
+    if (visibility.error) throw new Error("Article languages could not be checked. Please try again.");
+    for (const state of visibility.data ?? []) if (!state.is_published) delete translations[state.locale as Locale];
+  }
+  for (const row of data ?? []) if (["en", "de", "fr", "it", "es"].includes(row.locale)) translations[row.locale as Locale] = row.slug;
+  return { ...post, translations };
 }

@@ -33,6 +33,10 @@ const media = cloudinaryAssets as Record<string, CloudinaryMetadata>;
  */
 export function getProductAsset(srcPath: string): string {
   if (!srcPath) return "";
+  // These small editorial originals ship with the site, independently of external media retention.
+  const editorial = ["/blog_images/cognac_leather.webp", "/blog_images/italian-leather.webp", "/blog_images/winter.webp"];
+  const original = editorial.find(path => path === srcPath || media[path]?.url === srcPath);
+  if (original) return original;
 
   // Normalize: ensure path starts with /src/assets/
   const normalized = srcPath.startsWith("/src/assets/")

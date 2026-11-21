@@ -14,6 +14,22 @@
 .rich-text-content :where(ul ul ul) { list-style-type: square; }
 .rich-text-content :where(li) { display: list-item; margin-block: 0.25em; }
 
+/* Editorial typography is shared by bundled and admin-authored articles. Pasted
+   Word/font tags cannot replace the brand fonts or flatten semantic headings. */
+.journal-content { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.8; overflow-wrap: anywhere; }
+.journal-content :where(*) { font-family: inherit !important; font-size: inherit !important; }
+.journal-content :where(h1, h2, h3, h4, h5, h6) { font-family: var(--font-display) !important; line-height: 1.25; font-weight: 400; }
+.journal-content h1 { font-size: 2.25rem !important; margin-block: 2.5rem 1rem; }
+.journal-content h2 { font-size: 1.875rem !important; margin-block: 3rem 1rem; }
+.journal-content h3 { font-size: 1.4rem !important; margin-block: 2rem .75rem; }
+.journal-content :where(h4, h5, h6) { font-size: 1.2rem !important; margin-block: 1.5rem .75rem; }
+.journal-content p { margin-block: 1.25rem; }
+.journal-content a { text-decoration: underline; text-underline-offset: .2em; }
+.journal-content blockquote { border-left: 3px solid currentColor; padding-left: 1.25rem; margin-block: 1.5rem; font-style: italic; }
+.journal-content img { max-width: 100%; height: auto; }
+.journal-content table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
+.journal-content :where(th,td) { border: 1px solid var(--color-border); padding: .5rem .75rem; }
+
 @custom-variant dark (&:is(.dark *));
 
 /* Use a plain ampersand throughout, retaining the display font for other letters. */

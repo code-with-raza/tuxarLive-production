@@ -29,6 +29,9 @@ export interface BlogFrontmatter extends BlogPostSeo {
 
 /** Article as served to the storefront */
 export interface BlogPost {
+  translationSourceId?: string;
+  translations?: Partial<Record<Locale, string>>;
+  imageFallback?: string;
   id: string;
   locale?: Locale;
   slug: string;

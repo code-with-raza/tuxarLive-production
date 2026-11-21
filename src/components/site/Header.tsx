@@ -281,7 +281,12 @@ export function Header() {
         pathParts[3] = getLocalizedSlug(canonical, "product", newLocale);
       } else if (location.pathname.includes("/blog/")) {
         const canonical = resolveSlug(currentParams.slug, "blog", activeLocale);
-        pathParts[3] = getLocalizedSlug(canonical, "blog", newLocale);
+        const post = (currentMatch?.loaderData as { post?: { translations?: Partial<Record<Locale, string>> } } | undefined)?.post;
+        if (post?.translations) {
+          const translated = post.translations[newLocale];
+          if (translated) pathParts[3] = translated;
+          else pathParts.splice(3); // A review draft is not a published language page.
+        } else pathParts[3] = getLocalizedSlug(canonical, "blog", newLocale);
       } else if (location.pathname.includes("/collections/")) {
         const canonical = resolveSlug(currentParams.slug, "collection", activeLocale);
         pathParts[3] = getLocalizedSlug(canonical, "collection", newLocale);

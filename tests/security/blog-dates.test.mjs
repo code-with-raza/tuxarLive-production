@@ -17,6 +17,10 @@ test('ISO and legacy publication days display identically in every supported lan
   assert.equal(dates.blogDateTime('2026-02-30'), undefined);
   assert.equal(dates.blogDateTime('2028-02-29'), '2028-02-29');
   assert.equal(dates.formatBlogDate(), '');
+  assert.equal(dates.formatBlogDate('2026-11-21T05:32:25.177+00:00'), '21 November 2026');
+  assert.equal(dates.formatBlogDate('2026-06-10T19:00:00+00:00'), '10 June 2026');
+  assert.equal(dates.blogDateTime('2026-11-21T23:59:00-10:00'), '2026-11-21');
+  assert.equal(dates.formatBlogDate('not a date'), '');
 });
 
 test('the actual journal cards use consistent labels and valid machine-readable dates', async () => {

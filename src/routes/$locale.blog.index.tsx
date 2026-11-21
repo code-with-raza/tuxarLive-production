@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Calendar, Clock, Tag } from "lucide-react";
+import { Calendar, Tag } from "lucide-react";
 import { blogDateTime, formatBlogDate } from "@/lib/blog/date";
 import { t, Locale, getLocalizedLink } from "@/i18n/i18n";
 import { PageHero } from "@/components/site/PageHero";
@@ -55,20 +55,6 @@ const emptyMsg = (locale: Locale) => {
   }
 };
 
-const readLabel = (locale: Locale) => {
-  switch (locale) {
-    case "it":
-      return "min";
-    case "de":
-      return "Min";
-    case "fr":
-      return "min";
-    case "es":
-      return "min";
-    default:
-      return "min";
-  }
-};
 
 export const Route = createFileRoute("/$locale/blog/")({
   staleTime: 0,
@@ -148,12 +134,13 @@ function JournalIndex() {
             {posts.map((post) => {
               const postLink = getLocalizedLink("/blog/$slug", locale, { slug: post.slug });
               return (
-                <article key={post.slug} className="group flex flex-col">
+                <article key={post.slug} data-publication-blog={`${locale}:${post.slug}`} className="group flex flex-col">
                   <Link to={postLink.to} params={postLink.params} className="block" tabIndex={0}>
                     {/* Thumbnail */}
                     <div className="w-full aspect-[4/3] overflow-hidden bg-section mb-4">
                       <img
                         src={post.image}
+                        onError={event => { const img = event.currentTarget; if (post.imageFallback && img.getAttribute("src") !== post.imageFallback) img.src = post.imageFallback; }}
                         alt={post.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
@@ -168,12 +155,6 @@ function JournalIndex() {
                         <span className="flex items-center gap-1">
                           <Tag className="h-3 w-3" aria-hidden="true" />
                           {post.category}
-                        </span>
-                      )}
-                      {post.readMinutes && (
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-3 w-3" aria-hidden="true" />
-                          {post.readMinutes} {readLabel(locale)} read
                         </span>
                       )}
                     </div>

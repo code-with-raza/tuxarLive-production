@@ -16,7 +16,7 @@ class ServerRouteTests(unittest.TestCase):
         code = "require " + json.dumps(str(ROUTER)) + ";"
         code += "$routes=['paths'=>json_decode(" + json.dumps(json.dumps(known)) + ",true)];"
         code += "$paths=json_decode(" + json.dumps(json.dumps(paths)) + ",true);"
-        code += "echo json_encode(array_map(fn($path)=>tuxar_route_status($path,$routes,fn($locale,$slug)=>" + str(published) + "),$paths));"
+        code += "echo json_encode(array_map(fn($path)=>tuxar_route_status($path,$routes,fn($locale,$slug)=>$slug==='existing'?200:" + str(published) + "),$paths));"
         result = subprocess.run([PHP, "-r", code], capture_output=True, text=True, timeout=15, check=True)
         return json.loads(result.stdout)
 
@@ -36,3 +36,22 @@ class ServerRouteTests(unittest.TestCase):
         self.assertEqual(self.statuses(["/en/blog/new-published-guide"], published=200), [200])
         self.assertEqual(self.statuses(["/en/blog/unpublished-guide"]), [404])
         self.assertEqual(self.statuses(["/en/blog/new-published-guide"], published=503), [503])
+
+    def test_live_visibility_overrides_known_static_product_and_article_paths(self):
+        code = "require " + json.dumps(str(ROUTER)) + ";"
+        code += "$routes=['paths'=>['/en/blog/existing','/en/product/existing'],'productSlugs'=>['localized'=>'existing']];"
+        code += "echo json_encode([tuxar_route_status('/en/blog/existing',$routes,fn()=>404),tuxar_route_status('/en/product/existing',$routes,fn()=>200,fn()=>404),tuxar_route_status('/fr/product/localized',$routes,fn()=>200,fn($slug)=>$slug==='existing'?200:404)]);"
+        result = subprocess.run([PHP, "-r", code], capture_output=True, text=True, timeout=15, check=True)
+        self.assertEqual(json.loads(result.stdout), [404, 404, 200])
+
+    def test_prerendered_cards_remove_unpublished_content_and_fail_closed(self):
+        html = '<article data-publication-product="available"><h3>Available</h3></article><article data-publication-product="archived"><h3>Archived</h3></article><article data-publication-blog="en:removed"><h3>Removed</h3></article><p>Unrelated content</p>'
+        code = "require " + json.dumps(str(ROUTER)) + ";$html=" + json.dumps(html) + ";"
+        code += "echo json_encode([tuxar_filter_publication_cards($html,fn($keys)=>['product:available'=>true,'product:archived'=>false,'blog:en:removed'=>false]),tuxar_filter_publication_cards($html,fn()=>null)]);"
+        result = subprocess.run([PHP, "-r", code], capture_output=True, text=True, timeout=15, check=True)
+        filtered, failed = json.loads(result.stdout)
+        self.assertIn('Available', filtered)
+        self.assertIn('Unrelated content', filtered)
+        self.assertNotIn('Archived', filtered)
+        self.assertNotIn('Removed', filtered)
+        self.assertIsNone(failed)

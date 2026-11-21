@@ -2436,15 +2436,17 @@ Options -Indexes
   RewriteCond %{THE_REQUEST} \s/+prerender-home/(en|it|de|fr|es)\.html[?\s] [NC]
   RewriteRule ^prerender-home/(en|it|de|fr|es)\.html$ https://tuxar.co.uk/$1 [R=301,L,NE]
   RewriteCond %{DOCUMENT_ROOT}/prerender-home/$1.html -f
-  RewriteRule ^(en|it|de|fr|es)/?$ /prerender-home/$1.html [END]
+  RewriteRule ^(en|it|de|fr|es)/?$ /server-router.php [END]
 
   # Public sitemap pages have their own initial HTML, language and SEO metadata.
   # Direct requests for implementation files resolve to the public URL once.
   RewriteCond %{THE_REQUEST} \s/+prerender-pages/[^?\s]+/index\.html[?\s] [NC]
   RewriteRule ^prerender-pages/((?:en|de|es|fr|it)/(?:[a-z0-9-]+/)*[a-z0-9-]+)/index\.html$ https://tuxar.co.uk/$1 [R=301,L,NE]
+  # Always check current publication status before serving a product/article snapshot.
+  RewriteRule ^(?:(?:en|de|fr|it|es)/)?(?:product|blog)/[a-z0-9-]+/?$ /server-router.php [END]
   RewriteCond %{DOCUMENT_ROOT}/prerender-pages/$1/index.html -f
   RewriteCond %{QUERY_STRING} !(^|&)q= [NC]
-  RewriteRule ^((?:en|de|es|fr|it)/(?:[a-z0-9-]+/)*[a-z0-9-]+)/?$ /prerender-pages/$1/index.html [END]
+  RewriteRule ^((?:en|de|es|fr|it)/(?:[a-z0-9-]+/)*[a-z0-9-]+)/?$ /server-router.php [END]
 
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f

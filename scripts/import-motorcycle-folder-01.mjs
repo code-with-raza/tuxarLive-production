@@ -5,6 +5,7 @@ import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url);
 const sharp=require('C:/Users/Ahmad/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
 const input=JSON.parse(await fs.readFile(process.argv[2]||'scripts/catalogue-inputs/motorcycle-folder-01.json','utf8'));
+if(!Number.isSafeInteger(input.stockPerSize)||input.stockPerSize<0)throw new Error('Draft stockPerSize must be a known nonnegative integer. This export is not a live inventory feed.');
 const out=process.argv[3]||'output/motorcycle-jackets-folder-01';
 const inventory=JSON.parse(await fs.readFile(`${out}/inventory.json`,'utf8'));
 const active=JSON.parse(await fs.readFile('src/data/products/local-jackets.json','utf8'));
@@ -32,7 +33,7 @@ for(const colour of input.colours){
  }
  const description=`${colour.description} ${input.safetyNote}`;
  products.push({batchId:input.batchId,slug,name:colour.title,tagline:`Genuine leather · ${colour.name} · M–XXL`,category:input.category,priceGBP,currency:'GBP',image:gallery[0],gallery,colors:[{name:colour.name,hex:colour.hex}],sizes:input.sizes,material:input.material,weight:'',rating:0,reviewCount:0,description,specs:[{label:'Material',value:input.material},{label:'Colour',value:colour.name},{label:'Sizes',value:input.sizes.join(', ')},{label:'Design',value:input.style},{label:'Safety',value:input.safetyNote}],inStock:true,collections:input.collection?[input.collection]:[],itemGroupId:input.itemGroupId,seoTitle:colour.seoTitle,seoDescription:colour.seoDescription,cataloguePreview:true});
- for(const size of input.sizes)variants.push({id:`${slug}-${size.toLowerCase()}`,sku:`${input.skuPrefix||'TX-CB'}-${colour.sku}-${size}`,item_group_id:input.itemGroupId,productSlug:slug,title:`${colour.title} — ${size}`,description,product_url:`https://tuxar.co.uk/en/product/${slug}`,image_url:null,local_image_path:gallery[0],availability:'in_stock',stock:input.stockPerSize,price:`${priceGBP.toFixed(2)} GBP`,sale_price:null,brand:'Tuxar',gender:'male',age_group:'adult',colour:colour.name,size,material:input.material,condition:'new',publishReady:false});
+ for(const size of input.sizes)variants.push({id:`${slug}-${size.toLowerCase()}`,sku:`${input.skuPrefix||'TX-CB'}-${colour.sku}-${size}`,item_group_id:input.itemGroupId,productSlug:slug,title:`${colour.title} — ${size}`,description,product_url:`https://tuxar.co.uk/en/product/${slug}`,image_url:null,local_image_path:gallery[0],availability:input.stockPerSize>0?'in_stock':'out_of_stock',stock:input.stockPerSize,price:`${priceGBP.toFixed(2)} GBP`,sale_price:null,brand:'Tuxar',gender:'male',age_group:'adult',colour:colour.name,size,material:input.material,condition:'new',publishReady:false});
  keywords.push({productSlug:slug,primary:`mens ${colour.name.split(' / ')[0].toLowerCase()} leather ${input.keywordStyle||'biker'} jacket`,secondary:input.keywords||['mens leather biker jacket uk','mens colour block leather jacket','genuine leather biker jacket men','motorcycle inspired leather jacket'],monthlySearchesUK:null,volumeBand:'UNVERIFIED — keyword-tool data required'});
 }
 const allProducts=[...preservedProducts,...products];

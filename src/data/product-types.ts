@@ -1,4 +1,5 @@
 import { getProductAsset } from "@/assets";
+import type { ProductVariantStock } from "@/lib/product-inventory";
 
 const jacket1 = getProductAsset("/src/assets/p-jacket-1.webp");
 const suit1 = getProductAsset("/src/assets/p-suit-1.webp");
@@ -44,6 +45,7 @@ export interface Product {
   description: string;
   specs: { label: string; value: string }[];
   inStock: boolean;
+  inventory?: ProductVariantStock[];
   collections?: string[];
 }
 
@@ -101,6 +103,7 @@ export const CATEGORY_META: Record<Category, { title: string; intro: string; ima
 
 export interface Collection {
   seoTitle?: string;
+  seoDescription?: string;
   sourceCollection?: string;
   slug: string;
   title: string;

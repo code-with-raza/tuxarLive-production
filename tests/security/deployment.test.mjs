@@ -8,7 +8,8 @@ test("hosting policy keeps SPA assets public while denying sensitive files and s
   const denied = new RegExp(pattern, "i");
   for (const file of [".env", ".git", "package.json", "package-lock.json", "vite.config.ts", "backup.zip", "backup.rar", "backup.7z", "backup.tgz", "backup.tar.gz", "database.sqlite3", "database.db", "private.pfx", "deploy.ps1", "seed.py", "config.ini", "key.pem", "script.js.map"]) assert.ok(denied.test(file), file);
   for (const file of ["index.html", "consent-default.js", "index-AbCdEf12.js", "image.webp", "favicon.svg"]) assert.ok(!denied.test(file), file);
-  assert.match(source, /RewriteRule \. \/index\.html \[L\]/);
+  assert.match(source, /RewriteRule \. \/server-router\.php \[END\]/);
+  assert.match(source, /<Files "server-routes\.json">\s*Require all denied/);
   assert.match(source, /Header always set Content-Security-Policy "base-uri 'self'; object-src 'none'; frame-ancestors 'none'"/);
   assert.match(source, /Content-Security-Policy-Report-Only "default-src 'self'/);
   assert.match(source, /connect-src [^;]*https:\/\/\*\.supabase.co[^;]*https:\/\/api.cloudinary.com/);

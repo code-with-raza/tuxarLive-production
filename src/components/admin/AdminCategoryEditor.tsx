@@ -8,8 +8,11 @@ import { categoryIncludes, categoryLabel } from "@/lib/catalogCategories";
 import { supabase } from "@/lib/supabase";
 import { PreviewCategoryEditor } from "@/components/admin/PreviewCatalogueEditors";
 import { isProductForAudience } from "@/lib/product-audience";
+import { COLLECTIONS } from "@/data/products";
+import { getLocalizedCollection, type Locale } from "@/i18n/i18n";
+import { COLLECTION_CONTENT_LOCALES, collectionEditValues, collectionEditorContent, persistCollectionContent, type CollectionContentRow, type CollectionFields } from "@/lib/collection-content";
 
-type Category = {
+type Category = CollectionContentRow & {
   id: string;
   slug: string;
   name: string;
@@ -46,9 +49,15 @@ function DatabaseCategoryEditor({ id, locale }: { id: string; locale: string }) 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [savedMessage, setSavedMessage] = useState<string | null>(null);
+  const [contentLocale, setContentLocale] = useState<Locale>(COLLECTION_CONTENT_LOCALES.includes(locale as Locale) ? locale as Locale : "en");
+  const [contentEdits, setContentEdits] = useState<Partial<Record<Locale, CollectionFields>>>({});
 
   const load = useCallback(async () => {
     setLoading(true);
+    try {
     const [categoryResult, categoriesResult, productsResult] = await Promise.all([
       supabase.from("product_categories").select("*").eq(targetSlug ? "slug" : "id", targetSlug ?? id).maybeSingle(),
       supabase.from("product_categories").select("*").order("position"),
@@ -58,16 +67,22 @@ function DatabaseCategoryEditor({ id, locale }: { id: string; locale: string }) 
         .order("name"),
     ]);
     const error = categoryResult.error ?? categoriesResult.error ?? productsResult.error;
-    if (error) toast.error(error.message);
+    if (error) throw new Error(error.message);
     setCategory((categoryResult.data as Category | null) ?? (targetSlug
       ? adminCategoryRows([], audience ?? collectionAudience(targetSlug) ?? "men").find(row => row.slug === targetSlug) ?? null
       : null));
     setCategories((categoriesResult.data ?? []) as Category[]);
     setProducts((productsResult.data ?? []) as Product[]);
-    setLoading(false);
+    setLoadError(null);
+    setSaveError(null);
+    setSavedMessage(null);
+    } catch (reason) {
+      setLoadError(`Collection could not be loaded: ${reason instanceof Error ? reason.message : "check your connection and staff sign-in"}`);
+    } finally { setLoading(false); }
   }, [id, targetSlug, audience]);
 
   useEffect(() => {
+    setContentEdits({});
     void load();
   }, [load]);
 
@@ -82,10 +97,12 @@ function DatabaseCategoryEditor({ id, locale }: { id: string; locale: string }) 
     event.preventDefault();
     if (!category) return;
     setSaving(true);
+    setSaveError(null);
+    setSavedMessage(null);
+    try {
     const values = {
-        name: category.name.trim(),
         slug: category.slug.trim(),
-        description: category.description.trim(),
+        ...collectionEditValues(category, contentEdits),
         status: category.status,
         position: Number(category.position),
         audience: category.audience,
@@ -95,19 +112,18 @@ function DatabaseCategoryEditor({ id, locale }: { id: string; locale: string }) 
         show_filters: category.show_filters,
         updated_at: new Date().toISOString(),
     };
-    const result = isVirtualCategory(category.id)
-      ? await supabase.from("product_categories").insert(values).select("*").single()
-      : await supabase.from("product_categories").update(values).eq("id", category.id);
-    const { error } = result;
-    if (!error && result.data) {
-      setCategory(result.data as Category);
+    const persisted = await persistCollectionContent(supabase, category, values);
+      setCategory(persisted as Category);
+      setContentEdits({});
       const url = new URL(window.location.href);
-      url.pathname = `/${locale}/admin/categories/${result.data.id}`;
+      url.pathname = `/${locale}/admin/categories/${persisted.id}`;
       window.history.replaceState(window.history.state, "", url);
-    }
-    setSaving(false);
-    if (error) toast.error(error.message);
-    else toast.success("Category saved");
+      setSavedMessage("Saved to the database. Run the publishing workflow to refresh initial page HTML and SEO.");
+      toast.success("Collection saved to the database");
+    } catch (reason) {
+      const message = reason instanceof Error ? reason.message : "Collection was not saved. Check your connection and staff permissions, then retry.";
+      setSaveError(message); toast.error(message);
+    } finally { setSaving(false); }
   };
 
   const changeProductCategory = async (product: Product, nextCategory: string) => {
@@ -149,7 +165,12 @@ function DatabaseCategoryEditor({ id, locale }: { id: string; locale: string }) 
         <Loader2 className="h-6 w-6 animate-spin" />
       </div>
     );
+  if (loadError) return <div className="container-luxe py-20"><p role="alert">{loadError}</p><button type="button" className="mt-4 underline" onClick={() => void load()}>Retry loading collection</button></div>;
   if (!category) return <div className="container-luxe py-20">Category not found.</div>;
+
+  const fallbackCollection = COLLECTIONS.find(item => item.slug === categorySlug);
+  const content = contentEdits[contentLocale] ?? collectionEditorContent(category, contentLocale, fallbackCollection ? getLocalizedCollection(fallbackCollection, contentLocale) : undefined);
+  const updateContent = (patch: Partial<CollectionFields>) => setContentEdits(current => ({ ...current, [contentLocale]: { ...content, ...patch } }));
 
   const toggle = (key: keyof Category, label: string) => (
     <label className="flex items-center gap-3 border p-3 text-sm normal-case tracking-normal">
@@ -197,17 +218,26 @@ function DatabaseCategoryEditor({ id, locale }: { id: string; locale: string }) 
         </div>
 
         <form id="category-form" onSubmit={save} className="grid gap-6 lg:grid-cols-[1fr_340px]">
+          <fieldset disabled={saving} className="contents">
           <div className="space-y-6">
             <section className="space-y-4 border bg-background p-6">
               <h2 className="font-display text-2xl">Category details</h2>
+              <label className="block text-xs uppercase tracking-widest">Content language
+                <select aria-label="Collection content language" className={field} value={contentLocale} onChange={event => setContentLocale(event.target.value as Locale)}>
+                  {COLLECTION_CONTENT_LOCALES.map(language => <option key={language} value={language}>{language.toUpperCase()}</option>)}
+                </select>
+              </label>
+              <p className="text-sm text-muted-foreground">Name, description and SEO are edited per language. Existing translations are preserved. Save includes all languages edited in this session.</p>
+              {saveError && <p role="alert" className="text-sm text-red-700">{saveError}</p>}
+              {savedMessage && <p role="status" className="text-sm">{savedMessage}</p>}
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="text-xs uppercase tracking-widest">
                   Name
                   <input
                     required
                     className={field}
-                    value={category.name}
-                    onChange={(event) => setCategory({ ...category, name: event.target.value })}
+                    value={content.name}
+                    onChange={(event) => updateContent({ name: event.target.value })}
                   />
                 </label>
                 <label className="text-xs uppercase tracking-widest">
@@ -229,12 +259,22 @@ function DatabaseCategoryEditor({ id, locale }: { id: string; locale: string }) 
                 Description
                 <textarea
                   className="mt-2 min-h-32 w-full border p-3 normal-case tracking-normal"
-                  value={category.description}
+                  value={content.description}
                   onChange={(event) =>
-                    setCategory({ ...category, description: event.target.value })
+                    updateContent({ description: event.target.value })
                   }
                 />
               </label>
+              <label className="block text-xs uppercase tracking-widest">SEO title (optional)
+                <input aria-label="Collection SEO title" className={field} value={content.seo_title} onChange={event => updateContent({ seo_title: event.target.value })} placeholder="Uses existing collection SEO defaults when empty" />
+              </label>
+              <label className="block text-xs uppercase tracking-widest">Meta description (optional)
+                <textarea aria-label="Collection meta description" className="mt-2 min-h-24 w-full border p-3 normal-case tracking-normal" value={content.seo_description} onChange={event => updateContent({ seo_description: event.target.value })} placeholder="Uses the existing collection summary when empty" />
+              </label>
+              <div className="border bg-section p-4 text-sm normal-case tracking-normal">
+                Saving persists content in Supabase. Storefront navigation loads saved content; initial page source and SEO require a publishing run.
+                <a className="mt-2 block underline" href="https://github.com/code-with-raza/tuxarLive-production/actions/workflows/deploy.yml" target="_blank" rel="noopener noreferrer">Open publishing workflow — choose main, then Run workflow</a>
+              </div>
             </section>
 
             <section className="space-y-5 border bg-background p-6">
@@ -332,6 +372,7 @@ function DatabaseCategoryEditor({ id, locale }: { id: string; locale: string }) 
               {toggle("show_filters", "Product filters")}
             </section>
           </aside>
+          </fieldset>
         </form>
 
         <section className="mt-6 border bg-background p-6">

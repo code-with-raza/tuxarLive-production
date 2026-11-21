@@ -18,7 +18,7 @@ export function adminCategoryRows(rows: AdminCategoryRow[], audience: ProductAud
   const builtIn = PREVIEW_CATEGORY_OPTIONS.filter(collection => collectionAudience(collection.slug) === audience).map((collection, position) => {
     const stored = available.find(row => row.slug === collection.slug)
       ?? available.find(row => !used.has(row.id) && getAudienceCollection(row.slug, row.name, audience, PREVIEW_CATEGORY_OPTIONS)?.slug === collection.slug);
-    if (stored) { used.add(stored.id); return { ...stored, name: collection.title, storefrontSlug: collection.slug }; }
+    if (stored) { used.add(stored.id); return { ...stored, name: stored.slug === collection.slug && stored.name.trim() ? stored.name : collection.title, storefrontSlug: collection.slug }; }
     return { id: "storefront--" + collection.slug, storefrontSlug: collection.slug, slug: collection.slug, name: collection.title,
       description: collection.description, audience, status: "active", position,
       show_hero: true, show_description: true, show_product_count: true, show_filters: true };

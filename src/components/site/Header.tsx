@@ -381,7 +381,7 @@ export function Header() {
                 <div>
                   <SheetTitle className="sr-only">Navigation</SheetTitle>
                   <SheetDescription className="sr-only">
-                    Browse product categories, account links and language options.
+                    Browse product categories, account links, language and currency options.
                   </SheetDescription>
 
                   <div className="flex items-center justify-between px-6 h-16 border-b">
@@ -576,12 +576,13 @@ export function Header() {
                   </div>
                 </div>
 
-                {/* Language switcher (mobile) */}
-                <div className="p-6 border-t border-border flex items-center justify-between">
+                {/* Mobile preferences stay in the drawer, away from the centred header logo. */}
+                <div className="shrink-0 border-t border-border p-6 space-y-5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                   <span className="text-xs uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 font-sans">
                     <Globe className="h-4 w-4" /> Language
                   </span>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {LANGUAGES.map((l) => (
                       <button
                         key={l.code}
@@ -596,6 +597,13 @@ export function Header() {
                       </button>
                     ))}
                   </div>
+                </div>
+                <div className="flex items-center justify-between gap-3">
+                  <label htmlFor="mobile-currency" className="text-xs uppercase tracking-widest text-muted-foreground font-sans">Currency</label>
+                  <select id="mobile-currency" value={currency} onChange={event => setCurrency(event.target.value as "GBP" | "EUR")} className="h-11 min-w-32 rounded-none border border-border bg-background px-3 text-sm" title="Payment currency">
+                    <option value="GBP">GBP £</option><option value="EUR">EUR €</option>
+                  </select>
+                </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -650,7 +658,7 @@ export function Header() {
 
           {/* ── Icons: always at right edge ─────────────────────────── */}
           <div className="ml-auto flex items-center gap-0.5">
-            <select aria-label="Currency" value={currency} onChange={event => setCurrency(event.target.value as "GBP" | "EUR")} className="h-10 bg-transparent px-1 text-xs" title="Payment currency">
+            <select aria-label="Currency" value={currency} onChange={event => setCurrency(event.target.value as "GBP" | "EUR")} className="hidden lg:block h-10 bg-transparent px-1 text-xs" title="Payment currency">
               <option value="GBP">GBP £</option><option value="EUR">EUR €</option>
             </select>
             {/* Language dropdown */}

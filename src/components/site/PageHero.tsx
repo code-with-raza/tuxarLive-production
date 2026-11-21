@@ -15,6 +15,7 @@ export function PageHero({
   image,
   imageAlt,
   repeat = false,
+  preserveDescriptionBreaks = false,
 }: {
   eyebrow?: string;
   title: string;
@@ -23,6 +24,7 @@ export function PageHero({
   image?: string;
   imageAlt?: string;
   repeat?: boolean;
+  preserveDescriptionBreaks?: boolean;
 }) {
   return (
     <section className="bg-surface border-b border-border">
@@ -60,7 +62,7 @@ export function PageHero({
         {eyebrow && <div className="eyebrow mb-4">{eyebrow}</div>}
         <h1 className="font-display text-4xl md:text-6xl leading-[1.02] max-w-3xl">{title}</h1>
         {description && (
-          <p className="mt-5 max-w-2xl text-muted-foreground leading-relaxed">{description}</p>
+          <p className={`mt-5 max-w-2xl text-muted-foreground leading-relaxed ${preserveDescriptionBreaks ? "whitespace-pre-line" : ""}`}>{description}</p>
         )}
       </Reveal>
     </section>

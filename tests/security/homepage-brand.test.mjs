@@ -33,7 +33,7 @@ test('temporary root language selection follows legacy guards and preserves loca
   const position = languageStart;
   assert.ok(position > hosting.indexOf('# END TUXAR WORDPRESS RETIREMENT'));
   assert.ok(position < hosting.indexOf('# Keep one secure canonical host'));
-  assert.ok(position < hosting.indexOf('RewriteRule . /index.html'));
+  assert.ok(position < hosting.indexOf('RewriteRule . /server-router.php'));
   assert.equal(target('/'), 'https://tuxar.co.uk/en');
   for (const path of ['en', 'fr', 'en/shop', 'en/checkout', 'en/product/classic-button-trucker', 'assets/main.js', 'robots.txt', 'sitemap.xml']) {
     assert.equal(target('/' + path), null, path);

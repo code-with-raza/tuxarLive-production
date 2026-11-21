@@ -23,7 +23,7 @@ test('all Search Console sources and the earlier soft-404 export have specific s
   for (const url of fixture.urls) assert.equal(evaluate(url)?.status, 410, url);
   assert.ok(hosting.indexOf(begin) < hosting.indexOf('# BEGIN TUXAR ROOT LANGUAGE'));
   assert.ok(hosting.indexOf(end) < hosting.indexOf('# Keep one secure canonical host'));
-  assert.ok(hosting.indexOf(end) < hosting.indexOf('RewriteRule . /index.html'));
+  assert.ok(hosting.indexOf(end) < hosting.indexOf('RewriteRule . /server-router.php'));
   assert.match(block, /ErrorDocument 410 \/legacy-not-found\.html/);
   assert.match(block, /REDIRECT_STATUS\} \^\(404\|410\)\$/);
 });

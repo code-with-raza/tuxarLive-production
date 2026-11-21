@@ -8,8 +8,9 @@ import vm from 'node:vm';
 
 async function evaluate(path, modules) {
   modules["@/lib/storefront-products"] ??= { getStorefrontProducts: async () => modules["@/data/products"]?.PRODUCTS ?? [] };
+  modules["@/lib/storefront-collection-content"] ??= { getStorefrontCollectionContent: async collection => collection };
   const exports = {};
-  const code = ts.transpileModule(await fs.readFile(path, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } }).outputText;
+  const code = ts.transpileModule((await fs.readFile(path, 'utf8')).replaceAll('import.meta.env.SSR', 'false'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } }).outputText;
   vm.runInNewContext(code, { exports, require: name => modules[name] ?? {}, URL });
   return exports;
 }

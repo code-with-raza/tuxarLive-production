@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { ProductCard } from "@/components/site/ProductCard";
 import { getStorefrontProducts } from "@/lib/storefront-products";
+import { getStorefrontCollectionContent } from "@/lib/storefront-collection-content";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import {
@@ -18,6 +19,8 @@ import { absoluteUrl, localizedAlternates } from "@/lib/seo";
 import { collectionAudience, isProductForAudience } from "@/lib/product-audience";
 
 export const Route = createFileRoute("/$locale/collections/$slug")({
+  staleTime: 0,
+  preloadStaleTime: 0,
   beforeLoad: ({ params }) => {
     const locale = params.locale as Locale;
     const id = resolveSlug(params.slug, "collection", locale);
@@ -43,7 +46,7 @@ export const Route = createFileRoute("/$locale/collections/$slug")({
     const products = (await getStorefrontProducts()).filter((p) => (p.collections?.includes(canonicalSlug) || p.collections?.includes(sourceSlug)) && (!audience || isProductForAudience(p, audience)));
     // Historic placeholder flags must not hide an approved, populated collection.
     const comingSoon = products.length === 0;
-    const collection = getLocalizedCollection(rawCollection, locale);
+    const collection = await getStorefrontCollectionContent(getLocalizedCollection(rawCollection, locale), locale);
 
     // Empty collections remain placeholders.
     if (comingSoon) {
@@ -76,10 +79,10 @@ export const Route = createFileRoute("/$locale/collections/$slug")({
       // noindex so Google does not index empty category placeholder pages
       return {
         meta: [
-          { title: `${collection.title} — Coming Soon | Tuxar` },
+          { title: collection.seoTitle || `${collection.title} — Coming Soon | Tuxar` },
           {
             name: "description",
-            content: `Discover the upcoming Tuxar ${collection.title} collection. This collection is currently being curated and will be available soon.`,
+            content: collection.seoDescription || `Discover the upcoming Tuxar ${collection.title} collection. This collection is currently being curated and will be available soon.`,
           },
           { name: "robots", content: "noindex, nofollow" },
         ],
@@ -91,17 +94,17 @@ export const Route = createFileRoute("/$locale/collections/$slug")({
     return {
       meta: [
           { title: collection.seoTitle || `${collection.title} | Tuxar` },
-        { name: "description", content: collection.metaIntro },
+        { name: "description", content: collection.seoDescription || collection.metaIntro },
         ...(hasLocalDrafts ? [{ name: "robots", content: "noindex, follow" }] : []),
-        { property: "og:title", content: `${collection.title} — Tuxar` },
-        { property: "og:description", content: collection.metaIntro },
+        { property: "og:title", content: collection.seoTitle || `${collection.title} — Tuxar` },
+        { property: "og:description", content: collection.seoDescription || collection.metaIntro },
         { property: "og:type", content: "website" },
         { property: "og:url", content: fullUrl },
         { property: "og:image", content: socialImage },
         { property: "og:image:alt", content: collection.title },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: collection.title },
-        { name: "twitter:description", content: collection.metaIntro },
+        { name: "twitter:title", content: collection.seoTitle || collection.title },
+        { name: "twitter:description", content: collection.seoDescription || collection.metaIntro },
         { name: "twitter:image", content: socialImage },
       ],
       links: [
@@ -167,7 +170,7 @@ export const Route = createFileRoute("/$locale/collections/$slug")({
                 },
               ],
             },
-          }),
+          }).replaceAll("<", "\\u003c"),
         },
       ],
     };
@@ -312,6 +315,7 @@ function CollectionPage() {
         eyebrow={t("categories.title", locale) || "Collection"}
         title={collection.title}
         description={collection.description}
+        preserveDescriptionBreaks
       />
 
       <section className="container-luxe py-12 md:py-16">
@@ -383,7 +387,7 @@ function CollectionPage() {
                     : `Behind the Design — ${collection.title}`}
           </h2>
           <div className="w-12 h-px bg-foreground/30 mx-auto mb-8" />
-          <p className="font-serif text-lg md:text-xl text-foreground/80 leading-relaxed text-center italic mb-10">
+          <p className="font-serif text-lg md:text-xl text-foreground/80 leading-relaxed text-center italic mb-10 whitespace-pre-line">
             "{collection.description}"
           </p>
           <div className="prose prose-neutral max-w-none text-muted-foreground leading-relaxed space-y-6 text-justify">

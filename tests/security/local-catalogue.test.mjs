@@ -73,14 +73,14 @@ test("drafts are dev-only, absent from seed tools, blocked from cart and admin b
   const module = await fs.readFile("src/lib/local-catalogue.ts", "utf8");
   assert.match(module, /import\.meta\.env\.DEV && !import\.meta\.env\.SSR/);
   const page = await fs.readFile("src/routes/$locale.product.$slug.tsx", "utf8");
-  const add = page.slice(page.indexOf("function handleAdd()"), page.indexOf("const safeQty", page.indexOf("function handleAdd()")));
+  const add = page.slice(page.indexOf("function handleAdd()"), page.indexOf("let safeQty", page.indexOf("function handleAdd()")));
   assert.match(add, /getLocalCatalogueProduct\(canonicalSlug\)/);
   assert.match(add, /ordering is disabled/i);
   assert.match(add, /return;/);
   assert.match(page, /disabled=\{Boolean\(getLocalCatalogueProduct\(canonicalSlug\)\) \|\| inventoryLoading/);
   assert.match(page, /Local draft — not available to order/);
   const inventory = page.slice(page.indexOf("const localDraft = getLocalCatalogueProduct(canonicalSlug)"));
-  assert.ok(inventory.indexOf("return;") < inventory.indexOf("void supabase"));
+  assert.ok(inventory.indexOf("return;") < inventory.indexOf("await supabase"));
   const admin = await fs.readFile("src/components/admin/AdminCatalog.tsx", "utf8");
   assert.match(admin, /STOREFRONT_PRODUCTS\.filter\(\(product\) => !getLocalCatalogueProduct\(product.slug\)\)/);
 });

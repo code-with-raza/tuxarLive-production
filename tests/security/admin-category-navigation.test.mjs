@@ -6,12 +6,13 @@ import ts from 'typescript';
 import {createRequire} from 'node:module';
 import * as categories from '../../src/lib/catalogCategories.ts';
 import * as audience from '../../src/lib/product-audience.ts';
+import * as collectionContent from '../../src/lib/collection-content.ts';
 const require=createRequire(import.meta.url),jsx=require('react/jsx-runtime');
 function compile(source,modules={},globals={}){const exports={};vm.runInNewContext(ts.transpileModule(source.replaceAll('import.meta.env.DEV','false'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText,{exports,require:name=>modules[name]??{},URL,URLSearchParams,...globals});return exports;}
 const evaluate=async(file,modules,globals)=>compile(await fs.readFile(file,'utf8'),modules,globals);
 const data=await evaluate('src/data/product-types.ts',{'@/assets':{getProductAsset:value=>value}});
 const options=await evaluate('src/lib/preview-category-options.ts',{'@/data/products':data,'@/lib/catalogCategories':categories,'@/lib/product-audience':audience});
-const helpers=()=>({'@/i18n/i18n':{getLocalizedSlug:slug=>slug},'@/lib/preview-category-options':options,'@/lib/product-audience':audience,'@/lib/catalogCategories':categories});
+const helpers=()=>({'@/i18n/i18n':{getLocalizedSlug:slug=>slug,getLocalizedCollection:collection=>collection},'@/data/products':data,'@/lib/collection-content':collectionContent,'@/lib/preview-category-options':options,'@/lib/product-audience':audience,'@/lib/catalogCategories':categories});
 function hooks(){let cursor=0;const states=[],effects=[];return {states,effects,reset(){cursor=0;effects.length=0},react:{useState(initial){const i=cursor++;if(!(i in states))states[i]=typeof initial==='function'?initial():initial;return[states[i],value=>states[i]=typeof value==='function'?value(states[i]):value]},useEffect:fn=>effects.push(fn)}};}
 const settle=()=>new Promise(resolve=>setImmediate(resolve));
 test('every built-in live menu category is available in its admin audience, alongside custom categories and without the Bomber alias',async()=>{
@@ -80,15 +81,25 @@ test('a missing built-in category opens in the real editor and creates its datab
  const h=hooks(),writes=[];const slug='women-leather-blazers';const location={href:'https://tuxar.co.uk/en/admin/categories/storefront--'+slug+'?audience=women',search:'?audience=women'};
  const history={state:{__TSR_index:2},replaceState(state,unused,url){location.href=String(url)}};
  const api=await evaluate('src/lib/admin-category-catalogue.ts',helpers());
- const supabase={from(table){let saved;const q={select(){return q},eq(key,value){if(saved){writes.push({action:'update',values:saved,key,value});return Promise.resolve({error:null})}return q},async maybeSingle(){return {data:null,error:null}},async order(){return {data:[],error:null}},insert(values){writes.push({action:'insert',values});saved=values;return q},update(values){saved=values;return q},async single(){return {data:{...saved,id:'saved-id'},error:null}}};return q}};
+ let storedRow=null;
+ const supabase={from(table){let saved;const q={select(){return q},eq(key,value){if(saved&&key==='id')writes.push({action:'update',values:saved,key,value});return q},async maybeSingle(){return {data:storedRow,error:null}},async order(){return {data:table==='product_categories'&&storedRow?[storedRow]:[],error:null}},insert(values){writes.push({action:'insert',values});saved=values;return q},update(values){saved=values;return q},async single(){storedRow={...storedRow,...saved,id:'saved-id'};return {data:{...storedRow},error:null}}};return q}};
  const {AdminCategoryEditor}=await evaluate('src/components/admin/AdminCategoryEditor.tsx',{
   react:{...h.react,useCallback:fn=>fn},'react/jsx-runtime':jsx,'lucide-react':{},sonner:{toast:{error:message=>assert.fail(message),success(){}}},
   '@/lib/admin-category-catalogue':api,'@/lib/product-audience':audience,'@/lib/catalogCategories':categories,'@/lib/supabase':{supabase},
+  '@/lib/collection-content':collectionContent,'@/data/products':data,'@/i18n/i18n':{getLocalizedCollection:collection=>collection},
  },{window:{location,history}});
  const props={id:'storefront--'+slug,locale:'en'};const Component=AdminCategoryEditor(props).type;
  const render=()=>{h.reset();return Component(props)};render();h.effects[0]();await settle();assert.equal(writes.length,0);
  function find(node,predicate){if(!node||typeof node!=='object')return null;if(predicate(node))return node;for(const child of [node.props?.children].flat(Infinity)){const value=find(child,predicate);if(value)return value}return null}
- let tree=render();let form=find(tree,node=>node.type==='form');assert.ok(form);await form.props.onSubmit({preventDefault(){}});
+ let tree=render();
+ find(tree,node=>node.props?.['aria-label']==='Collection SEO title').props.onChange({target:{value:'Saved collection SEO'}});
+ tree=render();
+ find(tree,node=>node.props?.['aria-label']==='Collection meta description').props.onChange({target:{value:'Saved collection meta description'}});
+ tree=render();let form=find(tree,node=>node.type==='form');assert.ok(form);await form.props.onSubmit({preventDefault(){}});
  assert.equal(writes.length,1);assert.equal(writes[0].action,'insert');assert.equal(writes[0].values.slug,slug);assert.equal(writes[0].values.audience,'women');assert.ok(location.href.includes('saved-id'));
  tree=render();form=find(tree,node=>node.type==='form');await form.props.onSubmit({preventDefault(){}});assert.equal(writes[1].action,'update');assert.equal(writes[1].value,'saved-id');
+ assert.equal(storedRow.seo_title,'Saved collection SEO');assert.equal(storedRow.seo_description,'Saved collection meta description');
+ props.id='saved-id';h.states[0]=null;render();h.effects[0]();await settle();tree=render();
+ assert.equal(find(tree,node=>node.props?.['aria-label']==='Collection SEO title').props.value,'Saved collection SEO');
+ assert.equal(find(tree,node=>node.props?.['aria-label']==='Collection meta description').props.value,'Saved collection meta description');
 });

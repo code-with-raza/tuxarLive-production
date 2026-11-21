@@ -10,6 +10,7 @@ import * as jsxRuntime from 'react/jsx-runtime';
 async function evaluate(path, modules) {
   const source = await fs.readFile(path, 'utf8');
   modules["@/lib/storefront-products"] ??= { getStorefrontProducts: async () => modules["@/data/products"]?.PRODUCTS ?? [] };
+  modules["@/lib/storefront-collection-content"] ??= { getStorefrontCollectionContent: async collection => collection };
   const exports = {};
   const code = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } }).outputText;
   vm.runInNewContext(code, { exports, require: name => {

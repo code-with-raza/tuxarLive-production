@@ -25,7 +25,7 @@ test('cPanel serves generated homepages before the SPA and the browser removes i
   const apache = await fs.readFile('public/.htaccess', 'utf8');
   const rule = 'RewriteRule ^(en|it|de|fr|es)/?$ /prerender-home/$1.html [END]';
   assert.ok(apache.includes(rule));
-  assert.ok(apache.indexOf(rule) < apache.indexOf('RewriteRule . /index.html'));
+  assert.ok(apache.indexOf(rule) < apache.indexOf('RewriteRule . /server-router.php'));
   assert.ok(apache.includes('RewriteCond %{DOCUMENT_ROOT}/prerender-home/$1.html -f'));
   const main = await fs.readFile('src/main.tsx', 'utf8');
   assert.ok(main.indexOf('data-tuxar-static-head') < main.indexOf('createRoot(document'));

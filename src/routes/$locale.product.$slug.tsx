@@ -6,6 +6,7 @@ import { Heart, Minus, Plus, ShieldCheck, Truck, Wrench, ChevronRight } from "lu
 import { useShop } from "@/store/shop";
 import { ProductCard } from "@/components/site/ProductCard";
 import { getStorefrontProducts } from "@/lib/storefront-products";
+import { basketQuantity, initialInventorySelection, inventoryOffers, stockForSelection, validatedInventory, type ProductVariantStock } from "@/lib/product-inventory";
 import { productDiscount, savingsLabel } from "@/lib/product-discount";
 import { MensJacketSizeChart, usesMensJacketChart } from "@/components/site/MensJacketSizeChart";
 import { Reveal } from "@/components/site/Reveal";
@@ -31,7 +32,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { PRODUCTS, getProductBySlug, type Product } from "@/data/products";
 import { absoluteUrl, localizedAlternates } from "@/lib/seo";
 import { useUIStore } from "@/store/ui";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { publicSupabase as supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { cloudinaryUrl } from "@/lib/cloudinary";
 import { getLocalCatalogueProduct } from "@/lib/local-catalogue";
 import { carrierDeliveryEstimate } from "@/lib/delivery";
@@ -86,6 +87,7 @@ function productSeoDescription(product: Product, locale: Locale) {
 }
 
 export const Route = createFileRoute("/$locale/product/$slug")({
+  staleTime: 0,
   beforeLoad: ({ params }) => {
     const locale = params.locale as Locale;
     const canonical = resolveSlug(params.slug, "product", locale);
@@ -100,11 +102,25 @@ export const Route = createFileRoute("/$locale/product/$slug")({
     const rawProduct = products.find(product => product.slug === canonicalSlug);
     if (!rawProduct) throw notFound();
     const product = getLocalizedProduct(rawProduct, locale);
+    let inventoryError = false;
+    // Stock is requested only for this product. Static HTML stays neutral until a fresh browser check.
+    if (!import.meta.env.SSR && !getLocalCatalogueProduct(canonicalSlug)) {
+      try {
+        if (!isSupabaseConfigured()) throw new Error("Inventory is not configured");
+        const { data, error } = await supabase.from("products")
+          .select("product_variants(size,color,color_hex,stock,active)")
+          .eq("slug", canonicalSlug).eq("status", "active")
+          .abortSignal(AbortSignal.timeout(15000)).maybeSingle();
+        if (error || !data) throw new Error("Inventory lookup failed");
+        product.inventory = validatedInventory(data.product_variants);
+        product.inStock = product.inventory.some(variant => variant.stock > 0);
+      } catch { inventoryError = true; }
+    }
 
     const related = relatedProducts(rawProduct, products)
       .map((item) => getLocalizedProduct(item, locale));
 
-    return { product, canonicalSlug, related };
+    return { product, canonicalSlug, related, inventoryError };
   },
   head: ({ loaderData, params }) => {
     const p = loaderData?.product;
@@ -158,14 +174,11 @@ export const Route = createFileRoute("/$locale/product/$slug")({
             brand: { "@type": "Brand", name: "Tuxar" },
             category: p.category,
             color: p.colors.map((item) => item.name).join(", "),
-            ...(!getLocalCatalogueProduct(p.slug) ? { offers: {
+            ...(!getLocalCatalogueProduct(p.slug) ? { offers: !import.meta.env.SSR && p.inventory ? inventoryOffers(p.inventory, p.priceGBP, localeCurrency(params.locale), fullUrl) : {
               "@type": "Offer",
               price: p.priceGBP,
               priceCurrency: localeCurrency(params.locale),
               itemCondition: "https://schema.org/NewCondition",
-              availability: p.inStock
-                ? "https://schema.org/InStock"
-                : "https://schema.org/OutOfStock",
               url: fullUrl,
             } } : {}),
           }),
@@ -219,31 +232,42 @@ function ProductNotFound() {
 }
 
 function ProductPage() {
+  const { canonicalSlug } = Route.useLoaderData();
+  return <ProductDetail key={canonicalSlug} />;
+}
+
+function ProductDetail() {
   const { locale } = Route.useParams() as { locale: Locale };
   const { currency, formatMoney: formatGBP } = useMarketCurrency(locale);
   const {
     product: p,
     canonicalSlug,
     related,
+    inventoryError: initialInventoryError = false,
   } = Route.useLoaderData() as {
     product: Product;
     canonicalSlug: string;
     related: Product[];
+    inventoryError?: boolean;
   };
   const gallery = useMemo(() => galleryWithSizeChart(p), [p]);
   const sizeChart = productSizeChart(p);
-  const [size, setSize] = useState(p.sizes[Math.floor(p.sizes.length / 2)]);
-  const [color, setColor] = useState(p.colors[0].name);
+  const requested = !import.meta.env.SSR ? new URLSearchParams(window.location.search) : undefined;
+  const initialVariant = initialInventorySelection(p.inventory ?? [], requested?.get("size"), requested?.get("color"));
+  const [size, setSize] = useState(initialVariant?.size ?? p.sizes[Math.floor(p.sizes.length / 2)]);
+  const [color, setColor] = useState(initialVariant?.color ?? p.colors[0]?.name ?? "");
+  const currentSelection = useRef({ size, color });
+  currentSelection.current = { size, color };
   const livePrice = p.priceGBP;
   const comparePrice = p.comparePriceGBP ?? null;
   const discount = productDiscount(livePrice, comparePrice);
   const [availableColors, setAvailableColors] = useState(p.colors);
   const [availableSizes, setAvailableSizes] = useState(p.sizes);
-  const [variants, setVariants] = useState<
-    Array<{ size: string; color: string; color_hex: string; stock: number; active: boolean }>
-  >([]);
-  const [inventoryLoading, setInventoryLoading] = useState(true);
-  const [inventoryError, setInventoryError] = useState(false);
+  const [variants, setVariants] = useState<ProductVariantStock[]>(p.inventory ?? []);
+  const [inventoryLoading, setInventoryLoading] = useState(import.meta.env.SSR || (!p.inventory && !initialInventoryError));
+  const [inventoryError, setInventoryError] = useState(initialInventoryError);
+  const [addingToBag, setAddingToBag] = useState(false);
+  const retryInventory = useRef<() => void>(() => undefined);
   const [qty, setQty] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
   const [loadedGalleryImage,setLoadedGalleryImage] = useState<string | null>(null);
@@ -283,22 +307,10 @@ function ProductPage() {
       setInventoryError(false);
       return;
     }
-    if (!isSupabaseConfigured()) return;
+    if (!isSupabaseConfigured()) { setInventoryLoading(false); setInventoryError(true); return; }
     let activeRequest = true;
-    setInventoryLoading(true);
-    setInventoryError(false);
-    void supabase
-      .from("products")
-      .select("price_pence,compare_price_pence,product_variants(size,color,color_hex,stock,active)")
-      .eq("slug", canonicalSlug)
-      .eq("status", "active")
-      .eq("product_variants.active", true)
-      .maybeSingle()
-      .then(({ data, error }) => {
-        if (!activeRequest) return;
-        setInventoryLoading(false);
-        if (error || !data) { setInventoryError(true); return; }
-        const active = (data.product_variants ?? []).filter((variant: any) => variant.active);
+    let requestVersion = 0;
+    const apply = (active: ProductVariantStock[]) => {
         setVariants(active);
         const colors = Array.from(
           new Map(
@@ -311,23 +323,61 @@ function ProductPage() {
         const sizes = [...new Set(active.map((variant: any) => variant.size))] as string[];
         setAvailableColors(colors);
         setAvailableSizes(sizes);
-        const firstStocked = active.find((variant: any) => variant.stock > 0);
-        if (firstStocked) { setColor(firstStocked.color); setSize(firstStocked.size); }
-        else { if (colors.length) setColor(colors[0].name); if (sizes.length) setSize(sizes[0]); }
-      });
-    return () => { activeRequest = false; };
-  }, [canonicalSlug]);
+        const selected = initialInventorySelection(active, currentSelection.current.size, currentSelection.current.color);
+        setColor(selected?.color ?? ""); setSize(selected?.size ?? "");
+    };
+    const refresh = async () => {
+      const version = ++requestVersion;
+      setInventoryLoading(true); setInventoryError(false);
+      try {
+        const { data, error } = await supabase.from("products")
+          .select("product_variants(size,color,color_hex,stock,active)")
+          .eq("slug", canonicalSlug).eq("status", "active")
+          .abortSignal(AbortSignal.timeout(15000)).maybeSingle();
+        if (error || !data) throw new Error("Inventory lookup failed");
+        const rows = validatedInventory(data.product_variants);
+        if (activeRequest && version === requestVersion) apply(rows);
+      } catch {
+        if (activeRequest && version === requestVersion) setInventoryError(true);
+      } finally {
+        if (activeRequest && version === requestVersion) setInventoryLoading(false);
+      }
+    };
+    retryInventory.current = () => { void refresh(); };
+    if (p.inventory) { apply(p.inventory); setInventoryLoading(false); setInventoryError(false); }
+    else if (initialInventoryError) { setInventoryLoading(false); setInventoryError(true); }
+    else void refresh();
+    window.addEventListener("focus", refresh);
+    return () => { activeRequest = false; requestVersion++; window.removeEventListener("focus", refresh); };
+  }, [canonicalSlug, p.inventory, initialInventoryError]);
 
   const selectedStock =
-    variants.find((variant) => variant.size === size && variant.color === color)?.stock ?? 0;
+    stockForSelection(variants, size, color);
+
+  useEffect(() => {
+    if (getLocalCatalogueProduct(canonicalSlug)) return;
+    const url = absoluteUrl(`/${locale}/product/${getLocalizedSlug(canonicalSlug, "product", locale)}`);
+    const offers = inventoryLoading || inventoryError
+      ? { "@type": "Offer", price: livePrice, priceCurrency: localeCurrency(locale), url }
+      : inventoryOffers(variants, livePrice, localeCurrency(locale), url);
+    for (const script of document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]')) {
+      try {
+        const data = JSON.parse(script.textContent || "null");
+        if (data?.["@type"] === "Product" && data.sku === canonicalSlug) {
+          data.offers = offers;
+          script.textContent = JSON.stringify(data);
+        }
+      } catch { /* Other structured data is unrelated to this offer. */ }
+    }
+  }, [canonicalSlug, variants, inventoryLoading, inventoryError, livePrice, locale]);
 
   useEffect(() => {
     if (!variants.length) return;
     const colorSizes = variants
-      .filter((variant) => variant.color === color && variant.stock > 0)
+      .filter((variant) => variant.color === color)
       .map((variant) => variant.size);
     setAvailableSizes([...new Set(colorSizes)]);
-    setSize((current) => colorSizes.includes(current) ? current : colorSizes[0] ?? "");
+    setSize((current) => colorSizes.includes(current) ? current : variants.find(variant => variant.color === color && variant.stock > 0)?.size ?? colorSizes[0] ?? "");
     setQty(1);
   }, [color, variants]);
 
@@ -356,16 +406,38 @@ function ProductPage() {
     });
   }, [activeImg, gallery, loadedGalleryImage]);
 
-  function handleAdd() {
+  async function handleAdd() {
     if (getLocalCatalogueProduct(canonicalSlug)) {
       toast.info("Local catalogue preview only. Ordering is disabled until this product is approved and published.");
       return;
     }
-    if (inventoryLoading || inventoryError || !selectedStock) {
+    if (addingToBag) return;
+    if (inventoryLoading) { toast.info("Checking availability. Please wait."); return; }
+    if (inventoryError) { toast.error("Availability could not be checked. Please try again."); return; }
+    if (!selectedStock) {
       toast.error("This option is currently out of stock.");
       return;
     }
-    const safeQty = Math.min(qty, selectedStock);
+    let safeQty: number;
+    setAddingToBag(true);
+    try {
+      const { data, error } = await supabase.from("products")
+        .select("product_variants(size,color,color_hex,stock,active)")
+        .eq("slug", canonicalSlug).eq("status", "active")
+        .eq("product_variants.size", size).eq("product_variants.color", color)
+        .eq("product_variants.active", true)
+        .abortSignal(AbortSignal.timeout(15000)).maybeSingle();
+      if (error) throw error;
+      const checked = validatedInventory(data?.product_variants ?? []);
+      safeQty = basketQuantity(checked, size, color, qty);
+      const stock = stockForSelection(checked, size, color);
+      setVariants(current => data ? current.map(row => row.size === size && row.color === color ? { ...row, stock } : row) : []);
+      if (!safeQty) { toast.error("This option is currently out of stock."); return; }
+    } catch {
+      setInventoryError(true);
+      toast.error("Availability could not be checked. Please try again.");
+      return;
+    } finally { setAddingToBag(false); }
     addToCart({
       slug: canonicalSlug,
       name: p.name,
@@ -547,9 +619,9 @@ function ProductPage() {
             </p>
           )}
           <div className="mt-3 flex items-center gap-2 text-sm text-foreground/75">
-            <span className={`h-2 w-2 rounded-full ${inventoryLoading ? "bg-amber-500" : variants.some((variant) => variant.stock > 0) ? "bg-emerald-600" : "bg-zinc-400"}`} aria-hidden="true" />
+            <span className={`h-2 w-2 rounded-full ${inventoryLoading ? "bg-amber-500" : !inventoryError && selectedStock > 0 ? "bg-emerald-600" : "bg-zinc-400"}`} aria-hidden="true" />
             <span>
-              {getLocalCatalogueProduct(canonicalSlug) ? "Local draft — not available to order" : inventoryLoading ? "Checking availability…" : inventoryError ? "Availability could not be checked. Please try again." : !variants.some((variant) => variant.stock > 0) ? "Currently out of stock" : locale === "it"
+              {getLocalCatalogueProduct(canonicalSlug) ? "Local draft — not available to order" : inventoryLoading ? "Checking availability…" : inventoryError ? "Availability could not be checked. Please try again." : !selectedStock ? "Currently out of stock" : locale === "it"
                 ? "Disponibile su ordinazione"
                 : locale === "de"
                   ? "Bestellbar"
@@ -560,6 +632,8 @@ function ProductPage() {
                       : "Available to order"}
             </span>
           </div>
+
+          {inventoryError && <button type="button" onClick={() => retryInventory.current()} className="mt-2 text-sm underline">Retry availability check</button>}
 
           {availableColors.length > 0 && (
             <div className="mt-8">
@@ -625,7 +699,9 @@ function ProductPage() {
                 <button
                   key={s}
                   onClick={() => setSize(s)}
-                  className={`h-11 text-sm border transition-all duration-300 hover:-translate-y-0.5 ${size === s ? "border-foreground bg-foreground text-background shadow-soft" : "border-border hover:border-foreground"}`}
+                  disabled={!inventoryLoading && !inventoryError && stockForSelection(variants, s, color) === 0}
+                  aria-label={`${getLocalizedOption(s, locale)}${!inventoryLoading && !inventoryError && stockForSelection(variants, s, color) === 0 ? " — out of stock" : ""}`}
+                  className={`h-11 text-sm border transition-all duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 ${size === s ? "border-foreground bg-foreground text-background shadow-soft" : "border-border hover:border-foreground"}`}
                 >
                   {getLocalizedOption(s, locale)}
                 </button>
@@ -671,11 +747,11 @@ function ProductPage() {
               </button>
             </div>
             <span className="col-span-2 row-start-1 self-center text-right text-[11px] text-muted-foreground sm:col-auto sm:text-left">
-              {getLocalCatalogueProduct(canonicalSlug) ? `${selectedStock} ${p.category === "leather-bags" ? "units" : "per size"} (draft)` : selectedStock > 0 ? `${selectedStock} available` : "Out of stock"}
+              {getLocalCatalogueProduct(canonicalSlug) ? `${selectedStock} ${p.category === "leather-bags" ? "units" : "per size"} (draft)` : inventoryLoading || addingToBag ? "Checking availability…" : inventoryError ? "Availability check failed" : selectedStock > 0 ? `${selectedStock} available` : "Out of stock"}
             </span>
             <button
               onClick={handleAdd}
-              disabled={Boolean(getLocalCatalogueProduct(canonicalSlug)) || inventoryLoading || selectedStock === 0}
+              disabled={Boolean(getLocalCatalogueProduct(canonicalSlug)) || inventoryLoading || inventoryError || addingToBag || selectedStock === 0}
               className="luxe-button col-span-2 row-start-2 h-12 w-full min-w-0 bg-foreground px-3 text-center text-xs uppercase tracking-[0.12em] text-background disabled:cursor-not-allowed disabled:opacity-40 sm:col-auto sm:row-auto sm:flex-1 sm:text-sm sm:tracking-widest"
             >
               {getLocalCatalogueProduct(canonicalSlug) ? "Preview only" : locale === "it"
@@ -836,7 +912,7 @@ function ProductPage() {
           <button
             type="button"
             onClick={handleAdd}
-            disabled={Boolean(getLocalCatalogueProduct(canonicalSlug)) || inventoryLoading || selectedStock === 0}
+            disabled={Boolean(getLocalCatalogueProduct(canonicalSlug)) || inventoryLoading || inventoryError || addingToBag || selectedStock === 0}
             className="luxe-button h-11 shrink-0 bg-foreground px-5 text-[11px] uppercase tracking-widest text-background disabled:opacity-40"
           >
             {getLocalCatalogueProduct(canonicalSlug) ? "Preview only" : locale === "it"

@@ -18,6 +18,7 @@ const assetModule = { getProductAsset: source => manifest[source]?.url ?? source
 async function evaluate(file, modules = {}, dev = false) {
   const source = (await fs.readFile(file, 'utf8')).replaceAll('import.meta.env.DEV', String(dev)).replaceAll('import.meta.env.SSR', 'false');
   modules["@/lib/storefront-products"] ??= { getStorefrontProducts: async () => modules["@/data/products"]?.PRODUCTS ?? [] };
+  modules["@/lib/storefront-collection-content"] ??= { getStorefrontCollectionContent: async collection => collection };
   const exports = {};
   vm.runInNewContext(ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } }).outputText, { exports, URL, require: name => modules[name] ?? {} });
   return exports;

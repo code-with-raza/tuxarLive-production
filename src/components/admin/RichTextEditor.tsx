@@ -93,7 +93,7 @@ export function RichTextEditor({
     <div>
       <label className="block mb-2 text-xs uppercase tracking-widest">{label}</label>
       <div
-        className="sticky top-0 z-10 flex flex-wrap items-center gap-px border bg-section p-1 shadow-sm"
+        className="sticky top-[65px] md:top-[81px] z-30 flex flex-wrap items-center gap-px border bg-section p-1 shadow-sm"
         role="toolbar"
       >
         {button("Undo", "undo", <Undo2 className="h-4 w-4" />)}
@@ -181,7 +181,7 @@ export function RichTextEditor({
           emit();
         }}
         onDrop={(event) => event.preventDefault()}
-        className="prose prose-neutral max-w-none overflow-auto border border-t-0 bg-background p-5 focus:outline-none focus:ring-1 focus:ring-foreground"
+        className="rich-text-content prose prose-neutral max-w-none overflow-auto border border-t-0 bg-background p-5 focus:outline-none focus:ring-1 focus:ring-foreground"
         style={{ minHeight }}
       />
     </div>

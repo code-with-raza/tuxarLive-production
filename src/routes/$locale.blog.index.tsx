@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, Clock, Tag } from "lucide-react";
 import { blogDateTime, formatBlogDate } from "@/lib/blog/date";
-import { t, Locale, getLocalizedLink, BLOG_SLUG_MAP } from "@/i18n/i18n";
+import { t, Locale, getLocalizedLink } from "@/i18n/i18n";
 import { PageHero } from "@/components/site/PageHero";
 import type { BlogPost } from "@/lib/blog/types";
 import { localizedAlternates } from "@/lib/seo";
@@ -71,9 +71,10 @@ const readLabel = (locale: Locale) => {
 };
 
 export const Route = createFileRoute("/$locale/blog/")({
-  loader: async () => {
-    const { getAllPosts } = await import("@/lib/blog");
-    return getAllPosts();
+  staleTime: 0,
+  loader: async ({ params }) => {
+    const { getPublishedPosts } = await import("@/lib/blog/published");
+    return getPublishedPosts(params.locale as Locale);
   },
   head: ({ params }) => {
     const locale = params.locale as Locale;
@@ -122,12 +123,7 @@ export const Route = createFileRoute("/$locale/blog/")({
 
 function JournalIndex() {
   const { locale } = Route.useParams() as { locale: Locale };
-  const allPosts = Route.useLoaderData() as BlogPost[];
-
-  // Filter posts by locale using the slug map
-  const posts = allPosts.filter((post: BlogPost) =>
-    Object.values(BLOG_SLUG_MAP).some((localesMap) => localesMap[locale as Locale] === post.slug),
-  );
+  const posts = Route.useLoaderData() as BlogPost[];
 
   const title = journalTitle(locale);
   const description = journalDesc(locale);

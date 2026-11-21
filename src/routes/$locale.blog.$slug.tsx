@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { ChevronRight, Calendar, User, Clock } from "lucide-react";
 import { blogDateTime, formatBlogDate } from "@/lib/blog/date";
-import { t, Locale, getLocalizedLink, getLocalizedSlug, resolveSlug } from "@/i18n/i18n";
+import { t, Locale, getLocalizedLink, getLocalizedSlug, resolveSlug, BLOG_SLUG_MAP } from "@/i18n/i18n";
 import { localizedAlternates } from "@/lib/seo";
 
 const SITE_URL = "https://tuxar.co.uk";
@@ -57,9 +57,10 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
     const slug = getLocalizedSlug(resolveSlug(params.slug, "blog", locale), "blog", locale);
     if (slug !== params.slug) throw redirect({ to: "/$locale/blog/$slug", params: { locale, slug }, search: true, replace: true, statusCode: 301 });
   },
+  staleTime: 0,
   loader: async ({ params }) => {
-    const { getPostBySlug } = await import("@/lib/blog");
-    const post = getPostBySlug(params.slug);
+    const { getPublishedPost } = await import("@/lib/blog/published");
+    const post = await getPublishedPost(params.slug, params.locale as Locale);
     if (!post) throw notFound();
     return { post };
   },
@@ -126,10 +127,10 @@ export const Route = createFileRoute("/$locale/blog/$slug")({
       ],
       links: [
         { rel: "canonical", href: fullUrl },
-        ...localizedAlternates(
+        ...(BLOG_SLUG_MAP[canonicalSlug] ? localizedAlternates(
           (targetLocale) =>
             `/${targetLocale}/blog/${getLocalizedSlug(canonicalSlug, "blog", targetLocale)}`,
-        ),
+        ) : [{ rel: "alternate", hrefLang: locale, href: fullUrl }]),
       ],
       scripts: [
         // BlogPosting schema
@@ -297,7 +298,7 @@ function BlogPost() {
         {post.date && <meta itemProp="datePublished" content={post.date} />}
 
         <div
-          className="prose prose-neutral max-w-none text-foreground/90 font-serif text-lg leading-relaxed
+          className="rich-text-content prose prose-neutral max-w-none text-foreground/90 font-serif text-lg leading-relaxed
             prose-headings:font-display prose-headings:text-foreground prose-headings:font-normal
             prose-h1:hidden
             prose-h2:text-3xl prose-h2:mt-14 prose-h2:mb-4

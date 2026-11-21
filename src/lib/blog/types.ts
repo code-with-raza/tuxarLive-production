@@ -30,6 +30,7 @@ export interface BlogFrontmatter extends BlogPostSeo {
 /** Article as served to the storefront */
 export interface BlogPost {
   id: string;
+  locale?: Locale;
   slug: string;
   title: string;
   excerpt: string;

@@ -244,6 +244,7 @@ export function AdminArticleEditor({ id, locale }: { id: string; locale: string 
                   <option key={x}>{x}</option>
                 ))}
               </select>
+              <p className="text-xs text-muted-foreground">Published articles appear in the selected language only. Add a separate translated article for each other language.</p>
             </section>
             <section className="bg-background border p-6 space-y-4">
               <h2 className="font-display text-2xl">Organization</h2>

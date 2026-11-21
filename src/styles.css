@@ -2,6 +2,18 @@
 @source "../src";
 @import "tw-animate-css";
 
+/* Restore list markers reset by Preflight, only within editable/rendered content. */
+.rich-text-content :where(ul, ol) {
+  margin-block: 0.75em;
+  padding-inline-start: 1.5em;
+  list-style-position: outside;
+}
+.rich-text-content :where(ul) { list-style-type: disc; }
+.rich-text-content :where(ol) { list-style-type: decimal; }
+.rich-text-content :where(ul ul) { list-style-type: circle; }
+.rich-text-content :where(ul ul ul) { list-style-type: square; }
+.rich-text-content :where(li) { display: list-item; margin-block: 0.25em; }
+
 @custom-variant dark (&:is(.dark *));
 
 /* Use a plain ampersand throughout, retaining the display font for other letters. */

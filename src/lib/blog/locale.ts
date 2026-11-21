@@ -19,11 +19,11 @@ export function isBlogSlugForLocale(slug: string, locale: Locale): boolean {
 }
 
 /** Filter posts to those available in the requested locale */
-export function filterPostsByLocale<T extends Pick<BlogPost, "slug">>(
+export function filterPostsByLocale<T extends Pick<BlogPost, "slug" | "locale">>(
   posts: T[],
   locale: Locale,
 ): T[] {
-  return posts.filter((post) => isBlogSlugForLocale(post.slug, locale));
+  return posts.filter((post) => post.locale ? post.locale === locale : isBlogSlugForLocale(post.slug, locale));
 }
 
 /** All localized slugs for hreflang alternates */

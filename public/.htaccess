@@ -2449,8 +2449,12 @@ Options -Indexes
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteRule . /server-router.php [END]
 </IfModule>
+
+<Files "server-routes.json">
+  Require all denied
+</Files>
 
 <IfModule mod_headers.c>
   # A cache must not pin another visitor's homepage language.

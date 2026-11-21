@@ -35,6 +35,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run typecheck:functions
       - run: npm run test:security
+      - run: php -l public/server-router.php
       - run: python3 -m unittest discover -s tests/ci -p 'test_*.py' -v
       - name: Validate product changes without credentials or uploads
         run: node scripts/ci/catalogue.mjs --write-frontend

@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createServer, createServerModuleRunnerTransport } from 'vite';
+import { createServer, createServerModuleRunnerTransport, loadEnv } from 'vite';
 import { ModuleRunner, createNodeImportMeta } from 'vite/module-runner';
 import { verifyHomepageHtml } from './verify-homepage-html.mjs';
 import { inspectPublicHtml } from './verify-public-locale-html.mjs';
@@ -25,6 +25,21 @@ try {
   const { renderPublicPage, publishedPublicUrls } = await runner.import('/src/prerender-home.tsx');
   console.log('Reading active product status and prices…');
   urls = await publishedPublicUrls(urls);
+  const environment = { ...loadEnv('production', process.cwd(), 'VITE_'), ...process.env };
+  const paths = new Set(['/']);
+  for (const url of urls) {
+    const pathname = new URL(url).pathname.replace(/\/$/, '');
+    paths.add(pathname);
+    paths.add(pathname.replace(/^\/(en|de|fr|it|es)(?=\/|$)/, '') || '/');
+  }
+  for (const file of await fs.readdir('src/routes')) {
+    if (!file.endsWith('.tsx') || file === '__root.tsx') continue;
+    const route = file.slice(0, -4).replace(/\.index$/, '').replace(/_(?=\.|$)/g, '');
+    if (route.replace('$locale', '').includes('$')) continue;
+    const pathname = route === 'index' ? '/' : '/' + route.replaceAll('.', '/');
+    for (const locale of locales) paths.add(pathname.replace('$locale', locale));
+  }
+  await fs.writeFile('dist/server-routes.json', JSON.stringify({ paths:[...paths].sort(), supabaseUrl:environment.VITE_SUPABASE_URL, publishableKey:environment.VITE_SUPABASE_PUBLISHABLE_KEY || environment.VITE_SUPABASE_ANON_KEY })+'\n');
   console.log('Rendering ' + urls.length + ' published public pages…');
   const published = new Set(urls);
   await fs.writeFile('dist/sitemap.xml', sitemap.replace(/\s*<url>[\s\S]*?<\/url>/g, block => published.has(block.match(/<loc>([^<]+)<\/loc>/)?.[1]) ? block : ''));

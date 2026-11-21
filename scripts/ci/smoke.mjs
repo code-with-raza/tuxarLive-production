@@ -29,5 +29,20 @@ try {
   }
   const sitemap=await (await read(`${site}/sitemap.xml?release=${revision}`)).text();
   if(!sitemap.includes('<urlset')) throw new Error('Live sitemap is invalid');
+  for(const pathname of ['/seo-check-page-does-not-exist-20261119', `/missing-release-check-${revision}`, '/en/product/nonexistent-product-release-check', '/en/blog/nonexistent-article-release-check']) {
+    const response=await fetch(`${site}${pathname}`,{redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(20000)});
+    const html=await response.text();
+    if(response.status!==404 || response.headers.get('location') || !html.includes('Page not found') || !['/en','/en/shop','/en/contact'].every(path=>html.includes(`href="${path}"`))) throw new Error(`Real 404 response failed: ${pathname} (${response.status})`);
+    console.log(`HTTP 404 verified: ${pathname}`);
+  }
+  for(const section of ['product','collections','blog']) {
+    const url=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]).find(url=>new URL(url).pathname.startsWith(`/en/${section}/`));
+    if(!url)throw new Error(`Missing valid ${section} control URL`);
+    await read(url);
+    console.log(`HTTP 200 verified: ${new URL(url).pathname}`);
+  }
+  const retired=await fetch(`${site}/taking-off-leather-jacket-from-behind-step-by-step-guide/`,{redirect:'manual',signal:AbortSignal.timeout(20000)});
+  if(retired.status!==410)throw new Error(`Intentional 410 changed: ${retired.status}`);
+  console.log('HTTP 410 verified: retired article');
   console.log('Live release revision, private path protection, security headers, all five homepages, JavaScript and sitemap verified.');
 } catch(error) { console.error(error.message);process.exitCode=1; }

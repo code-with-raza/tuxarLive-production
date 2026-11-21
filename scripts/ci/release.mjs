@@ -12,7 +12,7 @@ export async function releaseManifest(root,revision) {
       if(entry.isSymbolicLink()) throw new Error('Symlinks are forbidden in deployment files');
       if(entry.isDirectory()) { if(!/^(assets|blog_images|size-charts|prerender-home|prerender-pages)(\/|$)/.test(relative)) throw new Error(`Unexpected deployment directory: ${relative}`);await walk(full); }
       else {
-        if(!/^(?:\.htaccess|index\.html|robots\.txt|sitemap\.xml|llms\.txt|legacy-not-found\.html|consent-default\.js|favicon\.svg|deployment\.json|(?:assets|blog_images|size-charts)\/[a-zA-Z0-9_./-]+\.(?:js|mjs|css|svg|png|jpe?g|webp|avif|gif|woff2?|ttf|ico)|prerender-home\/(?:en|de|fr|it|es)\.html|prerender-pages\/(?:en|de|fr|it|es)\/(?:[a-z0-9-]+\/)+index\.html)$/.test(relative)) throw new Error(`Unexpected public file: ${relative}`);
+        if(!/^(?:\.htaccess|index\.html|robots\.txt|sitemap\.xml|llms\.txt|legacy-not-found\.html|server-router\.php|server-routes\.json|consent-default\.js|favicon\.svg|deployment\.json|(?:assets|blog_images|size-charts)\/[a-zA-Z0-9_./-]+\.(?:js|mjs|css|svg|png|jpe?g|webp|avif|gif|woff2?|ttf|ico)|prerender-home\/(?:en|de|fr|it|es)\.html|prerender-pages\/(?:en|de|fr|it|es)\/(?:[a-z0-9-]+\/)+index\.html)$/.test(relative)) throw new Error(`Unexpected public file: ${relative}`);
         const content=await fs.readFile(full);files.push({path:relative,bytes:content.length,sha256:createHash('sha256').update(content).digest('hex')});
       }
     }

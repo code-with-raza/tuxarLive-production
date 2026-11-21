@@ -20,6 +20,7 @@ REVISION = "a" * 40
 def fixture(folder):
     files = {
         "index.html": b"new-index", ".htaccess": b"new-rules", "robots.txt": b"robots", "sitemap.xml": b"sitemap",
+        "server-router.php": b"new-router", "server-routes.json": b'{"paths":["/en"]}',
         "deployment.json": json.dumps({"revision": REVISION}).encode(), "assets/new-12345678.js": b"new-js",
         "prerender-pages/en/product/new/index.html": b"new-product",
     }

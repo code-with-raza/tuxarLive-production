@@ -24,8 +24,8 @@ import urllib.error
 import urllib.request
 
 GENERATED = ("prerender-home", "prerender-pages", "blog_images", "size-charts")
-ROOT_FILES = ("favicon.svg", "consent-default.js", "legacy-not-found.html", "llms.txt", "robots.txt", "sitemap.xml", ".htaccess", "deployment.json", "index.html")
-PUBLIC_FILE = re.compile(r"^(?:\.htaccess|index\.html|robots\.txt|sitemap\.xml|llms\.txt|legacy-not-found\.html|consent-default\.js|favicon\.svg|deployment\.json|(?:assets|blog_images|size-charts)/[a-zA-Z0-9_./-]+\.(?:js|mjs|css|svg|png|jpe?g|webp|avif|gif|woff2?|ttf|ico)|prerender-home/(?:en|de|fr|it|es)\.html|prerender-pages/(?:en|de|fr|it|es)/(?:[a-z0-9-]+/)+index\.html)$")
+ROOT_FILES = ("favicon.svg", "consent-default.js", "legacy-not-found.html", "server-router.php", "server-routes.json", "llms.txt", "robots.txt", "sitemap.xml", ".htaccess", "deployment.json", "index.html")
+PUBLIC_FILE = re.compile(r"^(?:\.htaccess|index\.html|robots\.txt|sitemap\.xml|llms\.txt|legacy-not-found\.html|server-router\.php|server-routes\.json|consent-default\.js|favicon\.svg|deployment\.json|(?:assets|blog_images|size-charts)/[a-zA-Z0-9_./-]+\.(?:js|mjs|css|svg|png|jpe?g|webp|avif|gif|woff2?|ttf|ico)|prerender-home/(?:en|de|fr|it|es)\.html|prerender-pages/(?:en|de|fr|it|es)/(?:[a-z0-9-]+/)+index\.html)$")
 
 
 def safe_relative(value):

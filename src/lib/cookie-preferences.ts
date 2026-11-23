@@ -1,12 +1,13 @@
 export const CONSENT_KEY = "tuxar-cookie-consent";
-export type CookiePreferences = { version: 2; analytics: boolean; marketing: boolean };
-export const essentialOnly = (): CookiePreferences => ({ version: 2, analytics: false, marketing: false });
+export type CookiePreferences = { version: 3; analytics: boolean; marketing: boolean };
+export const essentialOnly = (): CookiePreferences => ({ version: 3, analytics: false, marketing: false });
 export function parseCookiePreferences(value: string | null): CookiePreferences | null {
   if (value === "accepted") return { ...essentialOnly(), analytics: true };
   if (value === "rejected") return essentialOnly();
   try {
     const saved = JSON.parse(value || "null");
-    return saved?.version === 2 && typeof saved.analytics === "boolean" && typeof saved.marketing === "boolean" ? saved : null;
+    // Adding a new identification provider requires a fresh informed choice.
+    return saved?.version === 3 && typeof saved.analytics === "boolean" && typeof saved.marketing === "boolean" ? saved : null;
   } catch { return null; }
 }
 export function readCookiePreferences(): CookiePreferences | null {

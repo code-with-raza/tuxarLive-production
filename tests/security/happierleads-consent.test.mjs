@@ -23,7 +23,8 @@ test('legacy Analytics approval never opts a visitor into Marketing',()=>{
  assert.equal(parseCookiePreferences('accepted').marketing,false);
  assert.equal(parseCookiePreferences('rejected').marketing,false);
  for(const value of [null,'bad','{"version":2,"analytics":true,"marketing":"yes"}'])assert.equal(parseCookiePreferences(value),null);
- assert.deepEqual(essentialOnly(),{version:2,analytics:false,marketing:false});
+ assert.deepEqual(essentialOnly(),{version:3,analytics:false,marketing:false});
+ assert.equal(parseCookiePreferences('{"version":2,"analytics":true,"marketing":true}'),null,'a new provider requires renewed consent');
 });
 test('no request before Marketing consent; one exact low-priority script survives public SPA navigation',()=>{
  const api=setup();api.startHappierleads(false);assert.equal(api.scripts.length,0);

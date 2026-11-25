@@ -168,7 +168,7 @@ test("checkout uses database prices and never returns an unrecorded Stripe sessi
   await import("../../supabase/functions/create-checkout-session/index.ts");
   const payload = { userId: "attacker-supplied-owner", price: 1, items: [{ slug: "jacket", size: "M", color: "Black", qty: 1 }], customer: { customerName: "Test Person", customerEmail: "ignored@example.com", customerPhone: "01234567890", streetAddress: "1 Test Street", city: "London", postalCode: "E1 1AA", country: "United Kingdom", shippingMethod: "UPS" } };
   const response = await endpoint(request(payload, { Authorization: bearer("aal1") }));
-  assert.equal(response.status, 200); assert.equal(stripePrice, "38900"); assert.equal(insertedUser, userId);
+  assert.equal(response.status, 200); assert.equal(stripePrice, "39900"); assert.equal(insertedUser, userId);
   saveSucceeds = false;
   const failed = await endpoint(request(payload, { Authorization: bearer("aal1") }));
   assert.equal(failed.status, 502); assert.equal(expired, true); assert.equal((await failed.json()).url, undefined);

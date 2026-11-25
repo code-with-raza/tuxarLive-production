@@ -108,7 +108,7 @@ export const Route = createFileRoute("/$locale/product/$slug")({
       try {
         if (!isSupabaseConfigured()) throw new Error("Inventory is not configured");
         const { data, error } = await supabase.from("products")
-          .select("product_variants(size,color,color_hex,stock,active,price_pence)")
+          .select("product_variants(size,color,color_hex,stock,active)")
           .eq("slug", canonicalSlug).eq("status", "active")
           .abortSignal(AbortSignal.timeout(15000)).maybeSingle();
         if (error || !data) throw new Error("Inventory lookup failed");
@@ -261,8 +261,7 @@ function ProductDetail() {
   const [availableColors, setAvailableColors] = useState(p.colors);
   const [availableSizes, setAvailableSizes] = useState(p.sizes);
   const [variants, setVariants] = useState<ProductVariantStock[]>(p.inventory ?? []);
-  const selectedPrice = variants.find(row => row.active && row.size === size && row.color === color)?.price_pence;
-  const livePrice = selectedPrice != null ? selectedPrice / 100 : p.priceGBP;
+  const livePrice = p.priceGBP;
   const comparePrice = p.comparePriceGBP ?? null;
   const discount = productDiscount(livePrice, comparePrice);
   const [inventoryLoading, setInventoryLoading] = useState(import.meta.env.SSR || (!p.inventory && !initialInventoryError));
@@ -332,7 +331,7 @@ function ProductDetail() {
       setInventoryLoading(true); setInventoryError(false);
       try {
         const { data, error } = await supabase.from("products")
-          .select("product_variants(size,color,color_hex,stock,active,price_pence)")
+          .select("product_variants(size,color,color_hex,stock,active)")
           .eq("slug", canonicalSlug).eq("status", "active")
           .abortSignal(AbortSignal.timeout(15000)).maybeSingle();
         if (error || !data) throw new Error("Inventory lookup failed");
@@ -423,7 +422,7 @@ function ProductDetail() {
     setAddingToBag(true);
     try {
       const { data, error } = await supabase.from("products")
-        .select("product_variants(size,color,color_hex,stock,active,price_pence)")
+        .select("product_variants(size,color,color_hex,stock,active)")
         .eq("slug", canonicalSlug).eq("status", "active")
         .eq("product_variants.size", size).eq("product_variants.color", color)
         .eq("product_variants.active", true)

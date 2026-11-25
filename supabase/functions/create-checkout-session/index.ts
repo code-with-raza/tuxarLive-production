@@ -73,12 +73,14 @@ secureServe("create-checkout-session", { auth: "user", limit: 10, windowSeconds:
       if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
         throw new Error("Cart contains an invalid product or quantity");
       }
-      const query = new URLSearchParams({ slug: `eq.${String(item.slug || "")}`, status: "eq.active", select: "name,price_pence,product_variants!inner(sku,size,color,stock,active,price_pence)" });
+      const query = new URLSearchParams({ slug: `eq.${String(item.slug || "")}`, status: "eq.active", select: "name,price_pence,product_variants!inner(sku,size,color,stock,active)" });
       query.set("product_variants.size", `eq.${text(item.size, 30)}`); query.set("product_variants.color", `eq.${text(item.color, 50)}`); query.set("product_variants.active", "eq.true");
       const response = await fetch(`${supabaseUrl}/rest/v1/products?${query}`, { headers: databaseHeaders });
       const rows = await response.json(); const row = rows?.[0]; const variant = row?.product_variants?.[0];
       if (!response.ok || !row || !variant || variant.stock < quantity) throw new Error(`${item.size || "Selected"} ${item.color || "variant"} is no longer available`);
-      const baseUnitAmount = variant.price_pence ?? row.price_pence;
+      // The admin's current catalogue price is authoritative; legacy SKU prices can predate edits.
+      const baseUnitAmount = row.price_pence;
+      if (!Number.isSafeInteger(baseUnitAmount) || baseUnitAmount < 0) throw new Error("Product pricing could not be checked");
       const product: CatalogItem = { name: row.name, unitAmount: usdQuote ? usdMinor(baseUnitAmount, usdQuote.rateE8) : baseUnitAmount };
       return { item, product, quantity, sku: variant.sku, baseUnitAmount };
     }));

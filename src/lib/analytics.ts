@@ -16,9 +16,11 @@ export type PurchaseAnalytics = {
   }>;
 };
 
-const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const measurementId = (import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined)?.trim();
 let loading = false;
 let analyticsAllowed = false;
+let configured = false;
+let lastPageLocation: string | undefined;
 
 declare global {
   interface Window {
@@ -34,7 +36,9 @@ export function analyticsConfigured() {
 
 function ensureGtag() {
   window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || ((...args: unknown[]) => window.dataLayer?.push(args));
+  // gtag's public queue protocol uses an Arguments object, as in Google's snippet.
+  // eslint-disable-next-line prefer-rest-params
+  window.gtag = window.gtag || function () { window.dataLayer?.push(arguments); };
 }
 
 export function loadAnalytics() {
@@ -54,11 +58,14 @@ export function loadAnalytics() {
   if (loading || window.__tuxarAnalyticsLoaded) return;
   loading = true;
 
-  gtag("js", new Date());
-  gtag("config", measurementId, {
-    send_page_view: false,
-    anonymize_ip: true,
-  });
+  if (!configured) {
+    gtag("js", new Date());
+    gtag("config", measurementId, {
+      send_page_view: false,
+      anonymize_ip: true,
+    });
+    configured = true;
+  }
 
   const script = document.createElement("script");
   script.async = true;
@@ -69,14 +76,23 @@ export function loadAnalytics() {
   };
   script.onerror = () => {
     loading = false;
+    script.remove();
   };
   document.head.appendChild(script);
 }
 
 export function trackPageView(path: string, title: string) {
   if (!analyticsAllowed || !window.gtag || !measurementId) return;
+  const pageLocation = new URL(path, window.location.origin).href;
+  // Effects may run twice or preferences may be saved again on the same route.
+  // Only suppress consecutive duplicates, so returning to a page is still counted.
+  if (lastPageLocation === pageLocation) return;
+  const referrer = lastPageLocation ?? document.referrer;
+  lastPageLocation = pageLocation;
   window.gtag("event", "page_view", {
     page_path: path,
+    page_location: pageLocation,
+    page_referrer: referrer,
     page_title: title,
     send_to: measurementId,
   });

@@ -68,9 +68,9 @@ test('manual GBP/EUR choice is saved and charged as the same numeric price; unsu
   const invalid=await run('UPS','Italy','CAD');assert.equal(invalid.response.status,400);assert.equal(invalid.calls.length,0);
 });
 
-test('USD charges use a signed rate and the authoritative variant price, rounding each unit before quantities',async()=>{
+test('USD charges use a signed rate and current catalogue price, ignoring legacy SKU prices and rounding each unit',async()=>{
  const quote=await usdQuoteHelpers.signUsdQuote({version:1,rateE8:130713333,date:new Date().toISOString().slice(0,10),expiresAt:Date.now()+3600000},'fixture-not-a-secret');
- const result=await run('UPS','Italy','USD',{token:quote.token,total:3924,price:15000,variantPrice:1001,qty:3});
+ const result=await run('UPS','Italy','USD',{token:quote.token,total:3924,price:1001,variantPrice:15000,qty:3});
  assert.equal(result.response.status,200);assert.equal(result.order.currency,'USD');
  assert.equal(result.order.total_pence,3924);assert.equal(result.order.base_subtotal_pence,3003);assert.equal(result.order.usd_rate_e8,130713333);
  assert.equal(result.stripe.get('line_items[0][price_data][unit_amount]'),'1308');

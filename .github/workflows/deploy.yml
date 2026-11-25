@@ -79,6 +79,8 @@ jobs:
         run: node scripts/ci/release.mjs --current-commit
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: Require the approved storefront analytics stream
+        run: node -e "if (process.env.VITE_GA_MEASUREMENT_ID?.trim() !== 'G-01ZC9ZLJ8Y') throw new Error('Set production variable VITE_GA_MEASUREMENT_ID to the approved Tuxar GA4 stream before publishing')"
       - name: Check hosting access before changing production
         run: python3 scripts/ci/hosting.py check
         env: &hosting

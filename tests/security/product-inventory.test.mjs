@@ -52,10 +52,9 @@ test('each structured offer reports its own stock and deep links to that size an
   }
 });
 
-test('variant price overrides describe the actual offer without changing another size',()=>{
+test('legacy variant prices cannot replace the current saved catalogue price in offers',()=>{
  const priced=[{...rows[0],price_pence:15000},{...rows[1],price_pence:17500},rows[2]];
- assert.deepEqual(inventoryOffers(priced,127,'GBP','https://tuxar.co.uk/en/product/test').map(row=>row.price),[150,175,127]);
- assert.throws(()=>validatedInventory([{...rows[0],price_pence:-1}]));
+ assert.deepEqual(inventoryOffers(priced,127,'GBP','https://tuxar.co.uk/en/product/test').map(row=>row.price),[127,127,127]);
 });
 
 test('real product route emits no frozen stock claims in initial HTML and live offers use variant stock',async()=>{

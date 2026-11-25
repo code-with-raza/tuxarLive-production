@@ -47,17 +47,19 @@ type CheckoutFields = z.infer<typeof checkoutSchema>;
 
 function Checkout() {
   const { locale } = Route.useParams() as { locale: Locale };
-  const { currency, formatMoney: formatGBP } = useMarketCurrency(locale);
+  const { currency, toMinor, formatMinor, formatLineMoney, currencyReady, usdQuote, usdRateError, usdRateInfo, refreshUsdPricing } = useMarketCurrency(locale);
   const { cart } = useShop();
   useCartInventory(cart);
   const { user, isLoading, authError } = useUser();
   const navigate = useNavigate();
   const [serverError, setServerError] = useState<string | null>(null);
   const [couponInput,setCouponInput]=useState("");
-  const [coupon,setCoupon]=useState<{code:string;discountPence:number;discountPercent:number|null}|null>(null);
+  const [couponResult,setCoupon]=useState<{code:string;discountPence:number;discountPercent:number|null;currency:string;quoteToken?:string;baseSubtotalMinor:number;subtotalMinor:number}|null>(null);
   const [couponBusy,setCouponBusy]=useState(false);
 
   const subtotal = cartTotalGBP(cart);
+  const subtotalMinor = cart.reduce((sum, item) => sum + toMinor(item.priceGBP) * item.qty, 0);
+  const coupon = couponResult?.currency === currency && couponResult.quoteToken === usdQuote?.token && couponResult.baseSubtotalMinor === Math.round(subtotal * 100) && couponResult.subtotalMinor === subtotalMinor ? couponResult : null;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -98,9 +100,21 @@ function Checkout() {
 
 
   const shippingCost = 0;
-  const discount=(coupon?.discountPence??0)/100;
-  const total = Math.max(0,subtotal + shippingCost-discount);
-  const applyCoupon=async()=>{if(!couponInput.trim())return;setCouponBusy(true);const{data,error}=await supabase.rpc("preview_coupon",{supplied_code:couponInput.trim(),subtotal_pence:Math.round(subtotal*100)});if(error){setCoupon(null);toast.error(error.message)}else{setCoupon(data);setCouponInput(data.code);toast.success(`Coupon ${data.code} applied`)}setCouponBusy(false)};
+  const discountMinor = coupon?.discountPence ?? 0;
+  const totalMinor = Math.max(0, subtotalMinor + toMinor(shippingCost) - discountMinor);
+  const applyCoupon = async () => {
+    if (!couponInput.trim() || !currencyReady) return;
+    setCouponBusy(true);
+    try {
+      const { data, error } = await supabase.rpc(currency === "USD" ? "preview_usd_coupon" : "preview_coupon", currency === "USD" && usdQuote
+        ? { supplied_code: couponInput.trim(), base_subtotal_pence: Math.round(subtotal * 100), usd_subtotal_cents: subtotalMinor, rate_e8: usdQuote.rateE8 }
+        : { supplied_code: couponInput.trim(), subtotal_pence: Math.round(subtotal * 100) });
+      if (error) throw error;
+      setCoupon({ ...data, currency, quoteToken: usdQuote?.token, baseSubtotalMinor: Math.round(subtotal * 100), subtotalMinor });
+      setCouponInput(data.code); toast.success(`Coupon ${data.code} applied`);
+    } catch (error) { setCoupon(null); toast.error(error instanceof Error ? error.message : "Coupon could not be applied"); }
+    finally { setCouponBusy(false); }
+  };
 
   const onInvalid: SubmitErrorHandler<CheckoutFields> = (fieldErrors) => {
     const message = Object.values(fieldErrors).find(error => error?.message)?.message;
@@ -123,6 +137,10 @@ function Checkout() {
       setServerError("Secure checkout is not configured yet. Please contact support to order.");
       return;
     }
+    if (!currencyReady || (currency === "USD" && (!usdQuote || usdQuote.expiresAt <= Date.now()))) {
+      setServerError("Refresh USD pricing and review your total before paying.");
+      return;
+    }
 
     setIsSubmitting(true);
     try {
@@ -130,6 +148,7 @@ function Checkout() {
         body: {
           locale,
           currency,
+          ...(currency === "USD" ? { usdQuoteToken: usdQuote!.token, expectedTotalMinor: totalMinor } : {}),
           customer: data,
           couponCode: coupon?.code,
           items: cart.map(({ slug, size, color, qty }) => ({ slug, size, color, qty })),
@@ -403,7 +422,7 @@ function Checkout() {
                       </p>
                     </div>
                     <div className="text-xs font-sans font-semibold text-foreground">
-                      {formatGBP(item.priceGBP * item.qty)}
+                      {formatLineMoney(item.priceGBP, item.qty)}
                     </div>
                   </div>
                 );
@@ -411,21 +430,27 @@ function Checkout() {
             </div>
 
             <div className="space-y-2.5 pt-6 border-t border-border font-sans text-xs">
-              <div className="pb-4"><label className="mb-2 block text-[10px] uppercase tracking-widest">Coupon code</label><div className="flex"><input value={couponInput} onChange={e=>{setCouponInput(e.target.value.toUpperCase());setCoupon(null)}} placeholder="Enter code" className="h-10 min-w-0 flex-1 border bg-background px-3 uppercase"/><button type="button" disabled={couponBusy||!couponInput.trim()} onClick={()=>void applyCoupon()} className="h-10 border border-l-0 px-4 uppercase tracking-wider disabled:opacity-50">{couponBusy?"Checking…":"Apply"}</button></div>{coupon&&<p className="mt-2 text-emerald-700">{coupon.code} applied{coupon.discountPercent?` — ${coupon.discountPercent}% off`:""}, saving {formatGBP(discount)}</p>}</div>
+              <div className="pb-4"><label className="mb-2 block text-[10px] uppercase tracking-widest">Coupon code</label><div className="flex"><input value={couponInput} onChange={e=>{setCouponInput(e.target.value.toUpperCase());setCoupon(null)}} placeholder="Enter code" className="h-10 min-w-0 flex-1 border bg-background px-3 uppercase"/><button type="button" disabled={couponBusy||!couponInput.trim()||!currencyReady} onClick={()=>void applyCoupon()} className="h-10 border border-l-0 px-4 uppercase tracking-wider disabled:opacity-50">{couponBusy?"Checking…":"Apply"}</button></div>{coupon&&<p className="mt-2 text-emerald-700">{coupon.code} applied{coupon.discountPercent?` — ${coupon.discountPercent}% off`:""}, saving {formatMinor(discountMinor)}</p>}</div>
               <div className="flex justify-between text-muted-foreground">
                 <span>Subtotal</span>
-                <span>{formatGBP(subtotal)}</span>
+                <span>{formatMinor(subtotalMinor)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
                 <span>Shipping</span>
-                <span>{shippingCost === 0 ? freeDeliveryLabel(locale) : formatGBP(shippingCost)}</span>
+                <span>{shippingCost === 0 ? freeDeliveryLabel(locale) : formatMinor(toMinor(shippingCost))}</span>
               </div>
-              {coupon&&<div className="flex justify-between text-emerald-700"><span>Coupon ({coupon.code}{coupon.discountPercent?` · ${coupon.discountPercent}% off`:""})</span><span>−{formatGBP(discount)}</span></div>}
+              {coupon&&<div className="flex justify-between text-emerald-700"><span>Coupon ({coupon.code}{coupon.discountPercent?` · ${coupon.discountPercent}% off`:""})</span><span>−{formatMinor(discountMinor)}</span></div>}
               <div className="flex justify-between pt-2 font-display text-lg font-semibold text-foreground">
                 <span>Total</span>
-                <span>{formatGBP(total)}</span>
+                <span>{formatMinor(totalMinor)}</span>
               </div>
             </div>
+
+            {currency === "USD" && <div role="status" className="border border-border p-3 text-sm">
+              <p>{usdRateError || usdRateInfo}</p>
+              <p className="mt-1 text-xs text-muted-foreground">USD prices are converted from GBP. Your reviewed USD total is used for secure payment.</p>
+              <button type="button" disabled={isSubmitting} onClick={() => void refreshUsdPricing()} className="mt-1 min-h-11 underline">Refresh USD pricing</button>
+            </div>}
 
             {serverError && (
               <div id="checkout-submit-error" role="alert" className="border-l-2 border-destructive bg-destructive/10 p-4 text-sm text-destructive">
@@ -437,7 +462,7 @@ function Checkout() {
               type="submit"
               aria-busy={isSubmitting}
               aria-describedby={serverError ? "checkout-submit-error" : undefined}
-              disabled={isSubmitting || !isStripeEnabled}
+              disabled={isSubmitting || !isStripeEnabled || !currencyReady}
               className="w-full h-12 bg-foreground text-background uppercase tracking-widest text-sm hover:bg-foreground/90 transition-all font-sans font-semibold flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}

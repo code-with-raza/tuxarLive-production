@@ -955,7 +955,7 @@ function Overview({
   onExport: () => void;
   isOwner: boolean;
 }) {
-  const [revenueCurrency,setRevenueCurrency] = useState<"GBP" | "EUR">("GBP");
+  const [revenueCurrency,setRevenueCurrency] = useState<"GBP" | "EUR" | "USD">("GBP");
   const periodOrders = orders.filter(
     (order) => order.created_at >= reportStart && order.order_status !== "cancelled",
   );
@@ -1048,7 +1048,7 @@ function Overview({
       <div className="bg-white border p-6 md:p-8">
         <div className="mb-8">
           <h2 className="font-display text-2xl">Seven-day revenue ({revenueCurrency})</h2>
-          <label className="text-sm">Revenue currency <select value={revenueCurrency} onChange={event=>setRevenueCurrency(event.target.value as "GBP" | "EUR")}><option value="GBP">GBP £</option><option value="EUR">EUR €</option></select></label>
+          <label className="text-sm">Revenue currency <select value={revenueCurrency} onChange={event=>setRevenueCurrency(event.target.value as "GBP" | "EUR" | "USD")}><option value="GBP">GBP £</option><option value="EUR">EUR €</option><option value="USD">USD $</option></select></label>
           <p className="text-xs text-muted-foreground">Paid order value by day</p>
         </div>
         <div className="h-52 grid grid-cols-7 items-end gap-3 border-b">

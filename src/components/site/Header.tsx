@@ -1,5 +1,5 @@
 import { storefrontManagedCategories } from "@/lib/catalogCategories";
-import { useMarketCurrency, localeCurrency } from "@/lib/market";
+import { useMarketCurrency, localeCurrency, type Currency } from "@/lib/market";
 import { useCartInventory } from "@/hooks/useCartInventory";
 import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState, useRouter } from "@tanstack/react-router";
@@ -16,7 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { Logo } from "./Logo";
-import { useShop, cartCount, cartTotalGBP } from "@/store/shop";
+import { useShop, cartCount } from "@/store/shop";
 import { useUIStore } from "@/store/ui";
 import { COLLECTIONS } from "@/data/products";
 import { getAudienceCollection } from "@/lib/product-audience";
@@ -296,7 +296,8 @@ export function Header() {
     router.navigate({ to: pathParts.join("/"), search: state.location.search });
   };
 
-  const { currency, setCurrency, formatMoney: formatGBP } = useMarketCurrency(activeLocale);
+  const market = useMarketCurrency(activeLocale);
+  const { currency, setCurrency, formatLineMoney, formatCartTotal } = market;
   const men = menLinks(activeLocale);
   const women = womenLinks(activeLocale);
   const managed=(audience: "men" | "women")=>storefrontManagedCategories(managedCategories, audience).map(category=>{
@@ -605,10 +606,11 @@ export function Header() {
                 </div>
                 <div className="flex items-center justify-between gap-3">
                   <label htmlFor="mobile-currency" className="text-xs uppercase tracking-widest text-muted-foreground font-sans">Currency</label>
-                  <select id="mobile-currency" value={currency} onChange={event => setCurrency(event.target.value as "GBP" | "EUR")} className="h-11 min-w-32 rounded-none border border-border bg-background px-3 text-sm" title="Payment currency">
-                    <option value="GBP">GBP £</option><option value="EUR">EUR €</option>
+                  <select id="mobile-currency" value={currency} onChange={event => setCurrency(event.target.value as Currency)} className="h-11 min-w-32 rounded-none border border-border bg-background px-3 text-sm" title={currency === "USD" ? market.usdRateInfo : "Payment currency"}>
+                    <option value="GBP">GBP £</option><option value="EUR">EUR €</option><option value="USD">USD $</option>
                   </select>
                 </div>
+                {currency === "USD" && <CurrencyRateStatus market={market} />}
                 </div>
               </SheetContent>
             </Sheet>
@@ -663,9 +665,11 @@ export function Header() {
 
           {/* ── Icons: always at right edge ─────────────────────────── */}
           <div className="ml-auto flex items-center gap-0.5">
-            <select aria-label="Currency" value={currency} onChange={event => setCurrency(event.target.value as "GBP" | "EUR")} className="hidden lg:block h-10 bg-transparent px-1 text-xs" title="Payment currency">
-              <option value="GBP">GBP £</option><option value="EUR">EUR €</option>
+            <div className="hidden lg:block relative"><select aria-label="Currency" value={currency} onChange={event => setCurrency(event.target.value as Currency)} className="hidden lg:block h-10 bg-transparent px-1 text-xs" title={currency === "USD" ? market.usdRateInfo : "Payment currency"}>
+              <option value="GBP">GBP £</option><option value="EUR">EUR €</option><option value="USD">USD $</option>
             </select>
+            {currency === "USD" && !market.currencyReady && <div className="absolute right-0 top-full z-50 w-64 border bg-background p-3 shadow-lg"><CurrencyRateStatus market={market} /></div>}
+            </div>
             {/* Language dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -825,7 +829,7 @@ export function Header() {
                                   <Plus className="h-3 w-3" />
                                 </button>
                               </div>
-                              <span className="text-sm">{formatGBP(item.priceGBP * item.qty)}</span>
+                              <span className="text-sm">{formatLineMoney(item.priceGBP, item.qty)}</span>
                             </div>
                           </div>
                         </div>
@@ -837,7 +841,7 @@ export function Header() {
                           {t("cartDrawer.subtotal", activeLocale)}
                         </span>
                         <span className="font-display text-xl">
-                          {formatGBP(cartTotalGBP(cart))}
+                          {formatCartTotal(cart)}
                         </span>
                       </div>
                       <Link
@@ -1006,4 +1010,11 @@ export function Header() {
       )}
     </>
   );
+}
+
+function CurrencyRateStatus({ market }: { market: ReturnType<typeof useMarketCurrency> }) {
+  return <div role="status" className="text-xs text-muted-foreground">
+    {market.usdRateError || market.usdRateInfo}
+    {market.usdRateError && <button type="button" className="ml-2 underline min-h-11" onClick={() => void market.refreshUsdPricing()}>Refresh USD pricing</button>}
+  </div>;
 }

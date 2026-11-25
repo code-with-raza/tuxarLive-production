@@ -1,10 +1,48 @@
 import { useSyncExternalStore } from "react";
-export type Currency = "GBP" | "EUR";
+import { publicSupabase } from "./supabase";
+import { usdMinor, validUsdRate, type UsdQuote } from "../../supabase/functions/_shared/usd-money";
+export type Currency = "GBP" | "EUR" | "USD";
 const listeners = new Set<() => void>();
-const valid = (value: unknown): value is Currency => value === "GBP" || value === "EUR";
+const valid = (value: unknown): value is Currency => value === "GBP" || value === "EUR" || value === "USD";
+const usdListeners = new Set<() => void>();
+const emptyUsd = { quote: null as UsdQuote | null, loading: false, error: null as string | null };
+let usdState = emptyUsd;
+let usdPending: Promise<void> | null = null;
+let expiryTimer: ReturnType<typeof setTimeout> | undefined;
+const USD_CACHE = "tuxar-usd-quote-v1";
+function publishUsd(next: typeof emptyUsd) { usdState = next; usdListeners.forEach(listener => listener()); }
+function acceptQuote(quote: UsdQuote) {
+  if (!validUsdRate(quote) || typeof quote.token !== "string" || quote.token.length > 2048) throw new Error("Invalid USD quote");
+  clearTimeout(expiryTimer);
+  publishUsd({ quote, loading: false, error: null });
+  expiryTimer = setTimeout(() => publishUsd({ quote, loading: false, error: "USD pricing expired. Refresh the rate and review your total." }), Math.max(1, quote.expiresAt - Date.now()));
+  try { window.sessionStorage.setItem(USD_CACHE, JSON.stringify(quote)); } catch { /* In-memory pricing remains available. */ }
+}
+export function refreshUsdPricing(): Promise<void> {
+  if (usdPending) return usdPending;
+  publishUsd({ ...usdState, loading: true, error: null });
+  usdPending = (async () => {
+    try {
+      const { data, error } = await publicSupabase.functions.invoke("usd-rate", { body: {} });
+      if (error || !data) throw new Error("USD pricing is temporarily unavailable. Retry or choose GBP.");
+      acceptQuote(data);
+    } catch (error) {
+      publishUsd({ quote: null, loading: false, error: error instanceof Error ? error.message : "USD pricing is unavailable" });
+    } finally { usdPending = null; }
+  })();
+  return usdPending;
+}
+function initializeUsd() {
+  if (usdState.quote || usdState.loading || usdState.error) return;
+  try {
+    const cached = JSON.parse(window.sessionStorage.getItem(USD_CACHE) || "null");
+    if (validUsdRate(cached)) { acceptQuote(cached as UsdQuote); return; }
+  } catch { /* Refresh missing, invalid or expired browser data. */ }
+  void refreshUsdPricing();
+}
 function selected(): Currency | null {
   if (typeof document === "undefined") return null;
-  const value = document.cookie.match(/(?:^|;\s*)tuxar-currency=(GBP|EUR)(?:;|$)/)?.[1];
+  const value = document.cookie.match(/(?:^|;\s*)tuxar-currency=(GBP|EUR|USD)(?:;|$)/)?.[1];
   return valid(value) ? value : null;
 }
 export function setCurrency(value: Currency, manual = true) {
@@ -26,5 +64,21 @@ export function countryDetectionNotice(locale: string) {
 export function useMarketCurrency(locale = "en") {
   const chosen = useSyncExternalStore(listener => { listeners.add(listener); return () => { listeners.delete(listener); }; }, selected, () => null);
   const currency = chosen ?? localeCurrency(locale);
-  return {currency, setCurrency, formatMoney: (amount: number) => new Intl.NumberFormat(locale === "en" ? "en-GB" : locale, { style:"currency",currency,maximumFractionDigits: Number.isInteger(amount) ? 0 : 2 }).format(amount)};
+  const usd = useSyncExternalStore(listener => { usdListeners.add(listener); if (currency === "USD") initializeUsd(); return () => { usdListeners.delete(listener); }; }, () => usdState, () => emptyUsd);
+  const currencyReady = currency !== "USD" || Boolean(usd.quote && !usd.loading && !usd.error && validUsdRate(usd.quote));
+  const toMinor = (amount: number) => currency === "USD" ? (currencyReady && usd.quote ? usdMinor(Math.round(amount * 100), usd.quote.rateE8) : 0) : Math.round(amount * 100);
+  const formatMinor = (minor: number) => !currencyReady ? "—" : new Intl.NumberFormat(locale === "en" ? (currency === "USD" ? "en-US" : "en-GB") : locale, {
+    style: "currency", currency, minimumFractionDigits: currency === "USD" || minor % 100 ? 2 : 0, maximumFractionDigits: 2,
+  }).format(minor / 100);
+  const cartMinor = (cart: { priceGBP: number; qty: number }[]) => cart.reduce((sum, item) => sum + toMinor(item.priceGBP) * item.qty, 0);
+  return { currency, setCurrency, currencyReady, toMinor, formatMinor, cartMinor,
+    formatMoney: (amount: number) => formatMinor(toMinor(amount)),
+    formatSaving: (previous: number, current: number) => formatMinor(toMinor(previous) - toMinor(current)),
+    formatLineMoney: (amount: number, qty: number) => formatMinor(toMinor(amount) * qty),
+    formatCartTotal: (cart: { priceGBP: number; qty: number }[]) => formatMinor(cartMinor(cart)),
+    usdQuote: currency === "USD" ? usd.quote : null,
+    usdRateError: currency === "USD" ? usd.error : null,
+    usdRateInfo: usd.quote ? `1 GBP = ${usd.quote.rateE8 / 100000000} USD · Reference rate ${usd.quote.date}` : "Loading USD pricing…",
+    refreshUsdPricing,
+  };
 }

@@ -28,7 +28,7 @@ export const Route = createFileRoute("/$locale/cart")({
 
 function Cart() {
   const { locale } = Route.useParams() as { locale: Locale };
-  const { currency, formatMoney: formatGBP } = useMarketCurrency(locale);
+  const { currency, formatMoney: formatGBP, formatLineMoney, formatCartTotal } = useMarketCurrency(locale);
   const { cart, setQty, removeFromCart } = useShop();
   const { user } = useUser();
   const stockByVariant = useCartInventory(cart);
@@ -39,7 +39,7 @@ function Cart() {
   useEffect(() => {
     if (!cart.length) return;
     trackEvent("view_cart", {
-      currency,
+      currency: currency === "USD" ? "GBP" : currency,
       value: total,
       items: cart.map((item) => ({
         item_id: item.slug,
@@ -125,7 +125,7 @@ function Cart() {
                           {t("common.size", locale)} {item.size} · {item.color}
                         </p>
                       </div>
-                      <div className="text-sm">{formatGBP(item.priceGBP * item.qty)}</div>
+                      <div className="text-sm">{formatLineMoney(item.priceGBP, item.qty)}</div>
                     </div>
                     <div className="mt-auto flex justify-between items-end">
                       <div className="flex items-center border border-border">
@@ -166,7 +166,7 @@ function Cart() {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t("common.subtotal", locale)}</span>
-                <span>{formatGBP(subtotal)}</span>
+                <span>{formatCartTotal(cart)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">
@@ -196,7 +196,7 @@ function Cart() {
               </div>
               <div className="flex justify-between pt-3 border-t border-border font-display text-lg">
                 <span>{t("common.total", locale)}</span>
-                <span>{formatGBP(total)}</span>
+                <span>{formatCartTotal(cart)}</span>
               </div>
             </div>
             <Link
@@ -204,7 +204,7 @@ function Cart() {
               search={user ? undefined : { returnTo: `/${locale}/checkout` }}
               onClick={() =>
                 trackEvent("begin_checkout", {
-                  currency,
+                  currency: currency === "USD" ? "GBP" : currency,
                   value: total,
                   items: cart.map((item) => ({
                     item_id: item.slug,

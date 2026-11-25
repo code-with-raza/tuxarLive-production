@@ -108,7 +108,7 @@ export const Route = createFileRoute("/$locale/product/$slug")({
       try {
         if (!isSupabaseConfigured()) throw new Error("Inventory is not configured");
         const { data, error } = await supabase.from("products")
-          .select("product_variants(size,color,color_hex,stock,active)")
+          .select("product_variants(size,color,color_hex,stock,active,price_pence)")
           .eq("slug", canonicalSlug).eq("status", "active")
           .abortSignal(AbortSignal.timeout(15000)).maybeSingle();
         if (error || !data) throw new Error("Inventory lookup failed");
@@ -238,7 +238,7 @@ function ProductPage() {
 
 function ProductDetail() {
   const { locale } = Route.useParams() as { locale: Locale };
-  const { currency, formatMoney: formatGBP } = useMarketCurrency(locale);
+  const { currency, formatMoney: formatGBP, formatSaving, formatLineMoney } = useMarketCurrency(locale);
   const {
     product: p,
     canonicalSlug,
@@ -258,12 +258,13 @@ function ProductDetail() {
   const [color, setColor] = useState(initialVariant?.color ?? p.colors[0]?.name ?? "");
   const currentSelection = useRef({ size, color });
   currentSelection.current = { size, color };
-  const livePrice = p.priceGBP;
-  const comparePrice = p.comparePriceGBP ?? null;
-  const discount = productDiscount(livePrice, comparePrice);
   const [availableColors, setAvailableColors] = useState(p.colors);
   const [availableSizes, setAvailableSizes] = useState(p.sizes);
   const [variants, setVariants] = useState<ProductVariantStock[]>(p.inventory ?? []);
+  const selectedPrice = variants.find(row => row.active && row.size === size && row.color === color)?.price_pence;
+  const livePrice = selectedPrice != null ? selectedPrice / 100 : p.priceGBP;
+  const comparePrice = p.comparePriceGBP ?? null;
+  const discount = productDiscount(livePrice, comparePrice);
   const [inventoryLoading, setInventoryLoading] = useState(import.meta.env.SSR || (!p.inventory && !initialInventoryError));
   const [inventoryError, setInventoryError] = useState(initialInventoryError);
   const [addingToBag, setAddingToBag] = useState(false);
@@ -281,7 +282,7 @@ function ProductDetail() {
   useEffect(() => {
     if (getLocalCatalogueProduct(canonicalSlug)) return;
     trackEvent("view_item", {
-      currency,
+      currency: currency === "USD" ? "GBP" : currency,
       value: p.priceGBP,
       items: [
         {
@@ -331,7 +332,7 @@ function ProductDetail() {
       setInventoryLoading(true); setInventoryError(false);
       try {
         const { data, error } = await supabase.from("products")
-          .select("product_variants(size,color,color_hex,stock,active)")
+          .select("product_variants(size,color,color_hex,stock,active,price_pence)")
           .eq("slug", canonicalSlug).eq("status", "active")
           .abortSignal(AbortSignal.timeout(15000)).maybeSingle();
         if (error || !data) throw new Error("Inventory lookup failed");
@@ -359,7 +360,7 @@ function ProductDetail() {
     const url = absoluteUrl(`/${locale}/product/${getLocalizedSlug(canonicalSlug, "product", locale)}`);
     const offers = inventoryLoading || inventoryError
       ? { "@type": "Offer", price: livePrice, priceCurrency: localeCurrency(locale), url }
-      : inventoryOffers(variants, livePrice, localeCurrency(locale), url);
+      : inventoryOffers(variants, p.priceGBP, localeCurrency(locale), url);
     for (const script of document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]')) {
       try {
         const data = JSON.parse(script.textContent || "null");
@@ -369,7 +370,7 @@ function ProductDetail() {
         }
       } catch { /* Other structured data is unrelated to this offer. */ }
     }
-  }, [canonicalSlug, variants, inventoryLoading, inventoryError, livePrice, locale]);
+  }, [canonicalSlug, variants, inventoryLoading, inventoryError, livePrice, p.priceGBP, locale]);
 
   useEffect(() => {
     if (!variants.length) return;
@@ -422,7 +423,7 @@ function ProductDetail() {
     setAddingToBag(true);
     try {
       const { data, error } = await supabase.from("products")
-        .select("product_variants(size,color,color_hex,stock,active)")
+        .select("product_variants(size,color,color_hex,stock,active,price_pence)")
         .eq("slug", canonicalSlug).eq("status", "active")
         .eq("product_variants.size", size).eq("product_variants.color", color)
         .eq("product_variants.active", true)
@@ -449,7 +450,7 @@ function ProductDetail() {
       qty: safeQty,
     });
     trackEvent("add_to_cart", {
-      currency,
+      currency: currency === "USD" ? "GBP" : currency,
       value: livePrice * safeQty,
       items: [
         {
@@ -615,7 +616,7 @@ function ProductDetail() {
           </div>
           {discount && (
             <p className="mt-2 text-sm text-emerald-800">
-              {savingsLabel(locale, formatGBP(discount.savings), discount.percent)}
+              {savingsLabel(locale, formatSaving(comparePrice!, livePrice), discount.percent)}
             </p>
           )}
           <div className="mt-3 flex items-center gap-2 text-sm text-foreground/75">
@@ -763,7 +764,7 @@ function ProductDetail() {
                     : locale === "es"
                       ? "Añadir al carrito"
                       : "Add to bag"}{" "}
-              · {formatGBP(livePrice * qty)}
+              · {formatLineMoney(livePrice, qty)}
             </button>
             <button
               onClick={() => toggleWish(canonicalSlug)}
@@ -906,7 +907,7 @@ function ProductDetail() {
           <div className="min-w-0 flex-1">
             <p className="truncate font-display text-sm">{p.name}</p>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              {getLocalizedOption(size,locale)} · {getLocalizedColor(color,locale)} · {formatGBP(livePrice * qty)}
+              {getLocalizedOption(size,locale)} · {getLocalizedColor(color,locale)} · {formatLineMoney(livePrice, qty)}
             </p>
           </div>
           <button

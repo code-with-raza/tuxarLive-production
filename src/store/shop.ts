@@ -19,7 +19,7 @@ interface ShopState {
   removeFromCart: (slug: string, size: string, color?: string) => void;
   setQty: (slug: string, size: string, qty: number, color?: string, maximum?: number) => void;
   clearCart: () => void;
-  updatePrice: (slug: string, priceGBP: number, comparePriceGBP?: number) => void;
+  updatePrice: (slug: string, priceGBP: number, comparePriceGBP?: number, selection?: { size: string; color: string }) => void;
   toggleWish: (slug: string) => void;
   isWished: (slug: string) => boolean;
 }
@@ -52,9 +52,10 @@ export const useShop = create<ShopState>()(
           ),
         })),
       clearCart: () => set({ cart: [] }),
-      updatePrice: (slug, priceGBP, comparePriceGBP) => set((s) => {
-        if (s.cart.every(item => item.slug !== slug || (item.priceGBP === priceGBP && item.comparePriceGBP === comparePriceGBP))) return s;
-        return { cart: s.cart.map(item => item.slug === slug ? { ...item, priceGBP, comparePriceGBP } : item) };
+      updatePrice: (slug, priceGBP, comparePriceGBP, selection) => set((s) => {
+        const matches = (item: CartItem) => item.slug === slug && (!selection || (item.size === selection.size && item.color === selection.color));
+        if (s.cart.every(item => !matches(item) || (item.priceGBP === priceGBP && item.comparePriceGBP === comparePriceGBP))) return s;
+        return { cart: s.cart.map(item => matches(item) ? { ...item, priceGBP, comparePriceGBP } : item) };
       }),
       toggleWish: (slug) =>
         set((s) => ({

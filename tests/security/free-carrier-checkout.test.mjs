@@ -5,14 +5,18 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import * as delivery from '../../supabase/functions/_shared/delivery.ts';
 import * as currencyHelpers from '../../supabase/functions/_shared/currency.ts';
+import * as usdQuoteHelpers from '../../supabase/functions/_shared/usd-quote.ts';
+import * as usdMoney from '../../supabase/functions/_shared/usd-money.ts';
+import {HttpError} from '../../supabase/functions/_shared/http.ts';
 
 const source = ts.transpileModule(await fs.readFile('supabase/functions/create-checkout-session/index.ts','utf8'), {compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
-async function run(method, country='Germany', currency) {
+async function run(method, country='Germany', currency, options={}) {
+  const fixture=options;
   let handler, order, stripe;
   const calls=[];
   const fetch=async(url,options={})=>{
     calls.push(url);
-    if(url.includes('/rest/v1/products?')) return Response.json([{name:'Jacket',price_pence:19900,product_variants:[{sku:'TEST-M',stock:15,active:true,price_pence:null}]}]);
+    if(url.includes('/rest/v1/products?')) return Response.json([{name:'Jacket',price_pence:fixture.price??19900,product_variants:[{sku:'TEST-M',stock:15,active:true,price_pence:fixture.variantPrice??null}]}]);
     if(url.includes('/customer_profiles?'))return Response.json([{user_id:'customer'}]);
     if(url.endsWith('/rest/v1/orders')) {order=JSON.parse(options.body);return Response.json([{id:'order-1'}]);}
     if(url.endsWith('/rest/v1/order_items'))return new Response(null,{status:201});
@@ -20,8 +24,8 @@ async function run(method, country='Germany', currency) {
     if(url.includes('/rest/v1/orders?id='))return new Response(null,{status:204});
     throw Error('Unexpected outbound URL: '+url);
   };
-  vm.runInNewContext(source,{exports:{},require:name=>name.includes('delivery')?delivery:name.includes('currency')?currencyHelpers:{secureServe:(_name,_policy,fn)=>{handler=fn;}},Deno:{env:{get:()=> 'fixture-not-a-secret'}},Response,URLSearchParams,crypto,fetch});
-  const response=await handler({method:'POST',json:async()=>({currency,locale:'en',items:[{slug:'jacket',size:'M',color:'Black',qty:1}],customer:{customerName:'Customer Test',customerPhone:'12345678',streetAddress:'1 Test Street',city:'Berlin',postalCode:'10115',country,shippingMethod:method}})},{user:{id:'customer',email:'test@example.com'}});
+  vm.runInNewContext(source,{exports:{},require:name=>name.includes('delivery')?delivery:name.includes('currency')?currencyHelpers:name.includes('usd-quote')?usdQuoteHelpers:name.includes('usd-money')?usdMoney:{HttpError,secureServe:(_name,_policy,fn)=>{handler=fn;}},Deno:{env:{get:()=> 'fixture-not-a-secret'}},Response,URLSearchParams,crypto,fetch});
+  const response=await handler({method:'POST',json:async()=>({currency,usdQuoteToken:options.token,expectedTotalMinor:options.total,locale:'en',items:[{slug:'jacket',size:'M',color:'Black',qty:options.qty??1}],customer:{customerName:'Customer Test',customerPhone:'12345678',streetAddress:'1 Test Street',city:'Berlin',postalCode:'10115',country,shippingMethod:method}})},{user:{id:'customer',email:'test@example.com'}});
   return {response,order,stripe,calls};
 }
 test('every carrier is free in all five markets, retains its choice and gets its own working-day window',async()=>{
@@ -61,5 +65,22 @@ test('manual GBP/EUR choice is saved and charged as the same numeric price; unsu
     assert.equal(result.stripe.get('adaptive_pricing[enabled]'),'false');
     assert.equal(result.stripe.get('line_items[0][price_data][currency]'),currency.toLowerCase());
   }
-  const invalid=await run('UPS','Italy','USD');assert.equal(invalid.response.status,400);assert.equal(invalid.calls.length,0);
+  const invalid=await run('UPS','Italy','CAD');assert.equal(invalid.response.status,400);assert.equal(invalid.calls.length,0);
+});
+
+test('USD charges use a signed rate and the authoritative variant price, rounding each unit before quantities',async()=>{
+ const quote=await usdQuoteHelpers.signUsdQuote({version:1,rateE8:130713333,date:new Date().toISOString().slice(0,10),expiresAt:Date.now()+3600000},'fixture-not-a-secret');
+ const result=await run('UPS','Italy','USD',{token:quote.token,total:3924,price:15000,variantPrice:1001,qty:3});
+ assert.equal(result.response.status,200);assert.equal(result.order.currency,'USD');
+ assert.equal(result.order.total_pence,3924);assert.equal(result.order.base_subtotal_pence,3003);assert.equal(result.order.usd_rate_e8,130713333);
+ assert.equal(result.stripe.get('line_items[0][price_data][unit_amount]'),'1308');
+ assert.equal(result.stripe.get('line_items[0][quantity]'),'3');assert.equal(result.stripe.get('line_items[0][price_data][currency]'),'usd');
+});
+
+test('missing or forged USD rates and stale displayed totals never create an order or payment session',async()=>{
+ const quote=await usdQuoteHelpers.signUsdQuote({version:1,rateE8:130713333,date:new Date().toISOString().slice(0,10),expiresAt:Date.now()+3600000},'fixture-not-a-secret');
+ for(const options of [{total:1},{token:quote.token.slice(0,-8)+'forged00',total:1},{token:quote.token,total:1}]){
+  const result=await run('UPS','Italy','USD',options);
+  assert.equal(result.response.status,409);assert.equal(result.order,undefined);assert.equal(result.stripe,undefined);
+ }
 });

@@ -18,7 +18,7 @@ export function ProductCard({
   delay?: number;
 }) {
   const { locale = "en" } = useParams({ strict: false }) as { locale?: Locale };
-  const { currency, formatMoney: formatGBP } = useMarketCurrency(locale);
+  const { currency, formatMoney: formatGBP, formatSaving } = useMarketCurrency(locale);
   const p = getLocalizedProduct(rawProduct,locale);
   const discount = productDiscount(p.priceGBP, p.comparePriceGBP);
   const toggleWish = useShop((s) => s.toggleWish);
@@ -106,7 +106,7 @@ export function ProductCard({
               )}
             </div>
           </div>
-          {discount && <p className="mt-1 text-xs text-emerald-800">{savingsLabel(locale, formatGBP(discount.savings), discount.percent)}</p>}
+          {discount && <p className="mt-1 text-xs text-emerald-800">{savingsLabel(locale, formatSaving(p.comparePriceGBP!, p.priceGBP), discount.percent)}</p>}
         </Link>
       </article>
   );

@@ -29,6 +29,7 @@ flowchart LR
 | Variant stock / buying controls | `src/lib/product-inventory.ts`, `$locale.product.$slug.tsx`, `src/hooks/useCartInventory.ts` |
 | Checkout validation | `supabase/functions/create-checkout-session`, `create-cod-order` |
 | Header / currency / footer | `src/components/site/Header.tsx`, `Footer.tsx` |
+| USD conversion / secure rate quotes | `src/lib/market.ts`, `supabase/functions/usd-rate`, `_shared/usd-money.ts`, `_shared/usd-quote.ts`, `create-checkout-session`, migration `202611250001_usd_checkout.sql` |
 | Banner editing | `AdminBannerEditor.tsx`, `AdminHomepageBanner.tsx`, homepage-slides helpers |
 
 Page content: seven informational pages allow full body replacement. Home, shop, contact, category landing pages and Journal allow editable introductions while preserving controls. Product, collection, article and banner content use their dedicated editors. Account, authentication and payment logic are code, not editable CMS content.

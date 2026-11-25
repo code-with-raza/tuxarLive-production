@@ -4,11 +4,12 @@ export interface ProductVariantStock {
   color_hex: string;
   stock: number;
   active: boolean;
+  price_pence?: number | null;
 }
 
 /** Invalid or unavailable inventory is unknown, never zero stock. */
 export function validatedInventory(rows: ProductVariantStock[]): ProductVariantStock[] {
-  if (!Array.isArray(rows) || rows.some(row => typeof row.active !== "boolean" || typeof row.size !== "string" || typeof row.color !== "string" || !Number.isSafeInteger(row.stock) || row.stock < 0)) throw new Error("Availability could not be checked. Please try again.");
+  if (!Array.isArray(rows) || rows.some(row => typeof row.active !== "boolean" || typeof row.size !== "string" || typeof row.color !== "string" || !Number.isSafeInteger(row.stock) || row.stock < 0 || (row.price_pence != null && (!Number.isSafeInteger(row.price_pence) || row.price_pence < 0)))) throw new Error("Availability could not be checked. Please try again.");
   return rows.filter(row => row.active);
 }
 
@@ -33,7 +34,7 @@ export function inventoryOffers(rows: ProductVariantStock[], price: number, curr
     variantUrl.searchParams.set("color", row.color);
     return {
       "@type": "Offer", name: `${row.color} / ${row.size}`,
-      price, priceCurrency: currency, itemCondition: "https://schema.org/NewCondition",
+      price: row.price_pence != null ? row.price_pence / 100 : price, priceCurrency: currency, itemCondition: "https://schema.org/NewCondition",
       availability: `https://schema.org/${row.stock > 0 ? "InStock" : "OutOfStock"}`,
       url: variantUrl.href,
     };

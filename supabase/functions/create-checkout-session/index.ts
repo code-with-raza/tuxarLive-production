@@ -1,4 +1,6 @@
-import { secureServe } from "../_shared/http.ts";
+import { secureServe, HttpError } from "../_shared/http.ts";
+import { verifyUsdQuote } from "../_shared/usd-quote.ts";
+import { usdMinor } from "../_shared/usd-money.ts";
 import { estimatedDeliveryWindow, getDeliveryOption, getDeliveryCountry, DELIVERY_COUNTRIES } from "../_shared/delivery.ts";
 const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -54,6 +56,8 @@ secureServe("create-checkout-session", { auth: "user", limit: 10, windowSeconds:
     const shippingMethod = "STANDARD";
     if (payload.currency !== undefined && !isCurrency(payload.currency)) return json({error:"Unsupported payment currency"},400);
     const currency = payload.currency ?? currencyForCountry(country);
+    const usdQuote = currency === "USD" ? await verifyUsdQuote(payload.usdQuoteToken, serviceRoleKey) : null;
+    if (usdQuote && usdQuote.expiresAt - Date.now() < 35 * 60000) return json({ error: "Refresh USD pricing before opening secure payment." }, 409);
     if (!customerName || !customerEmail.includes("@") || !customerPhone || !streetAddress || !city || !postalCode || !country) {
       return json({ error: "Complete shipping details are required" }, 400);
     }
@@ -74,11 +78,13 @@ secureServe("create-checkout-session", { auth: "user", limit: 10, windowSeconds:
       const response = await fetch(`${supabaseUrl}/rest/v1/products?${query}`, { headers: databaseHeaders });
       const rows = await response.json(); const row = rows?.[0]; const variant = row?.product_variants?.[0];
       if (!response.ok || !row || !variant || variant.stock < quantity) throw new Error(`${item.size || "Selected"} ${item.color || "variant"} is no longer available`);
-      const product: CatalogItem = { name: row.name, unitAmount: variant.price_pence ?? row.price_pence };
-      return { item, product, quantity, sku: variant.sku };
+      const baseUnitAmount = variant.price_pence ?? row.price_pence;
+      const product: CatalogItem = { name: row.name, unitAmount: usdQuote ? usdMinor(baseUnitAmount, usdQuote.rateE8) : baseUnitAmount };
+      return { item, product, quantity, sku: variant.sku, baseUnitAmount };
     }));
     const subtotalPence = validatedItems.reduce((sum, row) => sum + row.product.unitAmount * row.quantity, 0);
-    const shippingPence = deliveryOption.pricePence;
+    const shippingPence = usdQuote ? usdMinor(deliveryOption.pricePence, usdQuote.rateE8) : deliveryOption.pricePence;
+    const baseSubtotalPence = validatedItems.reduce((sum, row) => sum + row.baseUnitAmount * row.quantity, 0);
     const orderNumber = `TX-${Date.now().toString(36).toUpperCase()}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
 
     const userId = context.user?.id;
@@ -86,6 +92,24 @@ secureServe("create-checkout-session", { auth: "user", limit: 10, windowSeconds:
     const profileResponse = await fetch(`${supabaseUrl}/rest/v1/customer_profiles?user_id=eq.${userId}&tuxar_verified=eq.true&account_status=eq.active&select=user_id`, { headers: databaseHeaders });
     const verifiedProfile = await profileResponse.json();
     if (!profileResponse.ok || !verifiedProfile?.length) return json({ error: "Complete Tuxar email verification before checkout" }, 403);
+
+    let usdDiscount = 0;
+    if (usdQuote) {
+      if (payload.couponCode) {
+        const previewResponse = await fetch(`${supabaseUrl}/rest/v1/rpc/preview_usd_coupon`, {
+          method: "POST", headers: databaseHeaders,
+          body: JSON.stringify({ supplied_code: payload.couponCode, base_subtotal_pence: baseSubtotalPence, usd_subtotal_cents: subtotalPence, rate_e8: usdQuote.rateE8 }),
+        });
+        const preview = await previewResponse.json();
+        if (!previewResponse.ok) return json({ error: preview.message || "Coupon could not be applied" }, 400);
+        usdDiscount = preview.discountPence;
+        if (!Number.isSafeInteger(usdDiscount) || usdDiscount < 0 || usdDiscount > subtotalPence) throw new Error("Invalid discount");
+      }
+      // Detect stale catalogue prices, manipulated display rates and rounding mismatches before reserving an order.
+      if (!Number.isSafeInteger(payload.expectedTotalMinor) || payload.expectedTotalMinor !== subtotalPence + shippingPence - usdDiscount) {
+        return json({ error: "Your USD total changed. Refresh your bag and review the updated prices before paying." }, 409);
+      }
+    }
 
     const delivery = estimatedDeliveryWindow(new Date(), deliveryOption.maxDays);
     const orderResponse = await fetch(`${supabaseUrl}/rest/v1/orders`, {
@@ -102,6 +126,7 @@ secureServe("create-checkout-session", { auth: "user", limit: 10, windowSeconds:
         shipping_postal_code: postalCode,
         shipping_country: country,
         currency,
+        ...(usdQuote ? { usd_rate_e8: usdQuote.rateE8, usd_rate_date: usdQuote.date, base_subtotal_pence: baseSubtotalPence } : {}),
         shipping_method: shippingMethod,
         courier: deliveryOption.name,
         subtotal_pence: subtotalPence,
@@ -122,6 +147,7 @@ secureServe("create-checkout-session", { auth: "user", limit: 10, windowSeconds:
       const couponResponse = await fetch(`${supabaseUrl}/rest/v1/rpc/redeem_order_coupon_for_user`, { method:"POST", headers:databaseHeaders, body:JSON.stringify({target_order:orderId,supplied_code:payload.couponCode,customer_user:context.user!.id}) });
       const coupon = await couponResponse.json();
       if (!couponResponse.ok) return json({error:coupon.message||"Coupon could not be applied"},400);
+      if (usdQuote && coupon.discountPence !== usdDiscount) return json({ error: "Your discount changed. Review your USD total before paying." }, 409);
       const couponParams=new URLSearchParams({duration:"once",amount_off:String(coupon.discountPence),currency:currency.toLowerCase(),name:`Tuxar ${coupon.code}`});
       const stripeCouponResponse=await fetch("https://api.stripe.com/v1/coupons",{method:"POST",headers:{Authorization:`Bearer ${stripeSecret}`,"Content-Type":"application/x-www-form-urlencoded"},body:couponParams});
       const stripeCoupon=await stripeCouponResponse.json();
@@ -147,8 +173,9 @@ secureServe("create-checkout-session", { auth: "user", limit: 10, windowSeconds:
 
     const params = new URLSearchParams();
     params.set("mode", "payment");
-    // Use the merchant's fixed GBP/EUR prices, not exchange-rate conversion.
+    // GBP/EUR retain fixed prices; USD uses the server-verified quote above.
     params.set("adaptive_pricing[enabled]", "false");
+    if (usdQuote) params.set("expires_at", String(Math.floor(usdQuote.expiresAt / 1000)));
     params.set("locale", locale);
     params.set("customer_email", customerEmail);
     params.set("client_reference_id", orderNumber);
@@ -201,6 +228,6 @@ secureServe("create-checkout-session", { auth: "user", limit: 10, windowSeconds:
 
     return json({ id: session.id, url: session.url, orderNumber });
   } catch (error) {
-    return json({ error: error instanceof Error ? error.message : "Checkout failed" }, 400);
+    return json({ error: error instanceof Error ? error.message : "Checkout failed" }, error instanceof HttpError ? error.status : 400);
   }
 });

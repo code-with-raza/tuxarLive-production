@@ -52,6 +52,12 @@ test('each structured offer reports its own stock and deep links to that size an
   }
 });
 
+test('variant price overrides describe the actual offer without changing another size',()=>{
+ const priced=[{...rows[0],price_pence:15000},{...rows[1],price_pence:17500},rows[2]];
+ assert.deepEqual(inventoryOffers(priced,127,'GBP','https://tuxar.co.uk/en/product/test').map(row=>row.price),[150,175,127]);
+ assert.throws(()=>validatedInventory([{...rows[0],price_pence:-1}]));
+});
+
 test('real product route emits no frozen stock claims in initial HTML and live offers use variant stock',async()=>{
   const source=await fs.readFile('src/routes/$locale.product.$slug.tsx','utf8');
   const product={slug:'test',name:'Test product',category:'leather-bags',priceGBP:127,image:'/test.webp',gallery:['/test.webp'],description:'Product description',colors:[{name:'Black'}],inventory:rows,inStock:true};

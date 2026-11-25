@@ -26,7 +26,8 @@ test('same numeric prices have distinct GBP/EUR charges and cannot be verified i
     assert.equal(paymentMatches(order,{currency:currency==='GBP'?'eur':'gbp',amount_total:19900,payment_status:'paid'}),false);
     assert.equal(paymentMatches(order,{currency:currency.toLowerCase(),amount_total:19800,payment_status:'paid'}),false);
   }
-  assert.equal(paymentMatches({currency:'USD',total_pence:100},{currency:'usd',amount_total:100,payment_status:'paid'}),false);
+  assert.equal(paymentMatches({currency:'CAD',total_pence:100},{currency:'cad',amount_total:100,payment_status:'paid'}),false);
+  assert.equal(paymentMatches({currency:'USD',total_pence:19607},{currency:'usd',amount_total:19607,payment_status:'paid'}),true);
   assert.equal(formatOrderTotals([{total_pence:19900,currency:'GBP'},{total_pence:19900,currency:'EUR'}]),'£199.00 + €199.00');
 });
 

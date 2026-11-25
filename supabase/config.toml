@@ -36,3 +36,5 @@ verify_jwt = false
 verify_jwt = false
 [functions.stripe-webhook]
 verify_jwt = false
+[functions.usd-rate]
+verify_jwt = false

@@ -56,7 +56,7 @@ test('actual card keeps its product name and shows the saved current price, prev
   '@tanstack/react-router':{useParams:()=>({locale:'en'}),Link:'a'},'lucide-react':{Heart:'span'},
   '@/store/shop':{useShop:selector=>selector({wishlist:[],toggleWish(){}})},
   '@/i18n/i18n':{getLocalizedProduct:p=>p,getLocalizedLink:()=>({href:'/product'})},
-  '@/lib/market':{useMarketCurrency:()=>({currency:'GBP',formatMoney:n=>'£'+n.toFixed(2)})},
+  '@/lib/market':{useMarketCurrency:()=>({currency:'GBP',formatMoney:n=>'£'+n.toFixed(2),formatSaving:(before,now)=>'£'+(before-now).toFixed(2)})},
   '@/lib/cloudinary':{cloudinaryUrl:url=>url},'@/lib/product-discount':discounts,
  });
  const {renderToStaticMarkup}=require('react-dom/server');

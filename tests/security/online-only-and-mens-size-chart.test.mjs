@@ -46,7 +46,7 @@ test('checkout accepts only STRIPE, defaults to online payment, and cannot invok
   assert.equal(api.schema.safeParse({ ...customer, paymentMethod: 'COD' }).success, false);
   assert.match(source, /paymentMethod: "STRIPE"/);
   assert.match(source, /invoke\("create-checkout-session"/);
-  assert.match(source, /disabled=\{isSubmitting \|\| !isStripeEnabled\}/);
+  assert.match(source, /disabled=\{isSubmitting \|\| !isStripeEnabled \|\| !currencyReady\}/);
   assert.doesNotMatch(source, /create-cod-order|Cash on delivery|cash-on-delivery|value="COD"|clearCart\(\)/);
 });
 

@@ -61,6 +61,17 @@ test('valid checkout runs the real form resolver, calls the payment function and
   assert.deepEqual(h.destinations, ['https://checkout.stripe.com/c/pay/test-session']);
 });
 
+test('unavailable USD pricing disables payment and blocks even a direct form submission',async()=>{
+  const previous=marketStub.useMarketCurrency;
+  try {
+    marketStub.useMarketCurrency=()=>({...previous('en'),currency:'USD',currencyReady:false,usdQuote:null});
+    const h=checkout();
+    assert.equal(find(h.render(),node=>node.type==='button'&&node.props.type==='submit').props.disabled,true);
+    await h.submit();assert.equal(h.calls.length,0);assert.equal(h.destinations.length,0);
+    assert.match(h.states[0],/Refresh USD pricing/);
+  } finally {marketStub.useMarketCurrency=previous}
+});
+
 test('missing contact details show an alert beside the payment button without starting a session', async () => {
   const h = checkout();
   h.form.setValue('customerPhone', '');

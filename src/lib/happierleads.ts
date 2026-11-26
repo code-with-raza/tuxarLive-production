@@ -2,6 +2,9 @@ export const HAPPIERLEADS_URL = "https://rest.happierleads.com/v3/script?clientI
 const SCRIPT_ID = "tuxar-happierleads";
 const OPT_OUT = "tuxar_marketing_off";
 let started = false;
+let failed = false;
+let marketingAllowed = false;
+let retryScheduled = false;
 let blocked = false;
 export function globalPrivacyControl(): boolean {
   return (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl === true;
@@ -18,11 +21,18 @@ export function trackingBoundaryUrl(href: string): string {
   return target.href;
 }
 export function startHappierleads(marketing: boolean): void {
-  if (!marketing || started || marketingOptedOut() || globalPrivacyControl() || !publicTrackingPath(window.location.pathname)) return;
-  started = true;
+  marketingAllowed = marketing;
+  if (!marketing || (started && !failed) || marketingOptedOut() || globalPrivacyControl() || !publicTrackingPath(window.location.pathname)) return;
+  started = true; failed = false;
   const script = document.createElement("script");
   script.id = SCRIPT_ID; script.src = HAPPIERLEADS_URL; script.async = true; script.defer = true;
   script.fetchPriority = "low"; script.setAttribute("data-cfasync", "false");
+  script.onerror = () => {
+    if (document.getElementById(SCRIPT_ID) !== script) return;
+    failed = true; script.remove();
+    // Retry once automatically; the normal entry point rechecks consent, GPC and exclusions.
+    if (!retryScheduled) { retryScheduled = true; setTimeout(() => startHappierleads(marketingAllowed), 1000); }
+  };
   document.head.appendChild(script);
 }
 export function happierleadsStarted(): boolean { return started; }

@@ -3,19 +3,30 @@ import { globalPrivacyControl, marketingOptedOut, publicTrackingPath } from "./h
 export const RB2B_URL = "https://ddwl4m2hdecbv.cloudfront.net/b/4N210HX0KG6Z/4N210HX0KG6Z.js.gz";
 const SCRIPT_ID = "tuxar-rb2b";
 let started = false;
+let failed = false;
+let marketingAllowed = false;
+let retryScheduled = false;
 type RB2BWindow = Window & { reb2b?: { loaded: boolean } };
 
 export function startRB2B(marketing: boolean): void {
-  if (!marketing || started || marketingOptedOut() || globalPrivacyControl() || !publicTrackingPath(window.location.pathname)) return;
+  marketingAllowed = marketing;
+  if (!marketing || (started && !failed) || marketingOptedOut() || globalPrivacyControl() || !publicTrackingPath(window.location.pathname)) return;
   const vendorWindow = window as RB2BWindow;
   if (vendorWindow.reb2b) return;
-  started = true;
-  vendorWindow.reb2b = { loaded: true };
+  started = true; failed = false;
+  const bootstrap = { loaded: true };
+  vendorWindow.reb2b = bootstrap;
   const script = document.createElement("script");
   script.id = SCRIPT_ID;
   script.async = true;
   script.src = RB2B_URL;
   script.fetchPriority = "low";
+  script.onerror = () => {
+    if (document.getElementById(SCRIPT_ID) !== script) return;
+    failed = true; script.remove();
+    if (vendorWindow.reb2b === bootstrap) delete vendorWindow.reb2b;
+    if (!retryScheduled) { retryScheduled = true; setTimeout(() => startRB2B(marketingAllowed), 1000); }
+  };
   document.head.appendChild(script);
 }
 

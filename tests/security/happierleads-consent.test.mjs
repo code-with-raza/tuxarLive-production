@@ -10,13 +10,13 @@ function storage(initial={}) {
  return {get length(){return values.size},key:i=>[...values.keys()][i]??null,getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value),removeItem:key=>values.delete(key)};
 }
 function setup({path='/en',gpc=false,query=''}={}) {
- const scripts=[],redirects=[],cookies=[];
+ const scripts=[],redirects=[],cookies=[],timers=[];
  const local=storage({'tuxar-cookie-consent':'off','tuxar-shop':'bag','hl_lead_id':'vendor','lastTimeSentToServer':'vendor'}),session=storage({'hl_rec_cfg':'vendor','hl_pcap_test':'vendor','customer-form':'keep'});
  const location={pathname:path,search:query,href:`https://tuxar.co.uk${path}${query}`,origin:'https://tuxar.co.uk',hostname:'tuxar.co.uk',replace:url=>redirects.push(url)};
  const document={createElement:()=>({attributes:{},setAttribute(name,value){this.attributes[name]=value}}),head:{appendChild(script){script.remove=()=>scripts.splice(scripts.indexOf(script),1);scripts.push(script)}},getElementById:id=>scripts.find(script=>script.id===id),set cookie(value){cookies.push(value)}};
  const exports={};
- vm.runInNewContext(ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports,window:{location,localStorage:local,sessionStorage:session},document,navigator:{globalPrivacyControl:gpc},URL,URLSearchParams,Set});
- return {...exports,scripts,redirects,cookies,local,session,location};
+ vm.runInNewContext(ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports,window:{location,localStorage:local,sessionStorage:session},document,navigator:{globalPrivacyControl:gpc},URL,URLSearchParams,Set,setTimeout:callback=>timers.push(callback)});
+ return {...exports,scripts,redirects,cookies,local,session,location,timers};
 }
 test('legacy Analytics approval never opts a visitor into Marketing',()=>{
  assert.equal(parseCookiePreferences('accepted').analytics,true);
@@ -61,4 +61,15 @@ test('server HTML contains no unconditional pixel and CSP adds only documented e
  assert.match(rules,/script-src 'self' https:\/\/rest\.happierleads\.com/);
  for(const host of ['page-visits-full','tracking','session-recordings'])assert.ok(rules.includes(`https://${host}.happierleads.com`));
  assert.doesNotMatch(rules,/'unsafe-eval'|https:\/\/cdn\.jsdelivr\.net/);
+});
+
+test('happierleads retries a failed download once without duplicate scripts or losing consent guards',()=>{
+ const api=setup();api.startHappierleads(true);const failed=api.scripts[0];failed.onerror();
+ assert.equal(api.scripts.length,0);assert.equal(api.timers.length,1);
+ api.timers.shift()();assert.equal(api.scripts.length,1);
+ api.startHappierleads(true);assert.equal(api.scripts.length,1);
+ api.scripts[0].onerror();assert.equal(api.scripts.length,0);assert.equal(api.timers.length,0,'automatic retries are bounded');
+ api.startHappierleads(true);assert.equal(api.scripts.length,1,'a later public navigation can recover');
+ const declined=setup();declined.startHappierleads(true);declined.scripts[0].onerror();declined.startHappierleads(false);declined.timers.shift()();assert.equal(declined.scripts.length,0);
+ const privatePage=setup();privatePage.startHappierleads(true);privatePage.scripts[0].onerror();privatePage.location.pathname='/en/account';privatePage.timers.shift()();assert.equal(privatePage.scripts.length,0);
 });
